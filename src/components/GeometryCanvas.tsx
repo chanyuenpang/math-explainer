@@ -165,39 +165,17 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
       }
     });
 
-    // 高亮边（highlightEdges）- 使用 stroke-dasharray 技巧实现半边动画
+    // 高亮边（highlightEdges）- 使用深蓝色强调
     (step.highlightEdges || []).forEach(id => {
       const el = svg.querySelector(`#${id}`) as SVGLineElement;
       if (el) {
-        // 计算边的长度
-        const x1 = parseFloat(el.getAttribute('x1') || '0');
-        const y1 = parseFloat(el.getAttribute('y1') || '0');
-        const x2 = parseFloat(el.getAttribute('x2') || '0');
-        const y2 = parseFloat(el.getAttribute('y2') || '0');
-        const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-        
-        // 设置初始状态：隐藏边
-        gsap.set(el, {
-          stroke: highlightColor,
-          strokeWidth: COLORS.highlightWidth,
-          strokeDasharray: length,
-          strokeDashoffset: length
-        });
-        
-        // 动画：逐渐绘制边
+        // 深蓝色强调
         gsap.to(el, {
-          strokeDashoffset: 0,
-          duration: 0.6,
-          ease: 'power2.out',
-          onComplete: () => {
-            // 动画完成后闪烁一次
-            gsap.to(el, {
-              strokeWidth: COLORS.highlightWidth + 2,
-              duration: 0.2,
-              yoyo: true,
-              repeat: 1
-            });
-          }
+          stroke: '#2563EB',
+          strokeWidth: 4,
+          duration: 0.3,
+          yoyo: true,
+          repeat: 1
         });
       }
     });
@@ -325,7 +303,7 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
           );
         }
         
-        // === 修复：用 stroke-dasharray 方式高亮边，不创建新元素 ===
+        // === 展示角时：浅蓝色弱化边 ===
         const angleArc = angleArcs.find(arc => arc.vertex === angleId);
         if (angleArc) {
           const fromPoint = points.find(p => p.label === angleArc.from);
@@ -340,38 +318,14 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
               const el = svg.querySelector(`#${edge.id}`) as SVGLineElement;
               if (!el) return;
               
-              const x1 = parseFloat(el.getAttribute('x1') || '0');
-              const y1 = parseFloat(el.getAttribute('y1') || '0');
-              const x2 = parseFloat(el.getAttribute('x2') || '0');
-              const y2 = parseFloat(el.getAttribute('y2') || '0');
-              const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
-              
-              // 用 stroke-dasharray 高亮前半段（靠近顶点的一半）
-              const halfLength = length / 2;
-              
-              gsap.fromTo(el,
-                { 
-                  stroke: '#3B82F6',
-                  strokeWidth: 4,
-                  strokeDasharray: `${halfLength} ${length}`,
-                  strokeDashoffset: 0
-                },
-                {
-                  strokeWidth: 6,
-                  duration: 0.3,
-                  yoyo: true,
-                  repeat: 3,
-                  ease: 'power2.inOut',
-                  onComplete: () => {
-                    gsap.to(el, {
-                      stroke: COLORS.default,
-                      strokeWidth: 2,
-                      strokeDasharray: 'none',
-                      duration: 0.3
-                    });
-                  }
-                }
-              );
+              // 浅蓝色弱化
+              gsap.to(el, {
+                stroke: '#93C5FD',
+                strokeWidth: 3,
+                duration: 0.3,
+                yoyo: true,
+                repeat: 1
+              });
             });
           }
         }
