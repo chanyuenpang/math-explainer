@@ -1,5 +1,12 @@
 ---
+import '../../styles/global.css';
 import problemData from '../../../public/problems/math-001.json';
+
+export function getStaticPaths() {
+  return [
+    { params: { id: 'math-001' } }
+  ];
+}
 
 const { id } = Astro.params;
 const problem = id === 'math-001' ? problemData : problemData;
