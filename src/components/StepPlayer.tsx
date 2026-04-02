@@ -87,6 +87,11 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
           <div key={i} className={`h-1 flex-1 rounded transition-colors ${i <= currentStep ? 'bg-blue-500' : 'bg-gray-200'}`} />
         ))}
       </div>
+      
+      {/* 版本号 */}
+      <div style={{ position: 'fixed', bottom: 8, right: 8, fontSize: 12, color: '#999', zIndex: 9999 }}>
+        v2026.04.03-0100
+      </div>
     </div>
   );
 }

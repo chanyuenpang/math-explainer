@@ -165,16 +165,39 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
       }
     });
 
-    // 高亮边（highlightEdges）
+    // 高亮边（highlightEdges）- 使用 stroke-dasharray 技巧实现半边动画
     (step.highlightEdges || []).forEach(id => {
-      const el = svg.querySelector(`#${id}`);
+      const el = svg.querySelector(`#${id}`) as SVGLineElement;
       if (el) {
-        gsap.to(el, {
+        // 计算边的长度
+        const x1 = parseFloat(el.getAttribute('x1') || '0');
+        const y1 = parseFloat(el.getAttribute('y1') || '0');
+        const x2 = parseFloat(el.getAttribute('x2') || '0');
+        const y2 = parseFloat(el.getAttribute('y2') || '0');
+        const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+        
+        // 设置初始状态：隐藏边
+        gsap.set(el, {
           stroke: highlightColor,
           strokeWidth: COLORS.highlightWidth,
-          duration: 0.3,
-          yoyo: true,
-          repeat: 1
+          strokeDasharray: length,
+          strokeDashoffset: length
+        });
+        
+        // 动画：逐渐绘制边
+        gsap.to(el, {
+          strokeDashoffset: 0,
+          duration: 0.6,
+          ease: 'power2.out',
+          onComplete: () => {
+            // 动画完成后闪烁一次
+            gsap.to(el, {
+              strokeWidth: COLORS.highlightWidth + 2,
+              duration: 0.2,
+              yoyo: true,
+              repeat: 1
+            });
+          }
         });
       }
     });
@@ -287,12 +310,13 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
       const flashColor = flashColorMap[step.flashColor || 'orange'] || COLORS.angle;
       
       step.flashAngle.forEach(angleId => {
-        const el = svg.querySelector(`#angle-${angleId}`);
+        // === 修复：使用 arc-A 的 ID 格式（与 angleArcs 配置一致）===
+        const el = svg.querySelector(`#arc-${angleId}`) || svg.querySelector(`#angle-${angleId}`);
         if (el) {
           gsap.fromTo(el,
-            { stroke: flashColor, strokeWidth: 2 },
+            { stroke: flashColor, strokeWidth: 2, opacity: 1 },
             { 
-              strokeWidth: 4, 
+              strokeWidth: 4,
               duration: 0.2,
               yoyo: true,
               repeat: 3,
@@ -301,138 +325,60 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
           );
         }
         
-        // === 修复1: 自动高亮角对应的两条边（只闪烁靠近顶点的一半，蓝色渐变到灰色）===
-        // 从 angleArcs 数据中找到该顶点对应的两条边
+        // === 修复：用 stroke-dasharray 方式高亮边，不创建新元素 ===
         const angleArc = angleArcs.find(arc => arc.vertex === angleId);
         if (angleArc) {
-          // 找到边的端点
           const fromPoint = points.find(p => p.label === angleArc.from);
           const toPoint = points.find(p => p.label === angleArc.to);
           if (fromPoint && toPoint) {
-            // 找到连接 angleId 到 from 和 to 的边
             const edge1 = edges.find(e => (e.from === angleId && e.to === fromPoint.label) || (e.to === angleId && e.from === fromPoint.label));
             const edge2 = edges.find(e => (e.from === angleId && e.to === toPoint.label) || (e.to === angleId && e.from === toPoint.label));
             
-            const ns = 'http://www.w3.org/2000/svg';
-            const vertexP = points.find(p => p.label === angleId);
-            if (vertexP) {
-              const vertexPos = getPos(vertexP);
+            [edge1, edge2].forEach((edge) => {
+              if (!edge) return;
               
-              // 创建渐变定义（只创建一次）
-              let gradient = svg.querySelector('#angle-edge-gradient');
-              if (!gradient) {
-                const defs = document.createElementNS(ns, 'defs');
-                gradient = document.createElementNS(ns, 'linearGradient');
-                gradient.setAttribute('id', 'angle-edge-gradient');
-                gradient.setAttribute('x1', '0%');
-                gradient.setAttribute('y1', '0%');
-                gradient.setAttribute('x2', '100%');
-                gradient.setAttribute('y2', '0%');
-                
-                const stop1 = document.createElementNS(ns, 'stop');
-                stop1.setAttribute('offset', '0%');
-                stop1.setAttribute('stop-color', '#3B82F6'); // 蓝色
-                
-                const stop2 = document.createElementNS(ns, 'stop');
-                stop2.setAttribute('offset', '100%');
-                stop2.setAttribute('stop-color', '#9CA3AF'); // 灰色
-                
-                gradient.appendChild(stop1);
-                gradient.appendChild(stop2);
-                defs.appendChild(gradient);
-                svg.insertBefore(defs, svg.firstChild);
-              }
+              const el = svg.querySelector(`#${edge.id}`) as SVGLineElement;
+              if (!el) return;
               
-              // 处理两条边
-              [edge1, edge2].forEach((edge, edgeIndex) => {
-                if (!edge) return;
-                
-                const startP = points.find(p => p.label === edge.from);
-                const endP = points.find(p => p.label === edge.to);
-                if (!startP || !endP) return;
-                
-                const startPos = getPos(startP);
-                const endPos = getPos(endP);
-                
-                // 确定哪个点靠近顶点
-                const isVertexAtStart = edge.from === angleId;
-                const nearPos = isVertexAtStart ? startPos : endPos;
-                const farPos = isVertexAtStart ? endPos : startPos;
-                
-                // 计算中点（靠近顶点的一半）
-                const midX = (nearPos.x + farPos.x) / 2;
-                const midY = (nearPos.y + farPos.y) / 2;
-                
-                // 创建半条边的线段
-                const halfEdge = document.createElementNS(ns, 'line');
-                halfEdge.setAttribute('x1', String(nearPos.x));
-                halfEdge.setAttribute('y1', String(nearPos.y));
-                halfEdge.setAttribute('x2', String(midX));
-                halfEdge.setAttribute('y2', String(midY));
-                halfEdge.setAttribute('stroke', 'url(#angle-edge-gradient)');
-                halfEdge.setAttribute('stroke-width', '4');
-                halfEdge.setAttribute('stroke-linecap', 'round');
-                halfEdge.setAttribute('class', 'angle-edge-highlight');
-                halfEdge.style.pointerEvents = 'none';
-                svg.appendChild(halfEdge);
-                
-                // 设置渐变方向（从顶点到中点）
-                const angle = Math.atan2(midY - nearPos.y, midX - nearPos.x) * 180 / Math.PI;
-                const gradientForEdge = document.createElementNS(ns, 'linearGradient');
-                gradientForEdge.setAttribute('id', `angle-edge-gradient-${angleId}-${edgeIndex}`);
-                gradientForEdge.setAttribute('x1', '0%');
-                gradientForEdge.setAttribute('y1', '0%');
-                gradientForEdge.setAttribute('x2', '100%');
-                gradientForEdge.setAttribute('y2', '0%');
-                gradientForEdge.setAttribute('gradientTransform', `rotate(${angle} 0.5 0.5)`);
-                
-                const stop1 = document.createElementNS(ns, 'stop');
-                stop1.setAttribute('offset', '0%');
-                stop1.setAttribute('stop-color', '#3B82F6'); // 蓝色
-                
-                const stop2 = document.createElementNS(ns, 'stop');
-                stop2.setAttribute('offset', '100%');
-                stop2.setAttribute('stop-color', '#D1D5DB'); // 灰色
-                
-                gradientForEdge.appendChild(stop1);
-                gradientForEdge.appendChild(stop2);
-                
-                // 添加到 defs
-                let defs = svg.querySelector('defs');
-                if (!defs) {
-                  defs = document.createElementNS(ns, 'defs');
-                  svg.insertBefore(defs, svg.firstChild);
-                }
-                defs.appendChild(gradientForEdge);
-                
-                halfEdge.setAttribute('stroke', `url(#angle-edge-gradient-${angleId}-${edgeIndex})`);
-                
-                // 闪烁动画
-                gsap.fromTo(halfEdge,
-                  { opacity: 0.3, strokeWidth: 3 },
-                  {
-                    opacity: 1,
-                    strokeWidth: 5,
-                    duration: 0.3,
-                    yoyo: true,
-                    repeat: 3,
-                    ease: 'power2.inOut',
-                    onComplete: () => {
-                      // 动画结束后淡出
-                      gsap.to(halfEdge, { opacity: 0.3, duration: 0.5 });
-                    }
+              const x1 = parseFloat(el.getAttribute('x1') || '0');
+              const y1 = parseFloat(el.getAttribute('y1') || '0');
+              const x2 = parseFloat(el.getAttribute('x2') || '0');
+              const y2 = parseFloat(el.getAttribute('y2') || '0');
+              const length = Math.sqrt((x2 - x1) ** 2 + (y2 - y1) ** 2);
+              
+              // 用 stroke-dasharray 高亮前半段（靠近顶点的一半）
+              const halfLength = length / 2;
+              
+              gsap.fromTo(el,
+                { 
+                  stroke: '#3B82F6',
+                  strokeWidth: 4,
+                  strokeDasharray: `${halfLength} ${length}`,
+                  strokeDashoffset: 0
+                },
+                {
+                  strokeWidth: 6,
+                  duration: 0.3,
+                  yoyo: true,
+                  repeat: 3,
+                  ease: 'power2.inOut',
+                  onComplete: () => {
+                    gsap.to(el, {
+                      stroke: COLORS.default,
+                      strokeWidth: 2,
+                      strokeDasharray: 'none',
+                      duration: 0.3
+                    });
                   }
-                );
-              });
-            }
+                }
+              );
+            });
           }
         }
         
-        // === 修复2: 使用预先渲染的填充元素闪烁 ===
-        // 尝试找到预先渲染的填充元素（直角用方块填充，非直角用扇形填充）
-        const fillEl = svg.querySelector(`#arc-${angleArc.id}-fill`) || svg.querySelector(`#arc-${angleArc.vertex}-fill`);
+        // === 填充元素闪烁 ===
+        const fillEl = svg.querySelector(`#arc-${angleId}-fill`);
         if (fillEl) {
-          // 设置颜色并动画
           gsap.set(fillEl, { fill: flashColor });
           gsap.fromTo(fillEl,
             { fillOpacity: 0.1 },
@@ -705,21 +651,9 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
 
   }, [currentStep, step]);
 
-  // 渲染直角标记（L形）
+  // 渲染直角标记（L形）- 不再使用，统一通过 angleArcs 配置
   const renderRightAngle = (point: Point, size: number = 20) => {
-    if (!rightAngles.includes(point.label)) return null;
-    const { x, y } = getPos(point);
-    return (
-      <g key={`right-angle-${point.label}`}>
-        <path 
-          id={`angle-${point.label}`}
-          d={`M ${x} ${y - size} L ${x} ${y} L ${x + size} ${y}`}
-          fill="none"
-          stroke={COLORS.angle}
-          strokeWidth={2}
-        />
-      </g>
-    );
+    return null; // 统一由 angleArcs 渲染，避免 ID 冲突
   };
 
   // 渲染角度弧线（用于一般角度）- 优先使用预计算路径，避免算法错误
@@ -907,6 +841,7 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
       <svg ref={svgRef} viewBox="0 0 500 500" className="w-full bg-white rounded-lg shadow">
       {/* 三角形区域（用于填充）*/}
       {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
+      {renderTriangle('B', 'C', 'D', 'triangle-BCD')}
       {renderTriangle('E', 'D', 'C', 'triangle-EDC')}
 
       {/* 边 */}
@@ -937,10 +872,7 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
         );
       })}
 
-      {/* 直角标记 */}
-      {points.map(renderRightAngle)}
-      
-      {/* 角度弧线 - 从 geometry 数据渲染，支持自定义颜色和预计算路径 */}
+      {/* 角度弧线（包括直角和一般角）- 统一由 angleArcs 配置渲染 */}
       {angleArcs.map(arc => renderAngleArc(arc))}
       
       {/* 一般角度弧线已通过 angleArcs 配置渲染，这里不再重复渲染 */}
