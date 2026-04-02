@@ -804,12 +804,14 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
         const to = points.find(p => p.label === e.to)!;
         const { x: x1, y: y1 } = getPos(from);
         const { x: x2, y: y2 } = getPos(to);
+        // 使用边的颜色属性，如果没有则使用默认颜色
+        const edgeColor = e.color || COLORS.default;
         return (
           <line 
             key={e.id} 
             id={e.id}
             x1={x1} y1={y1} x2={x2} y2={y2}
-            stroke={COLORS.default} 
+            stroke={edgeColor} 
             strokeWidth={2}
           />
         );

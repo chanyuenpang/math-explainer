@@ -30,7 +30,7 @@ const problem = id === 'math-001' ? problemData : problemData;
   <main class="w-full max-w-4xl mx-auto px-4 py-6 md:py-8">
     <h1 class="text-2xl font-bold mb-4">{problem.title}</h1>
 
-    <div class="mb-6">
+    <div class="mb-6 hidden">
       <img src={problem.image} alt="题目图片" class="max-w-md rounded-lg shadow" />
     </div>
 
@@ -89,6 +89,14 @@ const problem = id === 'math-001' ? problemData : problemData;
     <details class="bg-white rounded-lg shadow p-6">
       <summary class="font-bold cursor-pointer">查看完整答案</summary>
       <pre class="mt-4 whitespace-pre-wrap">{problem.solution.text}</pre>
+    </details>
+
+    {/* 原题图片 - 折叠在底部 */}
+    <details class="mt-6 bg-white rounded-lg shadow p-4">
+      <summary class="font-bold cursor-pointer text-blue-600 hover:text-blue-800">查看原题</summary>
+      <div class="mt-4">
+        <img src={problem.image} alt="题目图片" class="max-w-md rounded-lg shadow mx-auto" />
+      </div>
     </details>
   </main>
 </body>

@@ -90,7 +90,7 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
       
       {/* 版本号 */}
       <div style={{ position: 'fixed', bottom: 8, right: 8, fontSize: 12, color: '#999', zIndex: 9999 }}>
-        v2026.04.03-0143
+        v2026.04.03-0146
       </div>
     </div>
   );

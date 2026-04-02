@@ -18,7 +18,8 @@
       {"from": "B", "to": "C", "id": "BC"},
       {"from": "C", "to": "D", "id": "CD"},
       {"from": "D", "to": "A", "id": "DA"},
-      {"from": "D", "to": "E", "id": "DE"}
+      {"from": "D", "to": "E", "id": "DE"},
+      {"from": "C", "to": "E", "id": "CE", "color": "#374151"}
     ],
     "rightAngles": ["A", "C"],
     "angleArcs": [
