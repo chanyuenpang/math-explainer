@@ -156,7 +156,9 @@
     },
     {
       "drawArcs": ["arc-ABC", "arc-ADC"],
-      "highlightArcs": ["arc-ABC", "arc-ADC"]
+      "highlightArcs": ["arc-ABC", "arc-ADC"],
+      "flashAngle": ["B", "D"],
+      "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ADC", "arc-EDC"],
@@ -166,7 +168,9 @@
     },
     {
       "drawArcs": ["arc-ABC", "arc-EDC"],
-      "highlightArcs": ["arc-ABC", "arc-EDC"]
+      "highlightArcs": ["arc-ABC", "arc-EDC"],
+      "flashAngle": ["B", "D"],
+      "flashColor": "orange"
     },
     {
       "fillTriangle": "ABC",
@@ -184,7 +188,9 @@
     {
       "highlightEdges": ["BC", "CD"],
       "color": "orange",
-      "pulse": ["BC", "CD"]
+      "pulse": ["BC", "CD"],
+      "flashAngle": ["A", "D"],
+      "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ABC", "arc-EDC"],
