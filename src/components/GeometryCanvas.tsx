@@ -629,19 +629,29 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
       const arcColor = color || COLORS.angle;
       const markSize = 15;
       
-      // 计算方向
-      const dx1 = Math.sign(x1 - cx) * markSize;
-      const dy1 = Math.sign(y1 - cy) * markSize;
-      const dx2 = Math.sign(x2 - cx) * markSize;
-      const dy2 = Math.sign(y2 - cy) * markSize;
+      // 计算单位方向向量
+      const len1 = Math.sqrt((x1 - cx) ** 2 + (y1 - cy) ** 2);
+      const len2 = Math.sqrt((x2 - cx) ** 2 + (y2 - cy) ** 2);
+      const ux1 = (x1 - cx) / len1;
+      const uy1 = (y1 - cy) / len1;
+      const ux2 = (x2 - cx) / len2;
+      const uy2 = (y2 - cy) / len2;
       
-      // 渲染方块标记（L形线段）
+      // 沿着边的方向偏移markSize，形成小正方形的四个点
+      const p1x = cx + ux1 * markSize;
+      const p1y = cy + uy1 * markSize;
+      const p2x = cx + ux2 * markSize;
+      const p2y = cy + uy2 * markSize;
+      const cornerX = p1x + (p2x - cx);
+      const cornerY = p1y + (p2y - cy);
+      
+      // 渲染小正方形
       return (
         <g key={id}>
           {/* L形线段 */}
           <path
             id={id}
-            d={`M ${cx + dx1} ${cy + dy1} L ${cx} ${cy} L ${cx + dx2} ${cy + dy2}`}
+            d={`M ${p1x} ${p1y} L ${cornerX} ${cornerY} L ${p2x} ${p2y}`}
             fill="none"
             stroke={arcColor}
             strokeWidth={2.5}
@@ -650,7 +660,7 @@ export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = []
           {/* 方块填充（初始透明）*/}
           <path
             id={`${id}-fill`}
-            d={`M ${cx} ${cy} L ${cx + dx1} ${cy + dy1} L ${cx + dx1 + dx2} ${cy + dy1 + dy2} L ${cx + dx2} ${cy + dy2} Z`}
+            d={`M ${p1x} ${p1y} L ${cornerX} ${cornerY} L ${p2x} ${p2y} L ${cx + ux1 * markSize + ux2 * markSize} ${cy + uy1 * markSize + uy2 * markSize} Z`}
             fill={arcColor}
             fillOpacity={0}
             stroke="none"

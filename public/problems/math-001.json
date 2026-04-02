@@ -160,7 +160,9 @@
     },
     {
       "drawArcs": ["arc-ADC", "arc-EDC"],
-      "highlightArcs": ["arc-ADC", "arc-EDC"]
+      "highlightArcs": ["arc-ADC", "arc-EDC"],
+      "flashAngle": ["D"],
+      "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ABC", "arc-EDC"],
