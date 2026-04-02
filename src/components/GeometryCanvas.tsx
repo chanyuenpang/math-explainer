@@ -244,16 +244,16 @@ export function GeometryCanvas({ points, edges, rightAngles = [], equalPairs = {
   };
 
   return (
-    <div className="relative">
+    <div className="w-full">
       {/* 顶部讲解区域 */}
       {explanation && (
-        <div className="absolute top-0 left-0 right-0 bg-blue-50 border-l-4 border-blue-500 p-3 mb-2 rounded text-sm text-gray-700 z-10">
+        <div className="bg-blue-50 border-l-4 border-blue-500 p-3 mb-4 rounded text-sm text-gray-700">
           <div className="font-semibold text-blue-900 mb-1">💡 为什么：</div>
           <div className="whitespace-pre-wrap">{explanation}</div>
         </div>
       )}
       
-      <svg ref={svgRef} viewBox="0 0 500 350" className="w-full max-w-lg mx-auto bg-white rounded-lg shadow" style={{ marginTop: explanation ? '80px' : '0' }}>
+      <svg ref={svgRef} viewBox="0 0 500 350" className="w-full bg-white rounded-lg shadow">
       {/* 三角形区域（用于填充）*/}
       {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
       {renderTriangle('E', 'D', 'C', 'triangle-EDC')}

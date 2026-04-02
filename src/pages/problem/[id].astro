@@ -16,7 +16,7 @@ const problem = id === 'math-001' ? problemData : problemData;
 <html lang="zh">
 <head>
   <meta charset="utf-8" />
-  <meta name="viewport" content="width=device-width" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>{problem.title}</title>
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
@@ -27,7 +27,7 @@ const problem = id === 'math-001' ? problemData : problemData;
     </div>
   </header>
 
-  <main class="max-w-4xl mx-auto px-4 py-8">
+  <main class="w-full max-w-4xl mx-auto px-4 py-6 md:py-8">
     <h1 class="text-2xl font-bold mb-4">{problem.title}</h1>
 
     <div class="mb-6">
@@ -62,7 +62,7 @@ const problem = id === 'math-001' ? problemData : problemData;
           const [currentStep, setCurrentStep] = useState(0);
           const step = steps[currentStep] || {};
           
-          return createElement('div', null, [
+          return createElement('div', { className: 'flex flex-col gap-6' }, [
             createElement(GeometryCanvas, {
               key: 'canvas',
               points: geometry.points,
