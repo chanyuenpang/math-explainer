@@ -68,10 +68,11 @@ const problem = id === 'math-001' ? problemData : problemData;
               points: geometry.points,
               edges: geometry.edges,
               rightAngles: geometry.rightAngles,
+              angleArcs: geometry.angleArcs || [],
               equalPairs: geometry.equalPairs,
               currentStep: currentStep,
               stepAnimations: animations,
-              explanation: step.content  // 传递当前步骤的讲解
+              currentStepData: step  // 传递完整的步骤数据
             }),
             createElement(StepPlayer, {
               key: 'player',
