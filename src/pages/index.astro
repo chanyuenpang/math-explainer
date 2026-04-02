@@ -1,17 +1,39 @@
 ---
-
+const problems = [
+  { id: 'math-001', title: '几何证明：四边形与全等三角形', difficulty: 'medium', tags: ['几何', '全等'] }
+];
 ---
 
-<html lang="en">
-	<head>
-		<meta charset="utf-8" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
-		<link rel="icon" href="/favicon.ico" />
-		<meta name="viewport" content="width=device-width" />
-		<meta name="generator" content={Astro.generator} />
-		<title>Astro</title>
-	</head>
-	<body>
-		<h1>Astro</h1>
-	</body>
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>MathExplainer - 动态数学题讲解</title>
+</head>
+<body class="bg-gray-50">
+  <main class="max-w-4xl mx-auto px-4 py-12">
+    <h1 class="text-3xl font-bold mb-2">MathExplainer</h1>
+    <p class="text-gray-600 mb-8">动态数学题讲解网站</p>
+
+    <div class="grid gap-4">
+      {problems.map(problem => (
+        <a href={`/problem/${problem.id}`} class="block bg-white rounded-lg shadow p-6 hover:shadow-md transition">
+          <div class="flex items-center justify-between">
+            <h2 class="font-semibold">{problem.title}</h2>
+            <span class={`px-2 py-1 text-xs rounded ${
+              problem.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
+              problem.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
+              'bg-red-100 text-red-700'
+            }`}>{problem.difficulty}</span>
+          </div>
+          <div class="mt-2 flex gap-2">
+            {problem.tags.map(tag => (
+              <span class="text-xs text-gray-500">#{tag}</span>
+            ))}
+          </div>
+        </a>
+      ))}
+    </div>
+  </main>
+</body>
 </html>

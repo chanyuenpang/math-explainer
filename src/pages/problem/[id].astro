@@ -1,0 +1,54 @@
+---
+import problemData from '../../../public/problems/math-001.json';
+
+const { id } = Astro.params;
+const problem = id === 'math-001' ? problemData : problemData;
+---
+
+<html lang="zh">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width" />
+  <title>{problem.title}</title>
+</head>
+<body class="bg-gray-50 min-h-screen">
+  <header class="bg-white shadow-sm py-4">
+    <div class="max-w-4xl mx-auto px-4">
+      <a href="/" class="text-blue-500 hover:underline">← 返回列表</a>
+    </div>
+  </header>
+
+  <main class="max-w-4xl mx-auto px-4 py-8">
+    <h1 class="text-2xl font-bold mb-4">{problem.title}</h1>
+
+    <div class="mb-6">
+      <img src={problem.image} alt="题目图片" class="max-w-md rounded-lg shadow" />
+    </div>
+
+    <div class="bg-white rounded-lg shadow p-6 mb-8">
+      <h2 class="font-bold text-lg mb-2">题目</h2>
+      <pre class="whitespace-pre-wrap font-sans">{problem.question.text}</pre>
+    </div>
+
+    <div class="mb-8">
+      <h2 class="font-bold text-lg mb-4">分步讲解</h2>
+      <div id="step-player-root" data-steps={JSON.stringify(problem.steps)}></div>
+      <script>
+        import { createElement } from 'react';
+        import { createRoot } from 'react-dom/client';
+        import { StepPlayer } from '../../components/StepPlayer';
+
+        const root = document.getElementById('step-player-root');
+        const steps = JSON.parse(root.dataset.steps);
+        const el = createElement(StepPlayer, { steps });
+        createRoot(root).render(el);
+      </script>
+    </div>
+
+    <details class="bg-white rounded-lg shadow p-6">
+      <summary class="font-bold cursor-pointer">查看完整答案</summary>
+      <pre class="mt-4 whitespace-pre-wrap">{problem.solution.text}</pre>
+    </details>
+  </main>
+</body>
+</html>
