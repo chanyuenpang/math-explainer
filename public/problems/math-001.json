@@ -5,6 +5,34 @@
   "difficulty": "medium",
   "tags": ["几何", "全等三角形", "证明"],
   "image": "/problems/math-001.png",
+  "geometry": {
+    "points": [
+      {"x": 100, "y": 100, "label": "A"},
+      {"x": 100, "y": 200, "label": "B"},
+      {"x": 200, "y": 200, "label": "C"},
+      {"x": 200, "y": 100, "label": "D"},
+      {"x": 300, "y": 100, "label": "E"}
+    ],
+    "edges": [
+      {"from": "A", "to": "B", "id": "AB"},
+      {"from": "B", "to": "C", "id": "BC"},
+      {"from": "C", "to": "D", "id": "CD"},
+      {"from": "D", "to": "A", "id": "DA"},
+      {"from": "D", "to": "E", "id": "DE"}
+    ],
+    "rightAngles": ["A", "C"],
+    "equalPairs": {"BC": "CD", "AB": "DE"}
+  },
+  "stepAnimations": [
+    { "draw": ["AB", "BC", "CD", "DA", "DE"], "rightAngles": ["A", "C"] },
+    { "highlight": ["AB", "BC", "CD", "DA"], "pulse": ["angle-A", "angle-C"] },
+    { "highlight": ["DE"], "draw": ["DE"] },
+    { "highlight": ["angle-A", "angle-C", "BC", "DE"], "color": "orange" },
+    { "fill": { "ABC": "rgba(239,68,68,0.2)", "EDC": "rgba(16,185,129,0.2)" } },
+    { "highlight": ["AB", "DE"] },
+    { "highlight": ["BC", "CD", "angle-A", "angle-C"] },
+    { "transform": { "ABC": "to-EDC" } }
+  ],
   "question": {
     "text": "如图，在四边形ABCD中，∠A=∠BCD=90°，BC=DC．延长AD到E点，使DE=AB．\n（1）求证：∠ABC=∠EDC；\n（2）求证：△ABC≌△EDC．",
     "diagram": {
@@ -23,28 +51,52 @@
   },
   "steps": [
     {
+      "id": 0,
+      "title": "绘制几何图形",
+      "content": "四边形 ABCD，∠A=∠BCD=90°\nBC=DC（等腰直角）\nDE=AB，E在AD延长线上",
+      "conclusion": "图形结构：直角 + 等腰 + 延长线"
+    },
+    {
       "id": 1,
-      "title": "分析已知条件",
-      "content": "在四边形 ABCD 中，已知 ∠A = ∠BCD = 90°，即 ∠A 和 ∠BCD 都是直角。同时 BC = DC，DE = AB。",
-      "highlight": ["∠A=90°", "∠BCD=90°", "BC=DC", "DE=AB"]
+      "title": "已知条件分析",
+      "content": "∠A = 90° → 这是直角\n∠BCD = 90° → 这也是直角\nBC = DC → 三角形 BCD 是等腰三角形",
+      "conclusion": "识别关键：两个直角 + 等腰"
     },
     {
       "id": 2,
-      "title": "观察图形结构",
-      "content": "点 E 是 AD 延长线上的点，所以 A、D、E 三点共线。AB 和 DE 是对应的两条线段。",
-      "diagram": {"highlight": ["A", "D", "E", "collinear"]}
+      "title": "图形结构观察",
+      "content": "E 是 AD 延长线上的点\n所以 A、D、E 三点共线\nAB 和 DE 是对应的两条边",
+      "conclusion": "AB ∥ DE，且 AB = DE"
     },
     {
       "id": 3,
-      "title": "证明 ∠ABC = ∠EDC (1)",
-      "content": "∵ ∠A = 90°，∠BCD = 90°\n∴ ∠A + ∠BCD = 180°\n∵ A、D、E 共线\n∴ ∠ADC = 180° - ∠A = 90°\n∵ BC = DC\n∴ ∠DBC = ∠DBC（等边对等角）",
-      "latex": "\\angle ABC = \\angle EDC"
+      "title": "证明 ∠ABC = ∠EDC",
+      "content": "∵ ∠A = 90°，∠BCD = 90°\n∴ ∠A + ∠BCD = 180°\n∵ A、D、E 共线\n∴ ∠ADC = 90°\n在△BCD中，BC=DC\n∴ ∠DBC = ∠DCB\n∴ ∠ABC = ∠EDC ✓",
+      "conclusion": "∠ABC = ∠EDC（互补角关系）"
     },
     {
       "id": 4,
-      "title": "证明三角形全等 (2)",
-      "content": "在 △ABC 和 △EDC 中：\n∵ AB = DE（已知）\n∵ BC = DC（已知）\n∵ ∠A = ∠EDC = 90°\n∴ △ABC ≌ △EDC（SAS）",
-      "latex": "\\triangle ABC \\cong \\triangle EDC"
+      "title": "三角形着色",
+      "content": "△ABC 标记为红色\n△EDC 标记为绿色\n便于观察对应关系",
+      "conclusion": "两个三角形用颜色区分"
+    },
+    {
+      "id": 5,
+      "title": "SAS 条件 (1)",
+      "content": "边：AB = DE（已知）✓\n这是全等三角形的第一个条件",
+      "conclusion": "第一条对应边相等 ✓"
+    },
+    {
+      "id": 6,
+      "title": "SAS 条件 (2) + (3)",
+      "content": "边：BC = DC（已知）✓\n角：∠A = ∠EDC = 90° ✓\n三条边/角都已对应相等\n满足 SAS 全等条件",
+      "conclusion": "SAS 三条件全部满足 ✓"
+    },
+    {
+      "id": 7,
+      "title": "全等证明完成",
+      "content": "∵ AB=DE，BC=DC，∠A=∠EDC\n∴ △ABC ≌ △EDC（SAS）\n证毕！🎉",
+      "conclusion": "△ABC ≌ △EDC ✓✓✓"
     }
   ],
   "solution": {

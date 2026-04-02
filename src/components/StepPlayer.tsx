@@ -3,17 +3,19 @@ import { gsap } from 'gsap';
 
 interface Step {
   id: number;
-  title: string;
-  content: string;
+  title: string;         // 做什么
+  content: string;       // 为什么（详细讲解）
+  conclusion?: string;   // 得出什么（结论）
   highlight?: string[];
 }
 
 interface StepPlayerProps {
   steps: Step[];
   onComplete?: () => void;
+  onStepChange?: (step: number) => void;
 }
 
-export function StepPlayer({ steps, onComplete }: StepPlayerProps) {
+export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps) {
   const [currentStep, setCurrentStep] = useState(0);
   const [isPlaying, setIsPlaying] = useState(false);
   const contentRef = useRef<HTMLDivElement>(null);
@@ -29,7 +31,9 @@ export function StepPlayer({ steps, onComplete }: StepPlayerProps) {
 
   const playNext = () => {
     if (currentStep < steps.length - 1) {
-      setCurrentStep(c => c + 1);
+      const newStep = currentStep + 1;
+      setCurrentStep(newStep);
+      onStepChange?.(newStep);
     } else {
       setIsPlaying(false);
       onComplete?.();
@@ -38,7 +42,9 @@ export function StepPlayer({ steps, onComplete }: StepPlayerProps) {
 
   const playPrev = () => {
     if (currentStep > 0) {
-      setCurrentStep(c => c - 1);
+      const newStep = currentStep - 1;
+      setCurrentStep(newStep);
+      onStepChange?.(newStep);
     }
   };
 
@@ -76,8 +82,27 @@ export function StepPlayer({ steps, onComplete }: StepPlayerProps) {
       </div>
 
       <div ref={contentRef} className="mb-6">
-        <h3 className="text-xl font-bold mb-3">{step.title}</h3>
-        <div className="prose whitespace-pre-wrap">{step.content}</div>
+        {/* 标题 - 做什么 */}
+        <div className="flex items-center gap-2 mb-3">
+          <span className="bg-blue-500 text-white px-2 py-1 rounded text-sm font-semibold">
+            第 {currentStep + 1} 步
+          </span>
+          <h3 className="text-xl font-bold text-gray-900">{step.title}</h3>
+        </div>
+        
+        {/* 讲解 - 为什么 */}
+        <div className="bg-gray-50 rounded-lg p-4 mb-3">
+          <div className="text-sm text-blue-600 font-semibold mb-2">📖 讲解：</div>
+          <div className="prose text-gray-700 whitespace-pre-wrap">{step.content}</div>
+        </div>
+        
+        {/* 结论 - 得出什么 */}
+        {step.conclusion && (
+          <div className="bg-green-50 border-l-4 border-green-500 rounded p-3">
+            <div className="text-sm text-green-600 font-semibold mb-1">✅ 结论：</div>
+            <div className="text-gray-800 font-medium">{step.conclusion}</div>
+          </div>
+        )}
       </div>
 
       {/* 进度条 */}

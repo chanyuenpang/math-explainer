@@ -1,6 +1,7 @@
 ---
 import '../../styles/global.css';
 import problemData from '../../../public/problems/math-001.json';
+import { GeometryCanvas } from '../../components/GeometryCanvas';
 
 export function getStaticPaths() {
   return [
@@ -17,6 +18,7 @@ const problem = id === 'math-001' ? problemData : problemData;
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width" />
   <title>{problem.title}</title>
+  <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
 <body class="bg-gray-50 min-h-screen">
   <header class="bg-white shadow-sm py-4">
@@ -39,16 +41,47 @@ const problem = id === 'math-001' ? problemData : problemData;
 
     <div class="mb-8">
       <h2 class="font-bold text-lg mb-4">分步讲解</h2>
-      <div id="step-player-root" data-steps={JSON.stringify(problem.steps)}></div>
+      <div 
+        id="combined-root" 
+        data-steps={JSON.stringify(problem.steps)}
+        data-geometry={JSON.stringify(problem.geometry)}
+        data-animations={JSON.stringify(problem.stepAnimations)}
+      ></div>
       <script>
-        import { createElement } from 'react';
+        import { createElement, useState } from 'react';
         import { createRoot } from 'react-dom/client';
         import { StepPlayer } from '../../components/StepPlayer';
+        import { GeometryCanvas } from '../../components/GeometryCanvas';
 
-        const root = document.getElementById('step-player-root');
+        const root = document.getElementById('combined-root');
         const steps = JSON.parse(root.dataset.steps);
-        const el = createElement(StepPlayer, { steps });
-        createRoot(root).render(el);
+        const geometry = JSON.parse(root.dataset.geometry);
+        const animations = JSON.parse(root.dataset.animations);
+
+        function Container() {
+          const [currentStep, setCurrentStep] = useState(0);
+          const step = steps[currentStep] || {};
+          
+          return createElement('div', null, [
+            createElement(GeometryCanvas, {
+              key: 'canvas',
+              points: geometry.points,
+              edges: geometry.edges,
+              rightAngles: geometry.rightAngles,
+              equalPairs: geometry.equalPairs,
+              currentStep: currentStep,
+              stepAnimations: animations,
+              explanation: step.content  // 传递当前步骤的讲解
+            }),
+            createElement(StepPlayer, {
+              key: 'player',
+              steps: steps,
+              onStepChange: setCurrentStep
+            })
+          ]);
+        }
+
+        createRoot(root).render(createElement(Container));
       </script>
     </div>
 
