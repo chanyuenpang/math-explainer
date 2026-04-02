@@ -1,0 +1,54 @@
+{
+  "id": "math-001",
+  "title": "几何证明：四边形与全等三角形",
+  "source": "永州中考题",
+  "difficulty": "medium",
+  "tags": ["几何", "全等三角形", "证明"],
+  "image": "/problems/math-001.png",
+  "question": {
+    "text": "如图，在四边形ABCD中，∠A=∠BCD=90°，BC=DC．延长AD到E点，使DE=AB．\n（1）求证：∠ABC=∠EDC；\n（2）求证：△ABC≌△EDC．",
+    "diagram": {
+      "type": "quadrilateral",
+      "points": {
+        "A": {"x": 100, "y": 200},
+        "B": {"x": 100, "y": 100},
+        "C": {"x": 300, "y": 100},
+        "D": {"x": 300, "y": 200},
+        "E": {"x": 400, "y": 200}
+      },
+      "edges": ["AB", "BC", "CD", "DA", "AD", "DE"],
+      "rightAngles": ["A", "BCD"],
+      "equal": ["BC=DC", "DE=AB"]
+    }
+  },
+  "steps": [
+    {
+      "id": 1,
+      "title": "分析已知条件",
+      "content": "在四边形 ABCD 中，已知 ∠A = ∠BCD = 90°，即 ∠A 和 ∠BCD 都是直角。同时 BC = DC，DE = AB。",
+      "highlight": ["∠A=90°", "∠BCD=90°", "BC=DC", "DE=AB"]
+    },
+    {
+      "id": 2,
+      "title": "观察图形结构",
+      "content": "点 E 是 AD 延长线上的点，所以 A、D、E 三点共线。AB 和 DE 是对应的两条线段。",
+      "diagram": {"highlight": ["A", "D", "E", "collinear"]}
+    },
+    {
+      "id": 3,
+      "title": "证明 ∠ABC = ∠EDC (1)",
+      "content": "∵ ∠A = 90°，∠BCD = 90°\n∴ ∠A + ∠BCD = 180°\n∵ A、D、E 共线\n∴ ∠ADC = 180° - ∠A = 90°\n∵ BC = DC\n∴ ∠DBC = ∠DBC（等边对等角）",
+      "latex": "\\angle ABC = \\angle EDC"
+    },
+    {
+      "id": 4,
+      "title": "证明三角形全等 (2)",
+      "content": "在 △ABC 和 △EDC 中：\n∵ AB = DE（已知）\n∵ BC = DC（已知）\n∵ ∠A = ∠EDC = 90°\n∴ △ABC ≌ △EDC（SAS）",
+      "latex": "\\triangle ABC \\cong \\triangle EDC"
+    }
+  ],
+  "solution": {
+    "text": "（1）∵ ∠A = ∠BCD = 90°，A、D、E 共线\n∴ ∠ADC = 180° - 90° = 90°\n在 △BCD 中，BC = DC\n∴ ∠DBC = ∠DBC\n∵ ∠ABC = 90° - ∠DBC，∠EDC = 90° - ∠DBC\n∴ ∠ABC = ∠EDC\n\n（2）在 △ABC 和 △EDC 中\nAB = DE（作图）\nBC = DC（已知）\n∠A = ∠EDC = 90°\n∴ △ABC ≌ △EDC（SAS）"
+  },
+  "created_at": "2026-04-02T16:50:00+08:00"
+}
