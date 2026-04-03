@@ -3,10 +3,9 @@ import '../../styles/global.css';
 import { loadProblems, getProblem, listProblems } from '../../lib/problems/registry';
 
 await loadProblems();
-const problems = listProblems();
 
 export function getStaticPaths() {
-  return problems.map(p => ({ params: { id: p.id } }));
+  return listProblems().map(p => ({ params: { id: p.id } }));
 }
 
 const { id } = Astro.params;
