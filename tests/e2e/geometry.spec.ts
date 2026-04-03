@@ -41,8 +41,8 @@ test.describe('Geometry Canvas - math-001', () => {
     });
 
     test('right angle arcs render at A and C', async ({ page }) => {
-      await assertAngleArc(page, 'arc-A');
-      await assertAngleArc(page, 'arc-BCD');
+      await assertAngleArc(page, 'bad-A');
+      await assertAngleArc(page, 'bad-BCD');
     });
 
     test('equal pair markers exist', async ({ page }) => {
@@ -90,14 +90,14 @@ test.describe('Geometry Canvas - math-001', () => {
     test('step 1: flash angle A', async ({ page }) => {
       await triggerStep(page, 1);
       
-      const arcA = page.locator(SELECTORS.arc('arc-A'));
+      const arcA = page.locator(SELECTORS.arc('bad-A'));
       await expect(arcA).toBeVisible();
     });
 
     test('step 2: flash angle BCD', async ({ page }) => {
       await triggerStep(page, 2);
       
-      const arcBCD = page.locator(SELECTORS.arc('arc-BCD'));
+      const arcBCD = page.locator(SELECTORS.arc('bad-BCD'));
       await expect(arcBCD).toBeVisible();
     });
 

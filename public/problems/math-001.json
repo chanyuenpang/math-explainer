@@ -29,13 +29,13 @@
     "edgeColors": {
       "CE": "#374151"
     },
-    "rightAngles": ["A", "C"],
+    "rightAngles": ["A", "BCD"],
     "angleArcs": [
-      {"id": "arc-A", "vertex": "A", "from": "B", "to": "D", "color": "#EF4444", "path": "M 100 175 A 25 25 0 0 1 125 200", "isRightAngle": true},
-      {"id": "arc-BCD", "vertex": "C", "from": "B", "to": "D", "color": "#10B981", "path": "M 185 100 L 185 115 L 200 115", "isRightAngle": true},
-      {"id": "arc-ABC", "vertex": "B", "from": "A", "to": "C", "color": "#EF4444", "path": "M 100 125 A 25 25 0 0 0 125 100", "isRightAngle": false},
-      {"id": "arc-ADC", "vertex": "D", "from": "A", "to": "C", "color": "#F59E0B", "path": "M 175 200 A 25 25 0 0 1 200 175", "isRightAngle": false},
-      {"id": "arc-EDC", "vertex": "D", "from": "E", "to": "C", "color": "#10B981", "path": "M 225 200 A 25 25 0 0 0 200 175", "isRightAngle": false}
+      {"id": "bad-A", "vertex": "A", "from": "B", "to": "D", "color": "#EF4444", "path": "M 100 175 A 25 25 0 0 1 125 200", "isRightAngle": true},
+      {"id": "bad-BCD", "vertex": "C", "from": "B", "to": "D", "color": "#10B981", "path": "M 185 100 L 185 115 L 200 115", "isRightAngle": true},
+      {"id": "bad-ABC", "vertex": "B", "from": "A", "to": "C", "color": "#EF4444", "path": "M 100 125 A 25 25 0 0 0 125 100", "isRightAngle": false},
+      {"id": "bad-ADC", "vertex": "D", "from": "A", "to": "C", "color": "#F59E0B", "path": "M 175 200 A 25 25 0 0 1 200 175", "isRightAngle": false},
+      {"id": "bad-EDC", "vertex": "D", "from": "E", "to": "C", "color": "#10B981", "path": "M 225 200 A 25 25 0 0 0 200 175", "isRightAngle": false}
     ],
     "equalPairs": {"BC": "CD", "AB": "DE"}
   },
@@ -134,7 +134,7 @@
   "stepAnimations": [
     {
       "drawEdge": ["AB", "BC", "CD", "AD"],
-      "showRightAngles": ["A", "C"],
+      "showRightAngles": ["A", "BCD"],
       "showEqualMarks": true
     },
     {
@@ -158,25 +158,25 @@
       "flyoutCompare": [{"edges": ["AB", "DE"], "label": "AB = DE"}]
     },
     {
-      "drawArcs": ["arc-A", "arc-BCD"],
+      "drawArcs": ["bad-A", "bad-BCD"],
       "flashAngle": ["A", "BCD"],
       "flashColor": "orange"
     },
     {
-      "drawArcs": ["arc-ABC", "arc-ADC"],
-      "highlightArcs": ["arc-ABC", "arc-ADC"],
+      "drawArcs": ["bad-ABC", "bad-ADC"],
+      "highlightArcs": ["bad-ABC", "bad-ADC"],
       "flashAngle": ["ABC", "ADC"],
       "flashColor": "orange"
     },
     {
-      "drawArcs": ["arc-ADC", "arc-EDC"],
-      "highlightArcs": ["arc-ADC", "arc-EDC"],
+      "drawArcs": ["bad-ADC", "bad-EDC"],
+      "highlightArcs": ["bad-ADC", "bad-EDC"],
       "flashAngle": ["ADC", "EDC"],
       "flashColor": "orange"
     },
     {
-      "drawArcs": ["arc-ABC", "arc-EDC"],
-      "highlightArcs": ["arc-ABC", "arc-EDC"],
+      "drawArcs": ["bad-ABC", "bad-EDC"],
+      "highlightArcs": ["bad-ABC", "bad-EDC"],
       "flashAngle": ["ABC", "EDC"],
       "flashColor": "orange"
     },
@@ -194,14 +194,14 @@
       "showEqualMarks": true
     },
     {
-      "drawArcs": ["arc-ABC", "arc-EDC"],
+      "drawArcs": ["bad-ABC", "bad-EDC"],
       "flashAngle": ["ABC", "EDC"],
       "flashColor": "orange"
     },
     {
       "highlightEdges": ["AB", "DE", "BC", "CD"],
-      "drawArcs": ["arc-ABC", "arc-EDC"],
-      "highlightArcs": ["arc-ABC", "arc-EDC"],
+      "drawArcs": ["bad-ABC", "bad-EDC"],
+      "highlightArcs": ["bad-ABC", "bad-EDC"],
       "color": "orange"
     }
   ],

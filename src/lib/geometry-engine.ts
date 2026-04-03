@@ -124,7 +124,7 @@ export class GeometryEngine {
       (window as any).gsap.set(el, { stroke: COLORS.default, strokeWidth: 2, opacity: 1, x: 0, y: 0, strokeDasharray: 'none' });
     });
 
-    svg.querySelectorAll('path[id^="arc-"]').forEach(el => {
+    svg.querySelectorAll('path[id^="bad-"]').forEach(el => {
       (window as any).gsap.set(el, { stroke: COLORS.angle, strokeWidth: 2, opacity: 0 });
     });
 
@@ -260,7 +260,7 @@ export class GeometryEngine {
     };
     const flashColor = colorMap[color || 'orange'] || COLORS.angle;
 
-    const arcId = angleId.startsWith('arc-') ? angleId : `arc-${angleId}`;
+    const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
     
     if (el) {
@@ -365,7 +365,7 @@ export class GeometryEngine {
     const rightAngleArc = this.config.angleArcs?.find(a => 
       a.vertex === pointId && a.isRightAngle
     );
-    const arcId = rightAngleArc?.id || `arc-${pointId}`;
+    const arcId = rightAngleArc?.id || `bad-${pointId}`;
     this.drawArc(arcId, 'orange');
     this.flashAngle(pointId, 'orange');
   }
