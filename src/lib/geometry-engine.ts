@@ -46,7 +46,8 @@ export type IntentType =
   | 'drawArc'
   | 'drawArcs'
   | 'showRightAngle'
-  | 'showRightAngles';
+  | 'showRightAngles'
+  | 'highlights';
 
 export const COLORS = {
   default: '#D1D5DB',
@@ -139,6 +140,32 @@ export class GeometryEngine {
     intents.forEach(intent => this.executeIntent(intent));
   }
 
+  /**
+   * Unified highlights interface - auto-detects target type and executes appropriate animation
+   * @param highlights Array of {target, color} where target uses prefix convention:
+   *   - "angle-*" → highlightAngle (arc + its 2 edges, same color, flash)
+   *   - "edge-*" → highlightEdge (single edge flash)
+   *   - "face-*" → highlightFace (triangle fill)
+   */
+  executeHighlights(highlights: Array<{target: string, color: string}>): void {
+    if (!this.svgElement) return;
+    
+    highlights.forEach(({target, color}) => {
+      if (target.startsWith('angle-')) {
+        const angleId = target.substring(6); // Remove 'angle-' prefix
+        this.flashAngle(angleId, color);
+      } else if (target.startsWith('edge-')) {
+        const edgeId = target.substring(5); // Remove 'edge-' prefix
+        this.highlightEdge(edgeId, color);
+      } else if (target.startsWith('face-')) {
+        const faceId = target.substring(5); // Remove 'face-' prefix
+        this.fillTriangle(faceId, color);
+      } else {
+        console.warn(`[executeHighlights] Unknown target prefix: ${target}`);
+      }
+    });
+  }
+
   private executeIntent(intent: AnimationIntent): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
@@ -218,6 +245,9 @@ export class GeometryEngine {
         break;
       case 'showRightAngles':
         (intent.points || []).forEach((pointId: string) => this.showRightAngle(pointId));
+        break;
+      case 'highlights':
+        this.executeHighlights(intent.highlights || []);
         break;
     }
   }
@@ -553,6 +583,11 @@ export class GeometryEngine {
 
 export function convertStepAnimationToIntents(stepAnimation: Record<string, any>): AnimationIntent[] {
   const intents: AnimationIntent[] = [];
+
+  // NEW: Unified highlights format
+  if (stepAnimation.highlights) {
+    intents.push({ type: 'highlights', highlights: stepAnimation.highlights });
+  }
 
   if (stepAnimation.drawEdge) {
     const edges = Array.isArray(stepAnimation.drawEdge) ? stepAnimation.drawEdge : [stepAnimation.drawEdge];

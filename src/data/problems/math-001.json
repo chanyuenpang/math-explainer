@@ -270,9 +270,9 @@
       "drawEdge": [
         "DE"
       ],
-      "highlightEdges": [
-        {"edge": "AD", "color": "#EF4444"},
-        {"edge": "DE", "color": "#10B981"}
+      "highlights": [
+        {"target": "edge-AD", "color": "#EF4444"},
+        {"target": "edge-DE", "color": "#10B981"}
       ],
       "showLabels": [
         "A",
