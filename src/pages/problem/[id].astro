@@ -66,7 +66,8 @@ const problem = id === 'math-001' ? problemData : problemData;
             createElement(GeometryCanvas, {
               key: 'canvas',
               points: geometry.points,
-              edges: geometry.edges,
+              connections: geometry.connections,
+              edgeColors: geometry.edgeColors,
               rightAngles: geometry.rightAngles,
               angleArcs: geometry.angleArcs || [],
               equalPairs: geometry.equalPairs,

@@ -1,4 +1,5 @@
 import { useEffect, useRef } from 'react';
+import { TopologyGraph, Point, Connection } from '../lib/topology';
 // GSAP 通过 CDN 全局引入，不使用 import
 
 declare const gsap: any; // 全局 gsap 声明
@@ -59,7 +60,8 @@ interface Step {
 
 interface GeometryCanvasProps {
   points: Point[]
-  edges: { from: string; to: string; id: string }[]
+  connections: [string, string][]  // 点之间的连接
+  edgeColors?: Record<string, string>  // 边的颜色（可选）
   rightAngles?: string[]    // 直角顶点
   angleArcs?: AngleArc[]    // 角度弧线配置
   equalPairs?: Record<string, string>  // 相等线段对: {[edgeId: string]: string}
@@ -81,9 +83,17 @@ const COLORS = {
   background: '#F9FAFB'    // 背景
 };
 
-export function GeometryCanvas({ points, edges, rightAngles = [], angleArcs = [], equalPairs = {}, currentStep, stepAnimations, currentStepData }: GeometryCanvasProps) {
+export function GeometryCanvas({ points, connections, edgeColors, rightAngles = [], angleArcs = [], equalPairs = {}, currentStep, stepAnimations, currentStepData }: GeometryCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const step = stepAnimations[currentStep] || {};
+
+  // Create topology graph
+  const topoPoints: Point[] = points.map(p => ({ id: p.label, x: p.x, y: p.y }));
+  const topoConnections: Connection[] = connections.map(([from, to]) => ({ from, to }));
+  const topology = new TopologyGraph(topoPoints, topoConnections, edgeColors);
+  
+  // Get edges from topology
+  const edges = topology.getEdges();
 
   // 坐标映射：将逻辑坐标转为 SVG 坐标（y轴反转）
   const getPos = (p: Point) => ({ x: p.x, y: 300 - p.y });

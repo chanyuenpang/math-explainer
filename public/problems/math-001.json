@@ -13,14 +13,17 @@
       {"x": 200, "y": 100, "label": "D"},
       {"x": 300, "y": 100, "label": "E"}
     ],
-    "edges": [
-      {"from": "A", "to": "B", "id": "AB"},
-      {"from": "B", "to": "C", "id": "BC"},
-      {"from": "C", "to": "D", "id": "CD"},
-      {"from": "D", "to": "A", "id": "DA"},
-      {"from": "D", "to": "E", "id": "DE"},
-      {"from": "C", "to": "E", "id": "CE", "color": "#374151"}
+    "connections": [
+      ["A", "B"],
+      ["B", "C"],
+      ["C", "D"],
+      ["D", "A"],
+      ["D", "E"],
+      ["C", "E"]
     ],
+    "edgeColors": {
+      "CE": "#374151"
+    },
     "rightAngles": ["A", "C"],
     "angleArcs": [
       {"id": "arc-A", "vertex": "A", "from": "B", "to": "D", "color": "#EF4444", "path": "M 100 175 A 25 25 0 0 1 125 200", "isRightAngle": true},
