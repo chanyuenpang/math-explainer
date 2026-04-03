@@ -64,7 +64,7 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
   const step = steps[currentStep];
 
   return (
-    <div className="w-full bg-white rounded-lg shadow-sm p-3 md:p-4">
+    <div className="w-full bg-white rounded-t-lg shadow-lg border-t border-gray-200 p-2 md:p-3 shrink-0 z-40">
       <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
         <span className="text-sm text-gray-500 font-medium">
           步骤 {currentStep + 1} / {steps.length}

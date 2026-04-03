@@ -280,8 +280,8 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
   };
 
   return (
-    <div className="w-full">
-      <svg ref={svgRef} viewBox="0 0 500 420" className="w-full bg-white rounded-lg shadow-sm border border-gray-100">
+    <div className="w-full h-full min-h-0 flex-1">
+      <svg ref={svgRef} viewBox="0 0 500 420" preserveAspectRatio="xMidYMid meet" className="w-full h-full min-h-[200px] max-h-[50vh] bg-white rounded-lg shadow-sm border border-gray-100">
         {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
         {renderTriangle('B', 'C', 'D', 'triangle-BCD')}
         {renderTriangle('E', 'D', 'C', 'triangle-EDC')}
