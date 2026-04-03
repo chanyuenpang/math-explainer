@@ -227,8 +227,11 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${edgeId}`) as SVGLineElement;
     if (!el) return;
 
+    // Store original color to restore after animation
+    const originalColor = el.getAttribute('stroke') || COLORS.default;
+    const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const highlightColor = color || COLORS.blue;
-    // 闪动后保持新颜色
+
     gsap.to(el, { stroke: highlightColor, strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
@@ -237,7 +240,8 @@ export class GeometryEngine {
       repeat: 2,
       delay: 0.3,
       onComplete: () => {
-        gsap.set(el, { stroke: highlightColor, strokeWidth: 4 });
+        // Restore original edge color after animation
+        gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
       }
     });
   }
@@ -345,8 +349,15 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (!el) return;
 
+    // Store original color to restore after animation
+    const originalColor = el.getAttribute('stroke') || COLORS.angle;
+    const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const arcColor = color || COLORS.angle;
-    gsap.to(el, { stroke: arcColor, strokeWidth: 4, duration: 0.3, yoyo: true, repeat: 2 });
+
+    gsap.to(el, { stroke: arcColor, strokeWidth: 4, duration: 0.3, yoyo: true, repeat: 2, onComplete: () => {
+      // Restore original arc color after animation
+      gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
+    }});
   }
 
   private drawArc(arcId: string, color?: string): void {
