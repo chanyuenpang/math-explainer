@@ -149,7 +149,13 @@ export class GeometryEngine {
         this.highlightEdge(intent.edge, intent.color);
         break;
       case 'highlightEdges':
-        (intent.edges || []).forEach((edgeId: string) => this.highlightEdge(edgeId, intent.color));
+        if (intent.edges && intent.edges.length > 0 && typeof intent.edges[0] === 'object') {
+          // 新格式：[{edge: "AB", color: "red"}, {edge: "DE", color: "green"}]
+          intent.edges.forEach((item: any) => this.highlightEdge(item.edge, item.color));
+        } else {
+          // 旧格式：["AB", "DE"]，使用统一的 intent.color
+          (intent.edges || []).forEach((edgeId: string) => this.highlightEdge(edgeId, intent.color));
+        }
         break;
       case 'flashAngle':
         this.flashAngle(intent.angle, intent.color);
@@ -194,7 +200,11 @@ export class GeometryEngine {
         this.highlightArc(intent.arc, intent.color);
         break;
       case 'highlightArcs':
-        (intent.arcs || []).forEach((arcId: string) => this.highlightArc(arcId, intent.color));
+        if (intent.arcs && intent.arcs.length > 0 && typeof intent.arcs[0] === 'object') {
+          intent.arcs.forEach((item: any) => this.highlightArc(item.arc, item.color));
+        } else {
+          (intent.arcs || []).forEach((arcId: string) => this.highlightArc(arcId, intent.color));
+        }
         break;
       case 'drawArc':
         this.drawArc(intent.arc, intent.color);
@@ -217,14 +227,18 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${edgeId}`) as SVGLineElement;
     if (!el) return;
 
-    const highlightColor = color === 'orange' ? COLORS.angle : COLORS.blue;
+    const highlightColor = color || COLORS.blue;
+    // 闪动后保持新颜色
     gsap.to(el, { stroke: highlightColor, strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
       duration: 0.2,
       yoyo: true,
       repeat: 2,
-      delay: 0.3
+      delay: 0.3,
+      onComplete: () => {
+        gsap.set(el, { stroke: highlightColor, strokeWidth: 4 });
+      }
     });
   }
 
@@ -517,7 +531,14 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
   }
 
   if (stepAnimation.highlightEdges) {
-    intents.push({ type: 'highlightEdges', edges: stepAnimation.highlightEdges, color: stepAnimation.color });
+    const edges = stepAnimation.highlightEdges;
+    if (edges.length > 0 && typeof edges[0] === 'object') {
+      // 对象数组格式：[{edge, color}]，直接传递
+      intents.push({ type: 'highlightEdges', edges: edges });
+    } else {
+      // 字符串数组格式：["AB", "DE"]，使用统一 color
+      intents.push({ type: 'highlightEdges', edges: edges, color: stepAnimation.color });
+    }
   }
 
   if (stepAnimation.flashAngle) {
@@ -539,7 +560,12 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
   }
 
   if (stepAnimation.highlightArcs) {
-    intents.push({ type: 'highlightArcs', arcs: stepAnimation.highlightArcs });
+    const arcs = stepAnimation.highlightArcs;
+    if (arcs.length > 0 && typeof arcs[0] === 'object') {
+      intents.push({ type: 'highlightArcs', arcs: arcs });
+    } else {
+      intents.push({ type: 'highlightArcs', arcs: arcs, color: stepAnimation.color });
+    }
   }
 
   if (stepAnimation.fillTriangle) {
