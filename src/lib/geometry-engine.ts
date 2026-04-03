@@ -228,8 +228,8 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${edgeId}`) as SVGLineElement;
     if (!el) return;
 
-    // Store original color to restore after animation
-    const originalColor = el.getAttribute('stroke') || COLORS.default;
+    // Store original color from config to restore after animation (Bug 1 fix)
+    const originalColor = this.config.edgeColors?.[edgeId] || COLORS.default;
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const highlightColor = color || COLORS.blue;
 
@@ -362,11 +362,20 @@ export class GeometryEngine {
     const arcColor = color || COLORS.angle;
 
     console.log('[highlightArc] animating arc:', arcId, 'with color:', arcColor, 'original:', originalColor);
-    gsap.to(el, { stroke: arcColor, strokeWidth: 4, duration: 0.3, yoyo: true, repeat: 2, onComplete: () => {
-      // Restore original arc color after animation
-      gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
-      console.log('[highlightArc] animation complete for arc:', arcId, 'restored color:', originalColor);
-    }});
+    // Bug 2 fix: separate highlight animation from restoration
+    gsap.to(el, { stroke: arcColor, strokeWidth: 4, duration: 0.3 });
+    gsap.to(el, {
+      strokeWidth: 5,
+      duration: 0.2,
+      yoyo: true,
+      repeat: 2,
+      delay: 0.3,
+      onComplete: () => {
+        // Restore original arc color after animation
+        gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
+        console.log('[highlightArc] animation complete for arc:', arcId, 'restored color:', originalColor);
+      }
+    });
   }
 
   private drawArc(arcId: string, color?: string): void {
@@ -403,7 +412,8 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#triangle-${triangleId}`);
     if (!el) return;
 
-    gsap.to(el, { fill: color, fillOpacity: 0.3, duration: 0.5 });
+    // Bug 3 fix: also set opacity: 1 since reset() sets it to 0
+    gsap.to(el, { fill: color, fillOpacity: 0.3, opacity: 1, duration: 0.5 });
   }
 
   private showRightAngle(pointId: string): void {
