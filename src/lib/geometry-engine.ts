@@ -260,7 +260,7 @@ export class GeometryEngine {
     };
     const flashColor = colorMap[color || 'orange'] || COLORS.angle;
 
-    const arcId = angleId.length === 1 ? `arc-${angleId}` : angleId;
+    const arcId = angleId.startsWith('arc-') ? angleId : `arc-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
     
     if (el) {
