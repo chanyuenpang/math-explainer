@@ -3,12 +3,13 @@ import type { Problem, ProblemSummary, Category, Difficulty } from './types';
 const problems: Map<string, Problem> = new Map();
 
 export async function loadProblems(): Promise<void> {
-  const modules = import.meta.glob('/home/yankeeting/.openclaw/workspace/projects/math-explainer/public/problems/*.json', { eager: true });
+  const modules = import.meta.glob('../../../src/data/problems/*.json', { eager: true });
   
   for (const path in modules) {
-    const problem = modules[path] as Problem;
+    const module = modules[path] as any;
+    const problem = module.default || module;
     if (problem.id) {
-      problems.set(problem.id, problem);
+      problems.set(problem.id, problem as Problem);
     }
   }
 }

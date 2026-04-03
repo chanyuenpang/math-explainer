@@ -1,0 +1,73 @@
+{
+  "id": "math-002",
+  "title": "几何证明：直角三角形全等",
+  "source": "示例题",
+  "difficulty": "easy",
+  "tags": ["几何", "直角三角形", "全等"],
+  "template": {
+    "type": "right-triangle",
+    "variant": "hl"
+  },
+  "geometry": {
+    "points": [
+      {"x": 100, "y": 200, "label": "A"},
+      {"x": 100, "y": 100, "label": "B"},
+      {"x": 200, "y": 200, "label": "C"}
+    ],
+    "connections": [
+      ["A", "B"],
+      ["B", "C"],
+      ["C", "A"]
+    ],
+    "rightAngles": ["A"]
+  },
+  "steps": [
+    {
+      "id": 0,
+      "title": "绘制直角三角形",
+      "content": "Rt△ABC，∠A=90°",
+      "conclusion": ""
+    },
+    {
+      "id": 1,
+      "title": "标记直角",
+      "content": "∠A = 90°（A点处的角是直角）",
+      "conclusion": ""
+    },
+    {
+      "id": 2,
+      "title": "结论",
+      "content": "直角三角形已绘制完成",
+      "conclusion": "✓ 完成"
+    }
+  ],
+  "stepAnimations": [
+    {
+      "drawEdge": ["AB", "BC", "CA"]
+    },
+    {
+      "showRightAngles": ["A"]
+    },
+    {
+      "flashAngle": ["A"],
+      "flashColor": "orange"
+    }
+  ],
+  "question": {
+    "text": "如图，Rt△ABC中，∠A=90°，请观察图形特征。",
+    "diagram": {
+      "type": "right-triangle",
+      "points": {
+        "A": {"x": 100, "y": 200},
+        "B": {"x": 100, "y": 100},
+        "C": {"x": 200, "y": 200}
+      },
+      "edges": ["AB", "BC", "CA"],
+      "rightAngles": ["A"]
+    }
+  },
+  "solution": {
+    "text": "Rt△ABC中，∠A=90°，AB⊥AC。"
+  },
+  "created_at": "2026-04-03T18:20:00+08:00"
+}
