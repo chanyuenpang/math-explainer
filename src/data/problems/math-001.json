@@ -236,7 +236,7 @@
       ],
       "flashAngle": [
         {
-          "id": "A",
+          "angle": "A",
           "color": "orange"
         }
       ]
@@ -247,7 +247,7 @@
       ],
       "flashAngle": [
         {
-          "id": "BCD",
+          "angle": "BCD",
           "color": "green"
         }
       ]
@@ -332,11 +332,11 @@
       ],
       "flashAngle": [
         {
-          "id": "ADC",
+          "angle": "ADC",
           "color": "orange"
         },
         {
-          "id": "EDC",
+          "angle": "EDC",
           "color": "blue"
         }
       ]
@@ -352,11 +352,11 @@
       ],
       "flashAngle": [
         {
-          "id": "ABC",
+          "angle": "ABC",
           "color": "red"
         },
         {
-          "id": "EDC",
+          "angle": "EDC",
           "color": "green"
         }
       ]
