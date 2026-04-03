@@ -64,9 +64,9 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
   const step = steps[currentStep];
 
   return (
-    <div className="w-full bg-white rounded-t-lg shadow-lg border-t border-gray-200 p-2 md:p-3 shrink-0 z-40">
-      <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 sm:gap-0">
-        <span className="text-sm text-gray-500 font-medium">
+    <div className="w-full bg-white rounded-lg shadow-sm border border-gray-200 p-2 shrink-0">
+      <div className="flex items-center justify-between gap-2">
+        <span className="text-xs text-gray-500 font-medium">
           步骤 {currentStep + 1} / {steps.length}
         </span>
         <div className="flex gap-1.5">
@@ -98,7 +98,7 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
         ))}
       </div>
       
-      <div style={{ position: 'fixed', bottom: 8, right: 8, fontSize: 11, color: '#9CA3AF', zIndex: 9999 }}>
+      <div className="text-[10px] text-gray-400 text-right mt-1">
         v2026.04.03-0146
       </div>
     </div>
