@@ -160,6 +160,9 @@ export class GeometryEngine {
       } else if (target.startsWith('face-')) {
         const faceId = target.substring(5); // Remove 'face-' prefix
         this.fillTriangle(faceId, color);
+      } else if (target.startsWith('arc-')) {
+        const arcId = target.substring(4); // Remove 'arc-' prefix
+        this.highlightArc(arcId, color);
       } else {
         console.warn(`[executeHighlights] Unknown target prefix: ${target}`);
       }
