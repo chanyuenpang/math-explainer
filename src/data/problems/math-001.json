@@ -298,7 +298,7 @@
       ],
       "flashAngle": [
         { "angle": "A", "color": "orange" },
-        { "angle": "BCD", "color": "orange" }
+        { "angle": "BCD", "color": "green" }
       ]
     },
     {
