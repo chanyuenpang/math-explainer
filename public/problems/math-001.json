@@ -166,13 +166,13 @@
     {
       "drawArcs": ["arc-ADC", "arc-EDC"],
       "highlightArcs": ["arc-ADC", "arc-EDC"],
-      "flashAngle": ["D"],
+      "flashAngle": ["arc-EDC"],
       "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ABC", "arc-EDC"],
       "highlightArcs": ["arc-ABC", "arc-EDC"],
-      "flashAngle": ["B", "D"],
+      "flashAngle": ["arc-ABC", "arc-EDC"],
       "flashColor": "orange"
     },
     {
@@ -192,7 +192,7 @@
       "highlightEdges": ["BC", "CD"],
       "color": "orange",
       "pulse": ["BC", "CD"],
-      "flashAngle": ["A", "D"],
+      "flashAngle": ["arc-A", "arc-EDC"],
       "flashColor": "orange"
     },
     {
