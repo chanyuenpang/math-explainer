@@ -41,6 +41,27 @@
 - 不再手动配 stepAnimations JSON
 - [规范文档](./docs/GEOMETRY-ENGINE.md)
 
+### FEAT-005: math-001 题目数据
+- 永州中考题：四边形与全等三角形
+- 15 步完整证明动画
+- flashAngle ID 匹配修复
+- stepAnimations/steps 对齐修复
+- SAS 数学逻辑修复（∠ABC 非 ∠A）
+
+### FEAT-010: 部署与发布
+- Cloudflare Pages 自动部署（Git Integration）
+- URL: https://cloudflare-workers-autoconfig-math-explainer.chanyuenpang.workers.dev/
+- push to master → 自动 build + 部署
+- GitHub 私有仓库: chanyuenpang/math-explainer
+
+## 🔧 进行中
+
+### FEAT-006: 几何动画引擎
+- 声明式动画意图 → 自动视觉映射
+- 引擎自动推导边、角、三角形
+- 不再手动配 stepAnimations JSON
+- [规范文档](./docs/GEOMETRY-ENGINE.md)
+
 ## 📋 规划中
 
 ### FEAT-007: DOM-based QA 框架
@@ -58,8 +79,3 @@
 - 题目管理（增删改查）
 - 题目难度/标签分类
 - 题目搜索
-
-### FEAT-010: 部署与发布
-- CI/CD（GitHub Actions）
-- 自动部署到 Cloudflare Pages / Vercel
-- 无需手动开隧道

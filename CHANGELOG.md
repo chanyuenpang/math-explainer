@@ -7,6 +7,8 @@
 - QA 测试方法文档 (docs/QA-METHOD.md)
 - 项目文档 (docs/PROJECT.md, docs/REFACTOR.md)
 - GitHub 私有仓库: chanyuenpang/math-explainer
+- Cloudflare Pages 自动部署 (Git Integration)
+- 公开地址: https://cloudflare-workers-autoconfig-math-explainer.chanyuenpang.workers.dev/
 
 ### Fixed
 - flashAngle ID 不匹配问题（使用 arc ID 后缀如 BCD、ABC）
