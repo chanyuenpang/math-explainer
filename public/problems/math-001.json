@@ -27,7 +27,7 @@
     "rightAngles": ["A", "C"],
     "angleArcs": [
       {"id": "arc-A", "vertex": "A", "from": "B", "to": "D", "color": "#EF4444", "path": "M 100 175 A 25 25 0 0 1 125 200", "isRightAngle": true},
-      {"id": "arc-BCD", "vertex": "C", "from": "B", "to": "D", "color": "#10B981", "path": "M 175 100 A 25 25 0 0 0 200 125", "isRightAngle": true},
+      {"id": "arc-BCD", "vertex": "C", "from": "B", "to": "D", "color": "#10B981", "path": "M 185 100 L 185 115 L 200 115", "isRightAngle": true},
       {"id": "arc-ABC", "vertex": "B", "from": "A", "to": "C", "color": "#EF4444", "path": "M 100 125 A 25 25 0 0 0 125 100", "isRightAngle": false},
       {"id": "arc-ADC", "vertex": "D", "from": "A", "to": "C", "color": "#F59E0B", "path": "M 175 200 A 25 25 0 0 1 200 175", "isRightAngle": false},
       {"id": "arc-EDC", "vertex": "D", "from": "E", "to": "C", "color": "#10B981", "path": "M 225 200 A 25 25 0 0 0 200 175", "isRightAngle": false}
@@ -190,16 +190,19 @@
     {
       "highlightEdges": ["BC", "CD"],
       "color": "orange",
-      "flashAngle": ["A", "EDC"],
+      "showEqualMarks": true
+    },
+    {
+      "highlightEdges": ["AB", "DE", "CD", "AD"],
+      "drawArcs": ["arc-A", "arc-EDC"],
+      "flashAngle": ["A", "D"],
       "flashColor": "orange"
     },
     {
-      "drawArcs": ["arc-ABC", "arc-EDC"],
-      "highlightArcs": ["arc-ABC", "arc-EDC"]
-    },
-    {
-      "moveTriangle": "ABC",
-      "targetTriangle": "EDC"
+      "highlightEdges": ["AB", "DE", "BC", "CD"],
+      "drawArcs": ["arc-A", "arc-EDC"],
+      "highlightArcs": ["arc-A", "arc-EDC"],
+      "color": "orange"
     }
   ],
   "question": {
