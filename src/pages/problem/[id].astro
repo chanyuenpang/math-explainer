@@ -2,11 +2,12 @@
 import '../../styles/global.css';
 import { loadProblems, getProblem, listProblems } from '../../lib/problems/registry';
 
-await loadProblems();
-
-export function getStaticPaths() {
+export async function getStaticPaths() {
+  await loadProblems();
   return listProblems().map(p => ({ params: { id: p.id } }));
 }
+
+await loadProblems();
 
 const { id } = Astro.params;
 const problem = getProblem(id!);
