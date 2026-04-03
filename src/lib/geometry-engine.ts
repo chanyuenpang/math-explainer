@@ -149,6 +149,7 @@ export class GeometryEngine {
         this.highlightEdge(intent.edge, intent.color);
         break;
       case 'highlightEdges':
+        console.log('[highlightEdges] called with edges:', intent.edges, 'color:', intent.color);
         if (intent.edges && intent.edges.length > 0 && typeof intent.edges[0] === 'object') {
           // 新格式：[{edge: "AB", color: "red"}, {edge: "DE", color: "green"}]
           intent.edges.forEach((item: any) => this.highlightEdge(item.edge, item.color));
@@ -232,6 +233,7 @@ export class GeometryEngine {
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const highlightColor = color || COLORS.blue;
 
+    console.log('[highlightEdge] animating edge:', edgeId, 'with color:', highlightColor, 'original:', originalColor);
     gsap.to(el, { stroke: highlightColor, strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
@@ -242,6 +244,7 @@ export class GeometryEngine {
       onComplete: () => {
         // Restore original edge color after animation
         gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
+        console.log('[highlightEdge] animation complete for edge:', edgeId, 'restored color:', originalColor);
       }
     });
   }
@@ -281,6 +284,8 @@ export class GeometryEngine {
     const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
     const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
     const flashColor = colorMap[color || 'orange'] || COLORS.angle;
+
+    console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
 
     const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
@@ -326,6 +331,7 @@ export class GeometryEngine {
           // Store original color to restore after animation
           const originalColor = edgeEl.getAttribute('stroke') || COLORS.dark;
 
+          console.log('[flashAngle] animating edge:', edge.id, 'with color:', flashColor, 'original:', originalColor);
           gsap.to(edgeEl, { stroke: flashColor, strokeWidth: 3.5, duration: 0.3 });
           gsap.to(edgeEl, {
             strokeWidth: 4.5,
@@ -336,6 +342,7 @@ export class GeometryEngine {
             onComplete: () => {
               // Restore original edge color after animation
               gsap.set(edgeEl, { stroke: originalColor, strokeWidth: 3 });
+              console.log('[flashAngle] animation complete for edge:', edge.id, 'restored color:', originalColor);
             }
           });
         });
@@ -354,9 +361,11 @@ export class GeometryEngine {
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const arcColor = color || COLORS.angle;
 
+    console.log('[highlightArc] animating arc:', arcId, 'with color:', arcColor, 'original:', originalColor);
     gsap.to(el, { stroke: arcColor, strokeWidth: 4, duration: 0.3, yoyo: true, repeat: 2, onComplete: () => {
       // Restore original arc color after animation
       gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
+      console.log('[highlightArc] animation complete for arc:', arcId, 'restored color:', originalColor);
     }});
   }
 
