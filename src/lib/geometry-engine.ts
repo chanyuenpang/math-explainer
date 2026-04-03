@@ -293,7 +293,7 @@ export class GeometryEngine {
         );
         const edge2 = edges.find(e => 
           (e.from === angleArc.vertex && e.to === toPoint.id) || 
-          (e.to === angleArc.vertex && e.to === toPoint.id)
+          (e.from === toPoint.id && e.to === angleArc.vertex)
         );
 
         [edge1, edge2].forEach(edge => {
@@ -362,7 +362,10 @@ export class GeometryEngine {
   }
 
   private showRightAngle(pointId: string): void {
-    const arcId = pointId.length === 1 ? `arc-${pointId}` : `arc-${pointId}`;
+    const rightAngleArc = this.config.angleArcs?.find(a => 
+      a.vertex === pointId && a.isRightAngle
+    );
+    const arcId = rightAngleArc?.id || `arc-${pointId}`;
     this.drawArc(arcId, 'orange');
     this.flashAngle(pointId, 'orange');
   }
