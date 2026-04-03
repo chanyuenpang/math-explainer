@@ -282,10 +282,6 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
   return (
     <div className="w-full h-full min-h-0 flex-1">
       <svg ref={svgRef} viewBox="0 0 500 420" preserveAspectRatio="xMidYMid meet" className="w-full h-full min-h-[200px] max-h-[50vh] bg-white rounded-lg shadow-sm border border-gray-100">
-        {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
-        {renderTriangle('B', 'C', 'D', 'triangle-BCD')}
-        {renderTriangle('E', 'D', 'C', 'triangle-EDC')}
-
         {edges.map(e => {
           const from = points.find(p => p.label === e.from)!;
           const to = points.find(p => p.label === e.to)!;
@@ -314,6 +310,10 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
         })}
 
         {angleArcs.map(arc => renderAngleArc(arc))}
+
+        {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
+        {renderTriangle('B', 'C', 'D', 'triangle-BCD')}
+        {renderTriangle('E', 'D', 'C', 'triangle-EDC')}
 
         {Object.entries(equalPairs).map(([edgeA, edgeB]) => {
           const edge1 = edges.find(e => e.id === edgeA);

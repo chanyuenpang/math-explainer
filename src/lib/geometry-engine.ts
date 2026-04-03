@@ -249,7 +249,7 @@ export class GeometryEngine {
     gsap.to(el, { opacity: 0.2, duration: 0.3 });
   }
 
-  private flashAngle(angleId: string, color?: string): void {
+  private flashAngle(angleIdOrConfig: string | {id: string, color?: string}, defaultColor?: string): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
@@ -257,7 +257,11 @@ export class GeometryEngine {
       'orange': COLORS.angle,
       'red': COLORS.red,
       'green': COLORS.green,
+      'blue': COLORS.blue,
     };
+
+    const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
+    const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
     const flashColor = colorMap[color || 'orange'] || COLORS.angle;
 
     const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
@@ -518,7 +522,16 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
 
   if (stepAnimation.flashAngle) {
     const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
-    intents.push({ type: 'flashAngles', angles, color: stepAnimation.flashColor });
+    // Check if angles are objects with color (new format) or strings (old format)
+    if (angles.length > 0 && typeof angles[0] === 'object') {
+      // New format: each angle has its own color
+      angles.forEach((angleConfig: any) => {
+        intents.push({ type: 'flashAngle', angle: angleConfig.id, color: angleConfig.color });
+      });
+    } else {
+      // Old format: all angles share the same color
+      intents.push({ type: 'flashAngles', angles: angles as string[], color: stepAnimation.flashColor });
+    }
   }
 
   if (stepAnimation.drawArcs) {

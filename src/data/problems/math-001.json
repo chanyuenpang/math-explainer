@@ -133,16 +133,15 @@
   "stepAnimations": [
     {
       "drawEdge": ["AB", "BC", "CD", "AD"],
-      "showRightAngles": ["A", "BCD"],
       "showEqualMarks": true
     },
     {
-      "flashAngle": ["A"],
-      "flashColor": "orange"
+      "drawArcs": ["bad-A"],
+      "flashAngle": [{"id": "A", "color": "orange"}]
     },
     {
-      "flashAngle": ["BCD"],
-      "flashColor": "orange"
+      "drawArcs": ["bad-BCD"],
+      "flashAngle": [{"id": "BCD", "color": "green"}]
     },
     {
       "flyoutCompare": [{"edges": ["BC", "CD"], "label": "BC = DC"}],
@@ -164,20 +163,17 @@
     {
       "drawArcs": ["bad-ABC", "bad-ADC"],
       "highlightArcs": ["bad-ABC", "bad-ADC"],
-      "flashAngle": ["ABC", "ADC"],
-      "flashColor": "orange"
+      "flashAngle": [{"id": "ABC", "color": "red"}, {"id": "ADC", "color": "green"}]
     },
     {
       "drawArcs": ["bad-ADC", "bad-EDC"],
       "highlightArcs": ["bad-ADC", "bad-EDC"],
-      "flashAngle": ["ADC", "EDC"],
-      "flashColor": "orange"
+      "flashAngle": [{"id": "ADC", "color": "orange"}, {"id": "EDC", "color": "blue"}]
     },
     {
       "drawArcs": ["bad-ABC", "bad-EDC"],
       "highlightArcs": ["bad-ABC", "bad-EDC"],
-      "flashAngle": ["ABC", "EDC"],
-      "flashColor": "orange"
+      "flashAngle": [{"id": "ABC", "color": "red"}, {"id": "EDC", "color": "green"}]
     },
     {
       "fillTriangle": ["ABC", "EDC"],
@@ -194,14 +190,14 @@
     },
     {
       "drawArcs": ["bad-ABC", "bad-EDC"],
-      "flashAngle": ["ABC", "EDC"],
-      "flashColor": "orange"
+      "flashAngle": [{"id": "ABC", "color": "red"}, {"id": "EDC", "color": "green"}]
     },
     {
+      "fillTriangle": ["ABC", "EDC"],
+      "fillColors": {"ABC": "rgba(239,68,68,0.3)", "EDC": "rgba(16,185,129,0.3)"},
       "highlightEdges": ["AB", "DE", "BC", "CD"],
       "drawArcs": ["bad-ABC", "bad-EDC"],
-      "highlightArcs": ["bad-ABC", "bad-EDC"],
-      "color": "orange"
+      "highlightArcs": ["bad-ABC", "bad-EDC"]
     }
   ],
   "question": {
