@@ -115,8 +115,8 @@
     },
     {
       "id": 13,
-      "title": "∠A = ∠EDC = 90°",
-      "content": "∠A = ∠EDC = 90°（已证）",
+      "title": "∠ABC = ∠EDC",
+      "content": "∠ABC = ∠EDC（第1问已证）",
       "conclusion": "✓"
     },
     {
@@ -189,14 +189,14 @@
       "showEqualMarks": true
     },
     {
-      "drawArcs": ["arc-A", "arc-EDC"],
-      "flashAngle": ["A", "EDC"],
+      "drawArcs": ["arc-ABC", "arc-EDC"],
+      "flashAngle": ["ABC", "EDC"],
       "flashColor": "orange"
     },
     {
       "highlightEdges": ["AB", "DE", "BC", "CD"],
-      "drawArcs": ["arc-A", "arc-EDC"],
-      "highlightArcs": ["arc-A", "arc-EDC"],
+      "drawArcs": ["arc-ABC", "arc-EDC"],
+      "highlightArcs": ["arc-ABC", "arc-EDC"],
       "color": "orange"
     }
   ],
