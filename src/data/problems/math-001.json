@@ -362,7 +362,7 @@
         }
       ]
     },
-    {"highlightEdges": ["AB", "DE"], "color": "#F59E0B"},
+    {"highlightEdges": [{"edge": "AB", "color": "#EF4444"}, {"edge": "DE", "color": "#10B981"}]},
     {"highlightEdges": [{"edge": "AB", "color": "#EF4444"}, {"edge": "DE", "color": "#10B981"}], "fillTriangle": ["ABC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)"}},
     {"highlightEdges": [{"edge": "BC", "color": "#EF4444"}, {"edge": "CD", "color": "#10B981"}], "showEqualMarks": true, "fillTriangle": ["EDC"], "fillColors": {"EDC": "rgba(16,185,129,0.2)"}},
     {"fillTriangle": ["ABC", "EDC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)", "EDC": "rgba(16,185,129,0.2)"}},
