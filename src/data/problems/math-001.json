@@ -271,8 +271,8 @@
         "DE"
       ],
       "highlightEdges": [
-        {"edge": "AD", "color": "orange"},
-        {"edge": "DE", "color": "orange"}
+        {"edge": "AD", "color": "#EF4444"},
+        {"edge": "DE", "color": "#10B981"}
       ],
       "showLabels": [
         "A",
