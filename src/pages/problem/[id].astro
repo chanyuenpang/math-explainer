@@ -19,27 +19,28 @@ const problem = getProblem(id!);
   <title>{problem?.title || '题目'}</title>
   <script is:inline src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.5/gsap.min.js"></script>
 </head>
-<body class="bg-gray-50 min-h-screen">
-  <header class="bg-white shadow-sm py-4">
-    <div class="max-w-4xl mx-auto px-4">
-      <a href="/math-explainer/problems" class="text-blue-500 hover:underline">← 返回列表</a>
+<body class="bg-gradient-to-br from-slate-50 to-blue-50 min-h-screen">
+  <header class="bg-white/80 backdrop-blur-sm shadow-sm py-3 sticky top-0 z-50">
+    <div class="max-w-4xl mx-4 flex items-center justify-between">
+      <a href="/math-explainer/problems" class="text-blue-500 hover:text-blue-700 hover:underline flex items-center gap-1 font-medium">← 返回列表</a>
+      <span class="text-xs text-gray-400">MathExplainer</span>
     </div>
   </header>
 
-  <main class="w-full max-w-4xl mx-auto px-4 py-6 md:py-8">
-    <h1 class="text-2xl font-bold mb-4">{problem?.title}</h1>
+  <main class="w-full max-w-4xl mx-auto px-3 py-4 md:px-4 md:py-6">
+    <h1 class="text-xl md:text-2xl font-bold mb-3 text-gray-800">{problem?.title}</h1>
 
     <div class="mb-6 hidden">
       <img src={problem?.image} alt="题目图片" class="max-w-md rounded-lg shadow" />
     </div>
 
-    <div class="bg-white rounded-lg shadow p-6 mb-8">
-      <h2 class="font-bold text-lg mb-2">题目</h2>
-      <pre class="whitespace-pre-wrap font-sans">{problem?.question?.text}</pre>
+    <div class="bg-white rounded-lg shadow-sm p-4 mb-4">
+      <h2 class="font-bold text-base mb-2 text-gray-700">题目</h2>
+      <pre class="whitespace-pre-wrap font-sans text-sm text-gray-600 leading-relaxed">{problem?.question?.text}</pre>
     </div>
 
-    <div class="mb-8">
-      <h2 class="font-bold text-lg mb-4">分步讲解</h2>
+    <div class="mb-4">
+      <h2 class="font-bold text-base mb-3 text-gray-700">分步讲解</h2>
       <div 
         id="combined-root" 
         data-steps={JSON.stringify(problem?.steps)}
@@ -61,7 +62,7 @@ const problem = getProblem(id!);
           const [currentStep, setCurrentStep] = useState(0);
           const step = steps[currentStep] || {};
           
-          return createElement('div', { className: 'flex flex-col gap-6' }, [
+          return createElement('div', { className: 'flex flex-col gap-3' }, [
             createElement(GeometryCanvas, {
               key: 'canvas',
               points: geometry.points,
@@ -86,16 +87,16 @@ const problem = getProblem(id!);
       </script>
     </div>
 
-    <details class="bg-white rounded-lg shadow p-6">
-      <summary class="font-bold cursor-pointer">查看完整答案</summary>
-      <pre class="mt-4 whitespace-pre-wrap">{problem?.solution?.text}</pre>
+    <details class="bg-white rounded-lg shadow-sm p-4">
+      <summary class="font-semibold cursor-pointer text-gray-700 hover:text-blue-600">查看完整答案</summary>
+      <pre class="mt-3 whitespace-pre-wrap text-sm text-gray-600">{problem?.solution?.text}</pre>
     </details>
 
     {/* 原题图片 - 折叠在底部 */}
-    <details class="mt-6 bg-white rounded-lg shadow p-4">
-      <summary class="font-bold cursor-pointer text-blue-600 hover:text-blue-800">查看原题</summary>
-      <div class="mt-4">
-        <img src={problem?.image} alt="题目图片" class="max-w-md rounded-lg shadow mx-auto" />
+    <details class="mt-3 bg-white rounded-lg shadow-sm p-3">
+      <summary class="font-semibold cursor-pointer text-blue-600 hover:text-blue-800">查看原题</summary>
+      <div class="mt-3">
+        <img src={problem?.image} alt="题目图片" class="max-w-full md:max-w-md rounded-lg shadow mx-auto" />
       </div>
     </details>
   </main>

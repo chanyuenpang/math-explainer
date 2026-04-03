@@ -281,7 +281,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
 
   return (
     <div className="w-full">
-      <svg ref={svgRef} viewBox="0 0 500 500" className="w-full bg-white rounded-lg shadow">
+      <svg ref={svgRef} viewBox="0 0 500 420" className="w-full bg-white rounded-lg shadow-sm border border-gray-100">
         {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
         {renderTriangle('B', 'C', 'D', 'triangle-BCD')}
         {renderTriangle('E', 'D', 'C', 'triangle-EDC')}
@@ -361,23 +361,23 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
         })}
         
         {currentStepData && (
-          <foreignObject x="20" y="360" width="460" height="130">
-            <div xmlns="http://www.w3.org/1999/xhtml" style={{fontFamily: 'system-ui, -apple-system, sans-serif', padding: '10px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '8px'}}>
-                <span style={{backgroundColor: '#3B82F6', color: 'white', padding: '4px 8px', borderRadius: '4px', fontSize: '12px', fontWeight: 'bold'}}>
+          <foreignObject x="15" y="300" width="470" height="115">
+            <div xmlns="http://www.w3.org/1999/xhtml" style={{fontFamily: 'system-ui, -apple-system, sans-serif', padding: '8px'}}>
+              <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px'}}>
+                <span style={{backgroundColor: '#3B82F6', color: 'white', padding: '3px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold'}}>
                   第 {currentStep + 1} 步
                 </span>
-                <span style={{fontSize: '16px', fontWeight: 'bold', color: '#1F2937'}}>
+                <span style={{fontSize: '14px', fontWeight: 'bold', color: '#1F2937'}}>
                   {currentStepData.title}
                 </span>
               </div>
               
-              <div style={{fontSize: '14px', lineHeight: '1.6', whiteSpace: 'pre-wrap', color: CANVAS_COLORS.text, marginBottom: '8px'}}>
+              <div style={{fontSize: '13px', lineHeight: '1.5', whiteSpace: 'pre-wrap', color: CANVAS_COLORS.text, marginBottom: '6px'}}>
                 {currentStepData.content}
               </div>
               
               {currentStepData.conclusion && (
-                <div style={{fontSize: '14px', fontWeight: 'bold', color: '#10B981', borderTop: '1px solid #E5E7EB', paddingTop: '8px'}}>
+                <div style={{fontSize: '13px', fontWeight: 'bold', color: '#10B981', borderTop: '1px solid #E5E7EB', paddingTop: '6px'}}>
                   ✓ {currentStepData.conclusion}
                 </div>
               )}
