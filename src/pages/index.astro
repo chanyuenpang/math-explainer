@@ -1,9 +1,9 @@
 ---
 import '../styles/global.css';
+import { loadProblems, listProblems } from '../lib/problems/registry';
 
-const problems = [
-  { id: 'math-001', title: '几何证明：四边形与全等三角形', difficulty: 'medium', tags: ['几何', '全等'] }
-];
+await loadProblems();
+const problems = listProblems();
 ---
 
 <html lang="zh">
@@ -17,6 +17,10 @@ const problems = [
     <h1 class="text-3xl font-bold mb-2">MathExplainer</h1>
     <p class="text-gray-600 mb-8">动态数学题讲解网站</p>
 
+    <a href="/math-explainer/problems" class="inline-block bg-blue-500 text-white px-6 py-3 rounded-lg hover:bg-blue-600 transition mb-8">
+      查看全部题目 ({problems.length})
+    </a>
+
     <div class="grid gap-4">
       {problems.map(problem => (
         <a href={`/math-explainer/problem/${problem.id}`} class="block bg-white rounded-lg shadow p-6 hover:shadow-md transition">
@@ -26,7 +30,7 @@ const problems = [
               problem.difficulty === 'easy' ? 'bg-green-100 text-green-700' :
               problem.difficulty === 'medium' ? 'bg-yellow-100 text-yellow-700' :
               'bg-red-100 text-red-700'
-            }`}>{problem.difficulty}</span>
+            }`}>{problem.difficulty === 'easy' ? '简单' : problem.difficulty === 'medium' ? '中等' : '困难'}</span>
           </div>
           <div class="mt-2 flex gap-2">
             {problem.tags.map(tag => (
