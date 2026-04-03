@@ -49,8 +49,9 @@
       "showRightAngles": ["A"]
     },
     {
-      "flashAngle": ["A"],
-      "flashColor": "orange"
+      "flashAngle": [
+        { "angle": "A", "color": "orange" }
+      ]
     }
   ],
   "question": {

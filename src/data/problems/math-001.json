@@ -297,10 +297,9 @@
         "bad-BCD"
       ],
       "flashAngle": [
-        "A",
-        "BCD"
-      ],
-      "flashColor": "orange"
+        { "angle": "A", "color": "orange" },
+        { "angle": "BCD", "color": "orange" }
+      ]
     },
     {
       "drawArcs": [
