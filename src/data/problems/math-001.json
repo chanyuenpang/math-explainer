@@ -312,11 +312,11 @@
       ],
       "flashAngle": [
         {
-          "id": "ABC",
+          "angle": "ABC",
           "color": "red"
         },
         {
-          "id": "ADC",
+          "angle": "ADC",
           "color": "green"
         }
       ]

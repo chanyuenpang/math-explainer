@@ -547,7 +547,7 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
     if (angles.length > 0 && typeof angles[0] === 'object') {
       // New format: each angle has its own color
       angles.forEach((angleConfig: any) => {
-        intents.push({ type: 'flashAngle', angle: angleConfig.id, color: angleConfig.color });
+        intents.push({ type: 'flashAngle', angle: angleConfig.angle, color: angleConfig.color });
       });
     } else {
       // Old format: all angles share the same color
