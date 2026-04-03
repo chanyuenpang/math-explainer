@@ -176,17 +176,23 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       }
     });
 
-    // 高亮边（highlightEdges）- 使用深蓝色强调
+    // 高亮边（highlightEdges）- 使用深蓝色强调（保持状态）
     (step.highlightEdges || []).forEach(id => {
       const el = svg.querySelector(`#${id}`) as SVGLineElement;
       if (el) {
-        // 深蓝色强调
+        // 深蓝色强调，使用 to 并保持最终状态
         gsap.to(el, {
           stroke: '#2563EB',
           strokeWidth: 4,
-          duration: 0.3,
+          duration: 0.3
+        });
+        // 闪烁效果（不回退）
+        gsap.to(el, {
+          strokeWidth: 5,
+          duration: 0.2,
           yoyo: true,
-          repeat: 1
+          repeat: 2,
+          delay: 0.3
         });
       }
     });
@@ -314,28 +320,44 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
           );
         }
         
-        // === 展示角时：浅蓝色弱化边 ===
-        const angleArc = angleArcs.find(arc => arc.vertex === angleId);
+        // === 修复：展示角时，同时高亮形成该角的两条边 ===
+        const angleArc = angleArcs.find(arc => arc.vertex === angleId || arc.id === `arc-${angleId}`);
         if (angleArc) {
           const fromPoint = points.find(p => p.label === angleArc.from);
           const toPoint = points.find(p => p.label === angleArc.to);
-          if (fromPoint && toPoint) {
-            const edge1 = edges.find(e => (e.from === angleId && e.to === fromPoint.label) || (e.to === angleId && e.from === fromPoint.label));
-            const edge2 = edges.find(e => (e.from === angleId && e.to === toPoint.label) || (e.to === angleId && e.from === toPoint.label));
+          const vertexPoint = points.find(p => p.label === angleArc.vertex);
+          
+          if (fromPoint && toPoint && vertexPoint) {
+            // 找到形成该角的两条边
+            const edge1 = edges.find(e => 
+              (e.from === angleArc.vertex && e.to === fromPoint.label) || 
+              (e.to === angleArc.vertex && e.from === fromPoint.label)
+            );
+            const edge2 = edges.find(e => 
+              (e.from === angleArc.vertex && e.to === toPoint.label) || 
+              (e.to === angleArc.vertex && e.from === toPoint.label)
+            );
             
+            // 高亮这两条边（保持状态）
             [edge1, edge2].forEach((edge) => {
               if (!edge) return;
               
               const el = svg.querySelector(`#${edge.id}`) as SVGLineElement;
               if (!el) return;
               
-              // 浅蓝色弱化
+              // 高亮边（使用 to 保持状态）
               gsap.to(el, {
-                stroke: '#93C5FD',
-                strokeWidth: 3,
-                duration: 0.3,
+                stroke: '#2563EB',
+                strokeWidth: 3.5,
+                duration: 0.3
+              });
+              // 闪烁效果
+              gsap.to(el, {
+                strokeWidth: 4.5,
+                duration: 0.2,
                 yoyo: true,
-                repeat: 1
+                repeat: 2,
+                delay: 0.3
               });
             });
           }
