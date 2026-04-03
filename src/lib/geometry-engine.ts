@@ -1,4 +1,4 @@
-import { TopologyGraph, type Point, type Connection, type Edge, type Angle } from './topology';
+import { TopologyGraph, type Point, type Connection, type Edge, type Angle, normalizeEdgeId } from './topology';
 
 export interface GeometryConfig {
   points: Point[];
@@ -258,15 +258,19 @@ export class GeometryEngine {
   private highlightEdge(edgeId: string, color?: string): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
-    const el = this.svgElement.querySelector(`#${edgeId}`) as SVGLineElement;
+    
+    // Normalize edgeId to canonical form (e.g., "BA" -> "AB")
+    const normalizedEdgeId = normalizeEdgeId(edgeId);
+    
+    const el = this.svgElement.querySelector(`#${normalizedEdgeId}`) as SVGLineElement;
     if (!el) return;
 
     // Store original color from config to restore after animation (Bug 1 fix)
-    const originalColor = this.config.edgeColors?.[edgeId] || COLORS.default;
+    const originalColor = this.config.edgeColors?.[normalizedEdgeId] || COLORS.default;
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const highlightColor = color || COLORS.blue;
 
-    console.log('[highlightEdge] animating edge:', edgeId, 'with color:', highlightColor, 'original:', originalColor);
+    console.log('[highlightEdge] animating edge:', normalizedEdgeId, 'with color:', highlightColor, 'original:', originalColor);
     gsap.to(el, { stroke: highlightColor, strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
@@ -277,7 +281,7 @@ export class GeometryEngine {
       onComplete: () => {
         // Restore original edge color after animation
         gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
-        console.log('[highlightEdge] animation complete for edge:', edgeId, 'restored color:', originalColor);
+        console.log('[highlightEdge] animation complete for edge:', normalizedEdgeId, 'restored color:', originalColor);
       }
     });
   }
@@ -285,7 +289,8 @@ export class GeometryEngine {
   private drawEdge(edgeId: string, delay: number = 0): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
-    const el = this.svgElement.querySelector(`#${edgeId}`);
+    const normalizedEdgeId = normalizeEdgeId(edgeId);
+    const el = this.svgElement.querySelector(`#${normalizedEdgeId}`);
     if (!el) return;
 
     gsap.fromTo(el,
@@ -297,7 +302,8 @@ export class GeometryEngine {
   private hideEdge(edgeId: string): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
-    const el = this.svgElement.querySelector(`#${edgeId}`);
+    const normalizedEdgeId = normalizeEdgeId(edgeId);
+    const el = this.svgElement.querySelector(`#${normalizedEdgeId}`);
     if (!el) return;
 
     gsap.to(el, { opacity: 0.2, duration: 0.3 });
@@ -463,8 +469,10 @@ export class GeometryEngine {
     const gsap = (window as any).gsap;
 
     const [edgeId1, edgeId2] = edges;
-    const el1 = this.svgElement.querySelector(`#${edgeId1}`);
-    const el2 = this.svgElement.querySelector(`#${edgeId2}`);
+    const normalizedEdgeId1 = normalizeEdgeId(edgeId1);
+    const normalizedEdgeId2 = normalizeEdgeId(edgeId2);
+    const el1 = this.svgElement.querySelector(`#${normalizedEdgeId1}`);
+    const el2 = this.svgElement.querySelector(`#${normalizedEdgeId2}`);
     if (!el1 || !el2) return;
 
     const x1 = parseFloat(el1.getAttribute('x1') || '0');
@@ -538,7 +546,8 @@ export class GeometryEngine {
     const toEnd = this.points.find(p => p.id === toEdge.to);
     if (!fromStart || !fromEnd || !toStart || !toEnd) return;
 
-    const fromEl = this.svgElement.querySelector(`#${fromEdgeId}`);
+    const normalizedFromEdgeId = normalizeEdgeId(fromEdgeId);
+    const fromEl = this.svgElement.querySelector(`#${normalizedFromEdgeId}`);
     if (!fromEl) return;
 
     const dx = toEnd.x - fromEnd.x;
