@@ -319,13 +319,20 @@ export class GeometryEngine {
           const edgeEl = this.svgElement!.querySelector(`#${edge.id}`) as SVGLineElement;
           if (!edgeEl) return;
 
-          gsap.to(edgeEl, { stroke: COLORS.blue, strokeWidth: 3.5, duration: 0.3 });
+          // Store original color to restore after animation
+          const originalColor = edgeEl.getAttribute('stroke') || COLORS.dark;
+
+          gsap.to(edgeEl, { stroke: flashColor, strokeWidth: 3.5, duration: 0.3 });
           gsap.to(edgeEl, {
             strokeWidth: 4.5,
             duration: 0.2,
             yoyo: true,
             repeat: 2,
-            delay: 0.3
+            delay: 0.3,
+            onComplete: () => {
+              // Restore original edge color after animation
+              gsap.set(edgeEl, { stroke: originalColor, strokeWidth: 3 });
+            }
           });
         });
       }
