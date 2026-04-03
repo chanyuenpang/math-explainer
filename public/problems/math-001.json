@@ -128,7 +128,7 @@
   ],
   "stepAnimations": [
     {
-      "drawEdge": ["AB", "BC", "CD", "DA"],
+      "drawEdge": ["AB", "BC", "CD", "AD"],
       "showRightAngles": ["A", "C"],
       "showEqualMarks": true
     },
@@ -166,13 +166,13 @@
     {
       "drawArcs": ["arc-ADC", "arc-EDC"],
       "highlightArcs": ["arc-ADC", "arc-EDC"],
-      "flashAngle": ["arc-EDC"],
+      "flashAngle": ["EDC"],
       "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ABC", "arc-EDC"],
       "highlightArcs": ["arc-ABC", "arc-EDC"],
-      "flashAngle": ["arc-ABC", "arc-EDC"],
+      "flashAngle": ["ABC", "EDC"],
       "flashColor": "orange"
     },
     {
@@ -185,14 +185,12 @@
     },
     {
       "highlightEdges": ["AB", "DE"],
-      "color": "orange",
-      "pulse": ["AB", "DE"]
+      "color": "orange"
     },
     {
       "highlightEdges": ["BC", "CD"],
       "color": "orange",
-      "pulse": ["BC", "CD"],
-      "flashAngle": ["arc-A", "arc-EDC"],
+      "flashAngle": ["A", "EDC"],
       "flashColor": "orange"
     },
     {

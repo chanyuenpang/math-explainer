@@ -1,5 +1,6 @@
 import { useEffect, useRef } from 'react';
-import { TopologyGraph, Point, Connection } from '../lib/topology';
+import { TopologyGraph } from '../lib/topology';
+import type { Point as TopoPoint, Connection as TopoConnection } from '../lib/topology';
 // GSAP 通过 CDN 全局引入，不使用 import
 
 declare const gsap: any; // 全局 gsap 声明
