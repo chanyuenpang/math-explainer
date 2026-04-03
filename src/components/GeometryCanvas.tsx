@@ -46,6 +46,7 @@ interface StepAnimation {
   moveTriangle?: string     // 移动三角形到目标位置
   targetTriangle?: string   // 目标三角形
   flashArcs?: string[]      // 闪烁弧线
+  fillColors?: Record<string, string> // 填充三角形颜色映射 {[triangleId]: color}
   
   // === v5 新增动画类型 ===
   flyoutCompare?: Array<{edges: [string, string], label: string}>  // 飞出对比动画
@@ -419,16 +420,21 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       });
     }
 
-    // 5. 填充三角形（fillTriangle）
+    // 5. 填充三角形（fillTriangle）- 支持数组
     if (step.fillTriangle) {
-      const el = svg.querySelector(`#triangle-${step.fillTriangle}`);
-      if (el) {
-        gsap.to(el, {
-          fill: step.fillColor || 'rgba(239,68,68,0.2)',
-          fillOpacity: 0.3,
-          duration: 0.5
-        });
-      }
+      const triangles = Array.isArray(step.fillTriangle) ? step.fillTriangle : [step.fillTriangle];
+      const colors = step.fillColors || {};
+      triangles.forEach((triId: string) => {
+        const el = svg.querySelector(`#triangle-${triId}`);
+        if (el) {
+          const color = colors[triId] || step.fillColor || 'rgba(239,68,68,0.2)';
+          gsap.to(el, {
+            fill: color,
+            fillOpacity: 0.3,
+            duration: 0.5
+          });
+        }
+      });
     }
 
     // 6. 移动边重叠动画（moveEdge）- 核心改进！

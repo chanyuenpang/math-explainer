@@ -137,7 +137,7 @@
       "flashColor": "orange"
     },
     {
-      "flashAngle": ["C"],
+      "flashAngle": ["BCD"],
       "flashColor": "orange"
     },
     {
@@ -154,19 +154,19 @@
     },
     {
       "drawArcs": ["arc-A", "arc-BCD"],
-      "flashAngle": ["A", "C"],
+      "flashAngle": ["A", "BCD"],
       "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ABC", "arc-ADC"],
       "highlightArcs": ["arc-ABC", "arc-ADC"],
-      "flashAngle": ["B", "D"],
+      "flashAngle": ["ABC", "ADC"],
       "flashColor": "orange"
     },
     {
       "drawArcs": ["arc-ADC", "arc-EDC"],
       "highlightArcs": ["arc-ADC", "arc-EDC"],
-      "flashAngle": ["EDC"],
+      "flashAngle": ["ADC", "EDC"],
       "flashColor": "orange"
     },
     {
@@ -176,12 +176,8 @@
       "flashColor": "orange"
     },
     {
-      "fillTriangle": "ABC",
-      "fillColor": "rgba(239,68,68,0.2)"
-    },
-    {
-      "fillTriangle": "EDC",
-      "fillColor": "rgba(16,185,129,0.2)"
+      "fillTriangle": ["ABC", "EDC"],
+      "fillColors": {"ABC": "rgba(239,68,68,0.2)", "EDC": "rgba(16,185,129,0.2)"}
     },
     {
       "highlightEdges": ["AB", "DE"],
@@ -193,9 +189,8 @@
       "showEqualMarks": true
     },
     {
-      "highlightEdges": ["AB", "DE", "CD", "AD"],
       "drawArcs": ["arc-A", "arc-EDC"],
-      "flashAngle": ["A", "D"],
+      "flashAngle": ["A", "EDC"],
       "flashColor": "orange"
     },
     {
