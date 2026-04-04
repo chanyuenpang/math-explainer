@@ -14,7 +14,7 @@ export interface AngleArcConfig {
   vertex: string;
   from: string;
   to: string;
-  color?: string;
+  color?: string;  // DEPRECATED: Color is now auto-assigned by ColorContext
   path?: string;
   isRightAngle?: boolean;
 }
@@ -29,6 +29,8 @@ export type IntentType =
   | 'highlightEdges'
   | 'flashAngle'
   | 'flashAngles'
+  | 'showAngle'
+  | 'showAngles'
   | 'fillTriangle'
   | 'fillTriangles'
   | 'label'
@@ -73,17 +75,29 @@ export class GeometryEngine {
   private svgElement: SVGSVGElement | null = null;
   private points: Array<{ id: string; x: number; y: number }>;
 
-  // Auto color allocator
-  private autoColorIndex = 0;
-  private autoColors = [COLORS.red, COLORS.green, COLORS.blue, COLORS.orange, COLORS.purple];
+  // ColorContext: unified color management for geometric elements
+  private colorContext: Map<string, string> = new Map();  // element ID → color
+  private autoColorIndex: number = 0;
+  private readonly autoColors: string[] = [COLORS.red, COLORS.green, COLORS.blue, COLORS.orange, COLORS.purple];
 
-  private getAutoColor(): string {
+  /**
+   * Assign a color for a geometric element (same element returns same color within a step)
+   */
+  private assignColor(elementId: string): string {
+    if (this.colorContext.has(elementId)) {
+      return this.colorContext.get(elementId)!;
+    }
     const color = this.autoColors[this.autoColorIndex % this.autoColors.length];
     this.autoColorIndex++;
+    this.colorContext.set(elementId, color);
     return color;
   }
 
-  private resetAutoColor(): void {
+  /**
+   * Reset color context at the beginning of each step
+   */
+  private resetColorContext(): void {
+    this.colorContext.clear();
     this.autoColorIndex = 0;
   }
 
@@ -137,6 +151,9 @@ export class GeometryEngine {
     if (!this.svgElement) return;
     const svg = this.svgElement;
 
+    // Reset color context for new step
+    this.resetColorContext();
+
     svg.querySelectorAll('line').forEach(el => {
       (window as any).gsap.set(el, { stroke: COLORS.default, strokeWidth: 2, opacity: 1, x: 0, y: 0, strokeDasharray: 'none' });
     });
@@ -166,12 +183,11 @@ export class GeometryEngine {
   executeHighlights(highlights: Array<{target: string, color?: string}>): void {
     if (!this.svgElement) return;
     
-    // Reset auto color allocator for this batch
-    this.resetAutoColor();
+    // Color context already reset in reset(), no need to reset again here
     
     highlights.forEach(({target, color}) => {
-      // Auto-assign color if not specified
-      const autoColor = color || this.getAutoColor();
+      // Auto-assign color if not specified using ColorContext
+      const autoColor = color || this.assignColor(target);
       
       if (target.startsWith('angle-')) {
         const angleId = target.substring(6); // Remove 'angle-' prefix
@@ -210,6 +226,12 @@ export class GeometryEngine {
           (intent.edges || []).forEach((edgeId: string) => this.highlightEdge(edgeId, intent.color));
         }
         break;
+      case 'showAngle':
+        this.showAngle(intent.angle);
+        break;
+      case 'showAngles':
+        (intent.angles || []).forEach((angleId: string) => this.showAngle(angleId));
+        break;
       case 'flashAngle':
         this.flashAngle(intent.angle, intent.color);
         break;
@@ -217,7 +239,7 @@ export class GeometryEngine {
         (intent.angles || []).forEach((angleId: string) => this.flashAngle(angleId, intent.color));
         break;
       case 'fillTriangle':
-        this.fillTriangle(intent.triangle, intent.color || this.getAutoColor());
+        this.fillTriangle(intent.triangle, intent.color || this.assignColor('triangle-' + intent.triangle));
         break;
       case 'fillTriangles':
         (intent.triangles || []).forEach((triId: string) => this.fillTriangle(triId, intent.colors?.[triId] || intent.color));
@@ -290,7 +312,7 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${normalizedEdgeId}`) as SVGLineElement;
     if (!el) return;
 
-    const highlightColor = color || this.getAutoColor();
+    const highlightColor = color || this.assignColor('edge-' + edgeId);
 
     // Step 1: Set the highlight color
     gsap.set(el, { stroke: highlightColor });
@@ -409,13 +431,80 @@ export class GeometryEngine {
     }
   }
 
+  /**
+   * NEW: Unified showAngle intent - angle as a whole (arc + two edges) with unified color
+   * Auto-assigns color using ColorContext, replacing drawArcs + flashAngle + highlightArcs pattern
+   */
+  private showAngle(angleId: string): void {
+    if (!this.svgElement) return;
+    const gsap = (window as any).gsap;
+
+    // Step 1: Assign color for this angle (same angle returns same color within a step)
+    const color = this.assignColor('angle-' + angleId);
+    const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
+
+    // Step 2: Set arc color and opacity
+    const arcEl = this.svgElement.querySelector(`#${arcId}`);
+    if (arcEl) {
+      gsap.set(arcEl, { stroke: color, strokeWidth: 2, opacity: 1 });
+      // Flash animation (strokeWidth only)
+      gsap.to(arcEl, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut' });
+    }
+
+    // Step 3: Set arc fill color
+    const fillEl = this.svgElement.querySelector(`#${arcId}-fill`);
+    if (fillEl) {
+      gsap.set(fillEl, { fill: color });
+      gsap.fromTo(fillEl,
+        { fillOpacity: 0.1 },
+        { fillOpacity: 0.35, duration: 0.3, yoyo: true, repeat: 3, ease: 'power2.inOut' }
+      );
+    }
+
+    // Step 4: Set two edges color and flash
+    const angleArc = this.config.angleArcs?.find(a => a.vertex === angleId || a.id === arcId);
+    if (angleArc) {
+      const fromPoint = this.points.find(p => p.id === angleArc.from);
+      const toPoint = this.points.find(p => p.id === angleArc.to);
+      const vertexPoint = this.points.find(p => p.id === angleArc.vertex);
+
+      if (fromPoint && toPoint && vertexPoint) {
+        const edges = this.topology.getEdges();
+        const edge1 = edges.find(e =>
+          (e.from === angleArc.vertex && e.to === fromPoint.id) ||
+          (e.to === angleArc.vertex && e.from === fromPoint.id)
+        );
+        const edge2 = edges.find(e =>
+          (e.from === angleArc.vertex && e.to === toPoint.id) ||
+          (e.from === toPoint.id && e.to === angleArc.vertex)
+        );
+
+        [edge1, edge2].forEach(edge => {
+          if (!edge) return;
+          const edgeEl = this.svgElement!.querySelector(`#${edge.id}`) as SVGLineElement;
+          if (!edgeEl) return;
+
+          // Set color, then flash strokeWidth
+          gsap.set(edgeEl, { stroke: color, strokeWidth: 3.5 });
+          gsap.to(edgeEl, {
+            strokeWidth: 4.5,
+            duration: 0.2,
+            yoyo: true,
+            repeat: 2,
+            delay: 0.3
+          });
+        });
+      }
+    }
+  }
+
   private highlightArc(arcId: string, color?: string): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (!el) return;
 
-    const highlightColor = color || this.getAutoColor();
+    const highlightColor = color || this.assignColor('arc-' + arcId);
 
     // Step 1: Set the highlight color
     gsap.set(el, { stroke: highlightColor });
@@ -443,7 +532,7 @@ export class GeometryEngine {
       'purple': COLORS.purple,
     };
     // Use auto color if no color specified
-    const arcColor = color ? (colorMap[color] || color) : this.getAutoColor();
+    const arcColor = color ? (colorMap[color] || color) : this.assignColor('arc-' + arcId);
 
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (el) {
@@ -489,12 +578,11 @@ export class GeometryEngine {
     if (!this.svgElement || edges.length < 2) return;
     const gsap = (window as any).gsap;
 
-    // Reset and get auto colors for compare
-    this.resetAutoColor();
-    const color1 = this.getAutoColor();
-    const color2 = this.getAutoColor();
-
+    // Use assignColor for consistent color assignment
     const [edgeId1, edgeId2] = edges;
+    const color1 = this.assignColor('compare-edge1-' + edgeId1);
+    const color2 = this.assignColor('compare-edge2-' + edgeId2);
+
     const normalizedEdgeId1 = normalizeEdgeId(edgeId1);
     const normalizedEdgeId2 = normalizeEdgeId(edgeId2);
     const el1 = this.svgElement.querySelector(`#${normalizedEdgeId1}`);
@@ -684,23 +772,47 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
     }
   }
 
-  // Build color map from flashAngle configs
-  const angleColorMap: Record<string, string> = {};
+  // NEW: Merge drawArcs + flashAngle + highlightArcs into unified showAngle intent
   if (stepAnimation.flashAngle) {
     const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
-    // Check if angles are objects with color (new format) or strings (old format)
-    if (angles.length > 0 && typeof angles[0] === 'object') {
-      // New format: each angle has its own color
-      angles.forEach((angleConfig: any) => {
-        // Store color mapping for drawArcs to use
-        if (angleConfig.color) {
-          angleColorMap[angleConfig.angle] = angleConfig.color;
+    // Convert to showAngle (ignore color field - engine auto-assigns)
+    angles.forEach((angleConfig: any) => {
+      const angleId = typeof angleConfig === 'string' ? angleConfig : angleConfig.angle;
+      intents.push({ type: 'showAngle', angle: angleId });
+    });
+    // Skip separate drawArcs/highlightArcs for these angles (handled by showAngle)
+  } else if (stepAnimation.drawArcs || stepAnimation.highlightArcs) {
+    // Fallback: if no flashAngle, use drawArcs/highlightArcs separately
+    if (stepAnimation.drawArcs) {
+      const arcs = stepAnimation.drawArcs;
+      arcs.forEach((arcId: string) => {
+        const angleName = arcId.replace('bad-', '');
+        let arcColor: string | undefined;
+        if (stepAnimation.flashAngle) {
+          const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
+          const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
+          if (match && typeof match === 'object' && match.color) {
+            arcColor = match.color;
+          }
         }
-        intents.push({ type: 'flashAngle', angle: angleConfig.angle, color: angleConfig.color });
+        intents.push({ type: 'drawArc', arc: arcId, color: arcColor });
       });
-    } else {
-      // Old format: all angles share the same color
-      intents.push({ type: 'flashAngles', angles: angles as string[], color: stepAnimation.flashColor });
+    }
+
+    if (stepAnimation.highlightArcs) {
+      const arcs = stepAnimation.highlightArcs;
+      arcs.forEach((arcId: string) => {
+        const angleName = arcId.replace('bad-', '');
+        let arcColor: string | undefined;
+        if (stepAnimation.flashAngle) {
+          const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
+          const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
+          if (match && typeof match === 'object' && match.color) {
+            arcColor = match.color;
+          }
+        }
+        intents.push({ type: 'highlightArc', arc: arcId, color: arcColor });
+      });
     }
   }
 

@@ -77,7 +77,6 @@
         "vertex": "A",
         "from": "B",
         "to": "D",
-        "color": "#EF4444",
         "path": "M 100 175 A 25 25 0 0 1 125 200",
         "isRightAngle": true,
         "type": "right"
@@ -87,7 +86,6 @@
         "vertex": "C",
         "from": "B",
         "to": "D",
-        "color": "#10B981",
         "path": "M 185 100 L 185 115 L 200 115",
         "isRightAngle": true,
         "type": "right"
@@ -97,7 +95,6 @@
         "vertex": "B",
         "from": "A",
         "to": "C",
-        "color": "#EF4444",
         "path": "M 100 125 A 25 25 0 0 0 125 100",
         "isRightAngle": false,
         "type": "acute"
@@ -107,7 +104,6 @@
         "vertex": "D",
         "from": "A",
         "to": "C",
-        "color": "#F59E0B",
         "path": "M 175 200 A 25 25 0 0 1 200 175",
         "isRightAngle": false,
         "type": "acute"
@@ -117,7 +113,6 @@
         "vertex": "D",
         "from": "E",
         "to": "C",
-        "color": "#10B981",
         "path": "M 225 200 A 25 25 0 0 0 200 175",
         "isRightAngle": false,
         "type": "acute"
@@ -231,25 +226,13 @@
       "showEqualMarks": true
     },
     {
-      "drawArcs": [
-        "bad-A"
-      ],
       "flashAngle": [
-        {
-          "angle": "A",
-          "color": "orange"
-        }
+        "A"
       ]
     },
     {
-      "drawArcs": [
-        "bad-BCD"
-      ],
       "flashAngle": [
-        {
-          "angle": "BCD",
-          "color": "green"
-        }
+        "BCD"
       ]
     },
     {
@@ -271,8 +254,8 @@
         "DE"
       ],
       "highlights": [
-        {"target": "edge-AD", "color": "#EF4444"},
-        {"target": "edge-DE", "color": "#10B981"}
+        {"target": "edge-AD"},
+        {"target": "edge-DE"}
       ],
       "showLabels": [
         "A",
@@ -292,80 +275,34 @@
       ]
     },
     {
-      "drawArcs": [
-        "bad-A",
-        "bad-BCD"
-      ],
       "flashAngle": [
-        { "angle": "A", "color": "orange" },
-        { "angle": "BCD", "color": "green" }
+        "A",
+        "BCD"
       ]
     },
     {
-      "drawArcs": [
-        "bad-ABC",
-        "bad-ADC"
-      ],
-      "highlightArcs": [
-        "bad-ABC",
-        "bad-ADC"
-      ],
       "flashAngle": [
-        {
-          "angle": "ABC",
-          "color": "red"
-        },
-        {
-          "angle": "ADC",
-          "color": "green"
-        }
+        "ABC",
+        "ADC"
       ]
     },
     {
-      "drawArcs": [
-        "bad-ADC",
-        "bad-EDC"
-      ],
-      "highlightArcs": [
-        "bad-ADC",
-        "bad-EDC"
-      ],
       "flashAngle": [
-        {
-          "angle": "ADC",
-          "color": "orange"
-        },
-        {
-          "angle": "EDC",
-          "color": "blue"
-        }
+        "ADC",
+        "EDC"
       ]
     },
     {
-      "drawArcs": [
-        "bad-ABC",
-        "bad-EDC"
-      ],
-      "highlightArcs": [
-        "bad-ABC",
-        "bad-EDC"
-      ],
       "flashAngle": [
-        {
-          "angle": "ABC",
-          "color": "red"
-        },
-        {
-          "angle": "EDC",
-          "color": "green"
-        }
+        "ABC",
+        "EDC"
       ]
     },
-    {"highlightEdges": [{"edge": "AB", "color": "#EF4444"}, {"edge": "DE", "color": "#10B981"}]},
-    {"highlightEdges": [{"edge": "AB", "color": "#EF4444"}, {"edge": "DE", "color": "#10B981"}], "fillTriangle": ["ABC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)"}},
-    {"highlightEdges": [{"edge": "BC", "color": "#EF4444"}, {"edge": "CD", "color": "#10B981"}], "showEqualMarks": true, "fillTriangle": ["EDC"], "fillColors": {"EDC": "rgba(16,185,129,0.2)"}},
+    {"highlightEdges": ["AB", "DE"]},
+    {"highlightEdges": ["AB", "DE"], "fillTriangle": ["ABC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)"}},
+    {"highlightEdges": ["BC", "CD"], "showEqualMarks": true, "fillTriangle": ["EDC"], "fillColors": {"EDC": "rgba(16,185,129,0.2)"}},
     {"fillTriangle": ["ABC", "EDC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)", "EDC": "rgba(16,185,129,0.2)"}},
-    {"highlightEdges": [{"edge": "AB", "color": "#EF4444"}, {"edge": "DE", "color": "#10B981"}, {"edge": "BC", "color": "#EF4444"}, {"edge": "CD", "color": "#10B981"}], "fillTriangle": ["ABC", "EDC"], "fillColors": {"ABC": "rgba(239,68,68,0.3)", "EDC": "rgba(16,185,129,0.3)"}}
+    {"highlightEdges": ["AB", "DE", "BC", "CD"], "fillTriangle": ["ABC", "EDC"], "fillColors": {"ABC": "rgba(239,68,68,0.3)", "EDC": "rgba(16,185,129,0.3)"}}
   ],
   "question": {
     "text": "如图，在四边形ABCD中，∠A=∠BCD=90°，BC=DC．延长AD到E点，使DE=AB．\n（1）求证：∠ABC=∠EDC；\n（2）求证：△ABC≌△EDC．",
