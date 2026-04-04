@@ -706,9 +706,18 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
 
   if (stepAnimation.drawArcs) {
     const arcs = stepAnimation.drawArcs;
-    // Find matching color from flashAngle config
-    const defaultColor = stepAnimation.flashAngle?.[0]?.color || undefined;
-    intents.push({ type: 'drawArcs', arcs: arcs, color: defaultColor });
+    arcs.forEach((arcId: string) => {
+      const angleName = arcId.replace('bad-', '');
+      let arcColor: string | undefined;
+      if (stepAnimation.flashAngle) {
+        const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
+        const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
+        if (match && typeof match === 'object' && match.color) {
+          arcColor = match.color;
+        }
+      }
+      intents.push({ type: 'drawArc', arc: arcId, color: arcColor });
+    });
   }
 
   if (stepAnimation.highlightArcs) {
