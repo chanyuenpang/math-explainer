@@ -363,10 +363,11 @@ export class GeometryEngine {
     console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
     
     if (el) {
-      gsap.set(el, { stroke: flashColor, strokeWidth: 2, opacity: 1 });
+      // 弧线闪烁：不改变颜色，只通过 strokeWidth 变化来闪烁
+      gsap.set(el, { strokeWidth: 2, opacity: 1 });
       gsap.to(el, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
         onComplete: () => {
-          gsap.set(el, { stroke: flashColor, strokeWidth: 2 });
+          gsap.set(el, { strokeWidth: 2 });
         }
       });
     }
@@ -414,8 +415,8 @@ export class GeometryEngine {
             repeat: 2,
             delay: 0.3,
             onComplete: () => {
-              // Keep the flash color after animation
-              gsap.set(edgeEl, { stroke: flashColor, strokeWidth: 3 });
+              // Keep the flash color after animation (only set strokeWidth, stroke is already flashColor)
+              gsap.set(edgeEl, { strokeWidth: 3 });
               console.log('[flashAngle] animation complete for edge:', edge.id, 'kept color:', flashColor);
             }
           });
