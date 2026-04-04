@@ -346,13 +346,21 @@ export class GeometryEngine {
 
     const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
     const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
-    // Use auto color if no color specified
-    const flashColor = color ? (colorMap[color] || color) : this.getAutoColor();
-
-    console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
 
     const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
+
+    // 如果没有显式颜色，读取弧线当前颜色，确保和 drawArc 设置的颜色一致
+    let flashColor: string;
+    if (color) {
+      flashColor = colorMap[color] || color;
+    } else if (el) {
+      flashColor = el.getAttribute('stroke') || this.getAutoColor();
+    } else {
+      flashColor = this.getAutoColor();
+    }
+
+    console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
     
     if (el) {
       gsap.set(el, { stroke: flashColor, strokeWidth: 2, opacity: 1 });
