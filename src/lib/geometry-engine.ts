@@ -678,12 +678,18 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
     }
   }
 
+  // Build color map from flashAngle configs
+  const angleColorMap: Record<string, string> = {};
   if (stepAnimation.flashAngle) {
     const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
     // Check if angles are objects with color (new format) or strings (old format)
     if (angles.length > 0 && typeof angles[0] === 'object') {
       // New format: each angle has its own color
       angles.forEach((angleConfig: any) => {
+        // Store color mapping for drawArcs to use
+        if (angleConfig.color) {
+          angleColorMap[angleConfig.angle] = angleConfig.color;
+        }
         intents.push({ type: 'flashAngle', angle: angleConfig.angle, color: angleConfig.color });
       });
     } else {
@@ -693,7 +699,15 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
   }
 
   if (stepAnimation.drawArcs) {
-    intents.push({ type: 'drawArcs', arcs: stepAnimation.drawArcs });
+    const arcs = stepAnimation.drawArcs;
+    // Map arcs to use colors from flashAngle configs
+    const arcsWithColors = arcs.map((arcId: string) => {
+      // Extract angle name from arc ID (e.g., "bad-A" -> "A", "bad-BCD" -> "BCD")
+      const angleName = arcId.replace('bad-', '');
+      const color = angleColorMap[angleName];
+      return color ? { arc: arcId, color } : arcId;
+    });
+    intents.push({ type: 'drawArcs', arcs: arcsWithColors });
   }
 
   if (stepAnimation.highlightArcs) {
