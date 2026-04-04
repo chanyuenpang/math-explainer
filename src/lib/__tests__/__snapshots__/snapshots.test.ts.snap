@@ -1,0 +1,236 @@
+// Vitest Snapshot v1, https://vitest.dev/guide/snapshot.html
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 0: draw edges 1`] = `
+[
+  {
+    "edges": [
+      "AB",
+      "BC",
+      "CD",
+      "AD",
+    ],
+    "type": "drawEdges",
+  },
+  {
+    "type": "showEqual",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 1: flash angle A 1`] = `
+[
+  {
+    "angle": "A",
+    "type": "showAngle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 2: flash angle BCD 1`] = `
+[
+  {
+    "angle": "BCD",
+    "type": "showAngle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 3: flyout compare BC=CD 1`] = `
+[
+  {
+    "edges": [
+      "BC",
+      "CD",
+    ],
+    "label": "BC = DC",
+    "type": "flyoutCompare",
+  },
+  {
+    "triangle": "BCD",
+    "type": "fillTriangle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 4: draw edge DE and highlights 1`] = `
+[
+  {
+    "highlights": [
+      {
+        "target": "edge-AD",
+      },
+      {
+        "target": "edge-DE",
+      },
+    ],
+    "type": "highlights",
+  },
+  {
+    "edges": [
+      "DE",
+    ],
+    "type": "drawEdges",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 5: flyout compare AB=DE 1`] = `
+[
+  {
+    "edges": [
+      "AB",
+      "DE",
+    ],
+    "label": "AB = DE",
+    "type": "flyoutCompare",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 6: flash angles A and BCD 1`] = `
+[
+  {
+    "angle": "A",
+    "type": "showAngle",
+  },
+  {
+    "angle": "BCD",
+    "type": "showAngle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 7: flash angles ABC and ADC 1`] = `
+[
+  {
+    "angle": "ABC",
+    "type": "showAngle",
+  },
+  {
+    "angle": "ADC",
+    "type": "showAngle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 8: flash angles ADC and EDC 1`] = `
+[
+  {
+    "angle": "ADC",
+    "type": "showAngle",
+  },
+  {
+    "angle": "EDC",
+    "type": "showAngle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 9: flash angles ABC and EDC 1`] = `
+[
+  {
+    "angle": "ABC",
+    "type": "showAngle",
+  },
+  {
+    "angle": "EDC",
+    "type": "showAngle",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 10: highlight edges AB and DE 1`] = `
+[
+  {
+    "color": undefined,
+    "edges": [
+      "AB",
+      "DE",
+    ],
+    "type": "highlightEdges",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 11: highlight edges and fill triangle ABC 1`] = `
+[
+  {
+    "color": undefined,
+    "edges": [
+      "AB",
+      "DE",
+    ],
+    "type": "highlightEdges",
+  },
+  {
+    "color": undefined,
+    "colors": undefined,
+    "triangles": [
+      "ABC",
+    ],
+    "type": "fillTriangles",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 12: highlight edges, show equal marks, fill triangle EDC 1`] = `
+[
+  {
+    "type": "showEqual",
+  },
+  {
+    "color": undefined,
+    "edges": [
+      "BC",
+      "CD",
+    ],
+    "type": "highlightEdges",
+  },
+  {
+    "color": undefined,
+    "colors": undefined,
+    "triangles": [
+      "EDC",
+    ],
+    "type": "fillTriangles",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 13: fill triangles ABC and EDC 1`] = `
+[
+  {
+    "color": undefined,
+    "colors": undefined,
+    "triangles": [
+      "ABC",
+      "EDC",
+    ],
+    "type": "fillTriangles",
+  },
+]
+`;
+
+exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 14: highlight edges and fill both triangles 1`] = `
+[
+  {
+    "color": undefined,
+    "edges": [
+      "AB",
+      "DE",
+      "BC",
+      "CD",
+    ],
+    "type": "highlightEdges",
+  },
+  {
+    "color": undefined,
+    "colors": undefined,
+    "triangles": [
+      "ABC",
+      "EDC",
+    ],
+    "type": "fillTriangles",
+  },
+]
+`;
