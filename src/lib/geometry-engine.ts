@@ -722,11 +722,18 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
 
   if (stepAnimation.highlightArcs) {
     const arcs = stepAnimation.highlightArcs;
-    if (arcs.length > 0 && typeof arcs[0] === 'object') {
-      intents.push({ type: 'highlightArcs', arcs: arcs });
-    } else {
-      intents.push({ type: 'highlightArcs', arcs: arcs, color: stepAnimation.color });
-    }
+    arcs.forEach((arcId: string) => {
+      const angleName = arcId.replace('bad-', '');
+      let arcColor: string | undefined;
+      if (stepAnimation.flashAngle) {
+        const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
+        const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
+        if (match && typeof match === 'object' && match.color) {
+          arcColor = match.color;
+        }
+      }
+      intents.push({ type: 'highlightArc', arc: arcId, color: arcColor });
+    });
   }
 
   if (stepAnimation.fillTriangle) {
