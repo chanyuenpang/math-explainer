@@ -284,23 +284,19 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${normalizedEdgeId}`) as SVGLineElement;
     if (!el) return;
 
-    const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const highlightColor = color || this.getAutoColor();
 
     // Step 1: Set the highlight color
     gsap.set(el, { stroke: highlightColor });
 
-    // Step 2: Flash only strokeWidth
+    // Step 2: Flash only strokeWidth (not restoring width after completion)
     gsap.to(el, { strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
       duration: 0.2,
       yoyo: true,
       repeat: 2,
-      delay: 0.3,
-      onComplete: () => {
-        gsap.set(el, { stroke: highlightColor, strokeWidth: originalWidth });
-      }
+      delay: 0.3
     });
   }
 
@@ -393,17 +389,14 @@ export class GeometryEngine {
           const edgeEl = this.svgElement!.querySelector(`#${edge.id}`) as SVGLineElement;
           if (!edgeEl) return;
 
-          // Set color first, then flash strokeWidth
+          // Set color first, then flash strokeWidth (not restoring after completion)
           gsap.set(edgeEl, { stroke: flashColor, strokeWidth: 3.5 });
           gsap.to(edgeEl, {
             strokeWidth: 4.5,
             duration: 0.2,
             yoyo: true,
             repeat: 2,
-            delay: 0.3,
-            onComplete: () => {
-              gsap.set(edgeEl, { stroke: flashColor, strokeWidth: 3 });
-            }
+            delay: 0.3
           });
         });
       }
@@ -416,23 +409,19 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (!el) return;
 
-    const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
     const highlightColor = color || this.getAutoColor();
 
     // Step 1: Set the highlight color
     gsap.set(el, { stroke: highlightColor });
 
-    // Step 2: Flash only strokeWidth
+    // Step 2: Flash only strokeWidth (not restoring width after completion)
     gsap.to(el, { strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
       duration: 0.2,
       yoyo: true,
       repeat: 2,
-      delay: 0.3,
-      onComplete: () => {
-        gsap.set(el, { stroke: highlightColor, strokeWidth: originalWidth });
-      }
+      delay: 0.3
     });
   }
 
