@@ -355,14 +355,12 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
     
     if (el) {
-      gsap.fromTo(el,
-        { stroke: flashColor, strokeWidth: 2, opacity: 1 },
-        { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
-          onComplete: () => {
-            gsap.set(el, { stroke: flashColor, strokeWidth: 2 });
-          }
+      gsap.set(el, { stroke: flashColor, strokeWidth: 2, opacity: 1 });
+      gsap.to(el, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
+        onComplete: () => {
+          gsap.set(el, { stroke: flashColor, strokeWidth: 2 });
         }
-      );
+      });
     }
 
     const fillEl = this.svgElement.querySelector(`#${arcId}-fill`);
