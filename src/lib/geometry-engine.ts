@@ -363,11 +363,12 @@ export class GeometryEngine {
     console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
     
     if (el) {
-      // 弧线闪烁：不改变颜色，只通过 strokeWidth 变化来闪烁
-      gsap.set(el, { strokeWidth: 2, opacity: 1 });
+      // 弧线闪烁：先设置 stroke 为 flashColor，再通过 strokeWidth 变化来闪烁
+      gsap.set(el, { stroke: flashColor, strokeWidth: 2, opacity: 1 });
       gsap.to(el, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
         onComplete: () => {
-          gsap.set(el, { strokeWidth: 2 });
+          // 弧线保持 flashColor，不恢复原始颜色
+          gsap.set(el, { strokeWidth: 2, stroke: flashColor });
         }
       });
     }
@@ -404,19 +405,14 @@ export class GeometryEngine {
           if (!edgeEl) return;
 
           // Store original color to restore after animation
-          const originalColor = edgeEl.getAttribute('stroke') || COLORS.default;
-
-          console.log('[flashAngle] animating edge:', edge.id, 'with color:', flashColor, 'original:', originalColor);
-          gsap.to(edgeEl, { stroke: flashColor, strokeWidth: 3.5, duration: 0.3 });
-          gsap.to(edgeEl, {
-            strokeWidth: 4.5,
-            duration: 0.2,
-            yoyo: true,
-            repeat: 2,
-            delay: 0.3,
+          console.log('[flashAngle] animating edge:', edge.id, 'with color:', flashColor);
+          // 先设置 stroke 为 flashColor
+          gsap.set(edgeEl, { stroke: flashColor, strokeWidth: 2 });
+          // 再通过 strokeWidth 变化来闪烁（类似弧线）
+          gsap.to(edgeEl, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
             onComplete: () => {
-              // Keep the flash color after animation (only set strokeWidth, stroke is already flashColor)
-              gsap.set(edgeEl, { strokeWidth: 3 });
+              // 边保持 flashColor，不恢复原始颜色
+              gsap.set(edgeEl, { strokeWidth: 2, stroke: flashColor });
               console.log('[flashAngle] animation complete for edge:', edge.id, 'kept color:', flashColor);
             }
           });
@@ -438,16 +434,12 @@ export class GeometryEngine {
     const arcColor = color || this.getAutoColor();
 
     console.log('[highlightArc] animating arc:', arcId, 'with color:', arcColor, 'original:', originalColor);
-    // Bug 2 fix: separate highlight animation from restoration
-    gsap.to(el, { stroke: arcColor, strokeWidth: 4, duration: 0.3 });
-    gsap.to(el, {
-      strokeWidth: 5,
-      duration: 0.2,
-      yoyo: true,
-      repeat: 2,
-      delay: 0.3,
+    // Set stroke to highlight color first
+    gsap.set(el, { stroke: arcColor });
+    // Flash by changing strokeWidth only
+    gsap.to(el, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
       onComplete: () => {
-        // Restore original arc color after animation
+        // Restore original color and width after animation
         gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
         console.log('[highlightArc] animation complete for arc:', arcId, 'restored color:', originalColor);
       }
