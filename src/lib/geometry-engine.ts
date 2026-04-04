@@ -14,7 +14,6 @@ export interface AngleArcConfig {
   vertex: string;
   from: string;
   to: string;
-  color?: string;  // DEPRECATED: Color is now auto-assigned by ColorContext
   path?: string;
   isRightAngle?: boolean;
 }
@@ -355,29 +354,14 @@ export class GeometryEngine {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
-    const colorMap: Record<string, string> = {
-      'orange': COLORS.orange,
-      'red': COLORS.red,
-      'green': COLORS.green,
-      'blue': COLORS.blue,
-      'purple': COLORS.purple,
-    };
-
     const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
     const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
 
     const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
 
-    // Read arc's current stroke color to ensure consistency
-    let flashColor: string;
-    if (color) {
-      flashColor = colorMap[color] || color;
-    } else if (el) {
-      flashColor = el.getAttribute('stroke') || COLORS.angle;
-    } else {
-      flashColor = COLORS.angle;
-    }
+    // Use provided color or auto-assign via ColorContext
+    const flashColor = color || this.assignColor('angle-' + angleId);
 
     // Arc: set color then flash strokeWidth only
     if (el) {
@@ -524,15 +508,8 @@ export class GeometryEngine {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
-    const colorMap: Record<string, string> = {
-      'red': COLORS.red,
-      'green': COLORS.green,
-      'orange': COLORS.orange,
-      'blue': COLORS.blue,
-      'purple': COLORS.purple,
-    };
     // Use auto color if no color specified
-    const arcColor = color ? (colorMap[color] || color) : this.assignColor('arc-' + arcId);
+    const arcColor = color || this.assignColor('arc-' + arcId);
 
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (el) {
@@ -545,9 +522,7 @@ export class GeometryEngine {
 
     const fillEl = this.svgElement.querySelector(`#${arcId}-fill`);
     if (fillEl) {
-      const arcConfig = this.config.angleArcs?.find(a => a.id === arcId);
-      const flashColor = arcConfig?.color || arcColor;
-      gsap.set(fillEl, { fill: flashColor, fillOpacity: 0.15 });
+      gsap.set(fillEl, { fill: arcColor, fillOpacity: 0.15 });
     }
   }
 

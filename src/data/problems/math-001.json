@@ -299,10 +299,10 @@
       ]
     },
     {"highlightEdges": ["AB", "DE"]},
-    {"highlightEdges": ["AB", "DE"], "fillTriangle": ["ABC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)"}},
-    {"highlightEdges": ["BC", "CD"], "showEqualMarks": true, "fillTriangle": ["EDC"], "fillColors": {"EDC": "rgba(16,185,129,0.2)"}},
-    {"fillTriangle": ["ABC", "EDC"], "fillColors": {"ABC": "rgba(239,68,68,0.2)", "EDC": "rgba(16,185,129,0.2)"}},
-    {"highlightEdges": ["AB", "DE", "BC", "CD"], "fillTriangle": ["ABC", "EDC"], "fillColors": {"ABC": "rgba(239,68,68,0.3)", "EDC": "rgba(16,185,129,0.3)"}}
+    {"highlightEdges": ["AB", "DE"], "fillTriangle": ["ABC"]},
+    {"highlightEdges": ["BC", "CD"], "showEqualMarks": true, "fillTriangle": ["EDC"]},
+    {"fillTriangle": ["ABC", "EDC"]},
+    {"highlightEdges": ["AB", "DE", "BC", "CD"], "fillTriangle": ["ABC", "EDC"]}
   ],
   "question": {
     "text": "如图，在四边形ABCD中，∠A=∠BCD=90°，BC=DC．延长AD到E点，使DE=AB．\n（1）求证：∠ABC=∠EDC；\n（2）求证：△ABC≌△EDC．",
