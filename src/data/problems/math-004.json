@@ -1,0 +1,160 @@
+{
+  "id": "math-004",
+  "title": "几何证明：平行线与角的相等",
+  "source": "经典初中题",
+  "category": "几何",
+  "difficulty": "easy",
+  "tags": ["几何", "平行线", "同位角", "证明"],
+  "template": {
+    "type": "parallel-lines",
+    "variant": "angles"
+  },
+  "image": "/problems/math-004.png",
+  "geometry": {
+    "points": [
+      {"x": 80, "y": 120, "label": "A"},
+      {"x": 320, "y": 120, "label": "B"},
+      {"x": 100, "y": 200, "label": "C"},
+      {"x": 340, "y": 200, "label": "D"},
+      {"x": 200, "y": 120, "label": "E"},
+      {"x": 200, "y": 200, "label": "F"}
+    ],
+    "connections": [
+      ["A", "B"],
+      ["C", "D"],
+      ["E", "F"]
+    ],
+    "edgeColors": {
+      "AB": "#3B82F6",
+      "CD": "#3B82F6",
+      "EF": "#DC2626"
+    },
+    "angleArcs": [
+      {
+        "id": "angle-1",
+        "vertex": "E",
+        "from": "A",
+        "to": "F",
+        "path": "M 215 135 A 15 15 0 0 0 210 150",
+        "isRightAngle": false,
+        "type": "acute"
+      },
+      {
+        "id": "angle-2",
+        "vertex": "F",
+        "from": "E",
+        "to": "D",
+        "path": "M 185 185 A 15 15 0 0 1 215 190",
+        "isRightAngle": false,
+        "type": "acute"
+      },
+      {
+        "id": "angle-3",
+        "vertex": "F",
+        "from": "C",
+        "to": "E",
+        "path": "M 185 185 A 15 15 0 0 0 185 170",
+        "isRightAngle": false,
+        "type": "acute"
+      }
+    ]
+  },
+  "steps": [
+    {
+      "id": 0,
+      "title": "绘制图形",
+      "content": "直线 AB ∥ CD，EF 是截线，与 AB 交于点 E，与 CD 交于点 F",
+      "conclusion": ""
+    },
+    {
+      "id": 1,
+      "title": "AB ∥ CD",
+      "content": "AB ∥ CD（已知条件）",
+      "conclusion": "✓"
+    },
+    {
+      "id": 2,
+      "title": "标记角 ∠1",
+      "content": "∠1 是同位角（EF 与 AB 的交点 E 处的角）",
+      "conclusion": ""
+    },
+    {
+      "id": 3,
+      "title": "标记角 ∠2",
+      "content": "∠2 是同位角（EF 与 CD 的交点 F 处的角）",
+      "conclusion": ""
+    },
+    {
+      "id": 4,
+      "title": "同位角相等",
+      "content": "∵ AB ∥ CD，EF 是截线",
+      "conclusion": "∴ ∠1 = ∠2（同位角相等）"
+    },
+    {
+      "id": 5,
+      "title": "标记角 ∠3",
+      "content": "∠3 是内错角（在点 F 处）",
+      "conclusion": ""
+    },
+    {
+      "id": 6,
+      "title": "内错角相等",
+      "content": "∵ AB ∥ CD，EF 是截线",
+      "conclusion": "∴ ∠1 = ∠3（内错角相等）"
+    },
+    {
+      "id": 7,
+      "title": "结论",
+      "content": "平行线的性质：同位角相等、内错角相等",
+      "conclusion": "∠1 = ∠2 = ∠3 证毕！🎉"
+    }
+  ],
+  "stepAnimations": [
+    {
+      "drawEdge": ["AB", "CD", "EF"],
+      "highlights": [{"target": "edge-AB"}, {"target": "edge-CD"}]
+    },
+    {
+      "compareEdges": {"edge1": "AB", "edge2": "CD", "label": "AB ∥ CD"}
+    },
+    {
+      "flashAngle": ["1"]
+    },
+    {
+      "flashAngle": ["2"]
+    },
+    {
+      "compareAngles": ["1", "2"],
+      "flashAngle": ["1", "2"]
+    },
+    {
+      "flashAngle": ["3"]
+    },
+    {
+      "compareAngles": ["1", "3"],
+      "flashAngle": ["1", "3"]
+    },
+    {
+      "flashAngle": ["1", "2", "3"]
+    }
+  ],
+  "question": {
+    "text": "如图，AB ∥ CD，EF 是截线，交 AB 于点 E，交 CD 于点 F。\n求证：\n（1）∠1 = ∠2（同位角相等）\n（2）∠1 = ∠3（内错角相等）",
+    "diagram": {
+      "type": "parallel-lines",
+      "points": {
+        "A": {"x": 80, "y": 120},
+        "B": {"x": 320, "y": 120},
+        "C": {"x": 100, "y": 200},
+        "D": {"x": 340, "y": 200},
+        "E": {"x": 200, "y": 120},
+        "F": {"x": 200, "y": 200}
+      },
+      "edges": ["AB", "CD", "EF"]
+    }
+  },
+  "solution": {
+    "text": "（1）∵ AB ∥ CD，EF 是截线\n∴ ∠1 = ∠2（两直线平行，同位角相等）\n\n（2）∵ AB ∥ CD，EF 是截线\n∴ ∠1 = ∠3（两直线平行，内错角相等）"
+  },
+  "created_at": "2026-04-05T07:52:00+08:00"
+}

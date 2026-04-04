@@ -1,0 +1,194 @@
+{
+  "id": "math-005",
+  "title": "几何证明：等腰三角形的性质",
+  "source": "经典初中题",
+  "category": "几何",
+  "difficulty": "medium",
+  "tags": ["几何", "等腰三角形", "等边对等角", "证明"],
+  "template": {
+    "type": "isosceles-triangle",
+    "variant": "properties"
+  },
+  "image": "/problems/math-005.png",
+  "geometry": {
+    "points": [
+      {"x": 200, "y": 80, "label": "A"},
+      {"x": 100, "y": 220, "label": "B"},
+      {"x": 300, "y": 220, "label": "C"},
+      {"x": 200, "y": 220, "label": "D"}
+    ],
+    "connections": [
+      ["A", "B"],
+      ["B", "C"],
+      ["C", "A"],
+      ["A", "D"]
+    ],
+    "edgeColors": {
+      "AB": "#10B981",
+      "AC": "#10B981",
+      "AD": "#DC2626"
+    },
+    "angleArcs": [
+      {
+        "id": "angle-B",
+        "vertex": "B",
+        "from": "A",
+        "to": "C",
+        "path": "M 125 200 A 20 20 0 0 0 115 200",
+        "isRightAngle": false,
+        "type": "acute"
+      },
+      {
+        "id": "angle-C",
+        "vertex": "C",
+        "from": "B",
+        "to": "A",
+        "path": "M 285 200 A 20 20 0 0 1 275 200",
+        "isRightAngle": false,
+        "type": "acute"
+      },
+      {
+        "id": "angle-BAD",
+        "vertex": "A",
+        "from": "B",
+        "to": "D",
+        "path": "M 175 95 A 15 15 0 0 0 195 105",
+        "isRightAngle": false,
+        "type": "acute"
+      },
+      {
+        "id": "angle-DAC",
+        "vertex": "A",
+        "from": "D",
+        "to": "C",
+        "path": "M 205 105 A 15 15 0 0 1 225 95",
+        "isRightAngle": false,
+        "type": "acute"
+      }
+    ],
+    "equalPairs": {
+      "AB": "AC"
+    }
+  },
+  "steps": [
+    {
+      "id": 0,
+      "title": "绘制图形",
+      "content": "等腰△ABC，AB = AC，AD 是 BC 边上的高",
+      "conclusion": ""
+    },
+    {
+      "id": 1,
+      "title": "AB = AC",
+      "content": "AB = AC（△ABC 是等腰三角形）",
+      "conclusion": "✓"
+    },
+    {
+      "id": 2,
+      "title": "AD ⊥ BC",
+      "content": "AD ⊥ BC（AD 是 BC 边上的高）",
+      "conclusion": "✓"
+    },
+    {
+      "id": 3,
+      "title": "标记角 ∠B 和 ∠C",
+      "content": "∠B（底角）和 ∠C（底角）",
+      "conclusion": ""
+    },
+    {
+      "id": 4,
+      "title": "等边对等角",
+      "content": "在等腰△ABC 中，AB = AC",
+      "conclusion": "∴ ∠B = ∠C（等边对等角）"
+    },
+    {
+      "id": 5,
+      "title": "验证 △ABD ≌ △ACD",
+      "content": "在 △ABD 和 △ACD 中：\n① AB = AC（已知）\n② AD = AD（公共边）\n③ ∠ADB = ∠ADC = 90°",
+      "conclusion": ""
+    },
+    {
+      "id": 6,
+      "title": "Rt△ABD ≌ Rt△ACD",
+      "content": "根据 HL（斜边、直角边）全等判定",
+      "conclusion": "△ABD ≌ △ACD（HL）"
+    },
+    {
+      "id": 7,
+      "title": "∠BAD = ∠DAC",
+      "content": "∵ △ABD ≌ △ACD",
+      "conclusion": "∴ ∠BAD = ∠DAC（对应角相等）"
+    },
+    {
+      "id": 8,
+      "title": "BD = DC",
+      "content": "∵ △ABD ≌ △ACD",
+      "conclusion": "∴ BD = DC（对应边相等）"
+    },
+    {
+      "id": 9,
+      "title": "结论",
+      "content": "等腰三角形的性质：\n① 等边对等角（AB = AC ⇒ ∠B = ∠C）\n② 三线合一（AD 既是高、中线，也是角平分线）",
+      "conclusion": "证毕！🎉"
+    }
+  ],
+  "stepAnimations": [
+    {
+      "drawEdge": ["AB", "BC", "CA", "AD"],
+      "showEqualMark": ["AB-AC"]
+    },
+    {
+      "compareEdges": {"edge1": "AB", "edge2": "AC", "label": "AB = AC"},
+      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}]
+    },
+    {
+      "showRightAngles": ["ADB", "ADC"]
+    },
+    {
+      "flashAngle": ["B"]
+    },
+    {
+      "compareAngles": ["B", "C"],
+      "flashAngle": ["B", "C"]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}, {"edge": "AD", "color": "red"}],
+      "fillTriangle": ["ABD"]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}, {"edge": "AD", "color": "red"}],
+      "fillTriangle": ["ACD"]
+    },
+    {
+      "compareAngles": ["BAD", "DAC"],
+      "flashAngle": ["BAD", "DAC"]
+    },
+    {
+      "compareEdges": {"edge1": "BD", "edge2": "DC", "label": "BD = DC"},
+      "highlightEdges": [{"edge": "BD", "color": "blue"}, {"edge": "DC", "color": "blue"}]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}, {"edge": "AD", "color": "red"}],
+      "fillTriangle": ["ABD", "ACD"],
+      "flashAngle": ["B", "C", "BAD", "DAC"]
+    }
+  ],
+  "question": {
+    "text": "如图，等腰△ABC 中，AB = AC，AD 是 BC 边上的高。\n求证：\n（1）∠B = ∠C\n（2）AD 平分 ∠BAC（即 ∠BAD = ∠DAC）\n（3）BD = DC（AD 也是中线）",
+    "diagram": {
+      "type": "isosceles-triangle",
+      "points": {
+        "A": {"x": 200, "y": 80},
+        "B": {"x": 100, "y": 220},
+        "C": {"x": 300, "y": 220},
+        "D": {"x": 200, "y": 220}
+      },
+      "edges": ["AB", "BC", "CA", "AD"],
+      "equal": ["AB=AC"]
+    }
+  },
+  "solution": {
+    "text": "（1）在等腰△ABC 中，AB = AC\n∴ ∠B = ∠C（等边对等角）\n\n（2）在 Rt△ABD 和 Rt△ACD 中\nAB = AC（已知）\nAD = AD（公共边）\n∴ △ABD ≌ △ACD（HL）\n∴ ∠BAD = ∠DAC（对应角相等）\n即 AD 平分 ∠BAC\n\n（3）∵ △ABD ≌ △ACD\n∴ BD = DC（对应边相等）\n即 D 是 BC 的中点"
+  },
+  "created_at": "2026-04-05T07:55:00+08:00"
+}

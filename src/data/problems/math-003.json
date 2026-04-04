@@ -1,0 +1,163 @@
+{
+  "id": "math-003",
+  "title": "几何证明：全等三角形（SAS）",
+  "source": "经典初中题",
+  "category": "几何",
+  "difficulty": "medium",
+  "tags": ["几何", "全等三角形", "SAS", "证明"],
+  "template": {
+    "type": "triangles",
+    "variant": "sas"
+  },
+  "image": "/problems/math-003.png",
+  "geometry": {
+    "points": [
+      {"x": 150, "y": 180, "label": "A"},
+      {"x": 100, "y": 120, "label": "B"},
+      {"x": 200, "y": 120, "label": "C"},
+      {"x": 250, "y": 180, "label": "D"},
+      {"x": 300, "y": 120, "label": "E"}
+    ],
+    "connections": [
+      ["A", "B"],
+      ["B", "C"],
+      ["C", "A"],
+      ["D", "E"],
+      ["E", "C"],
+      ["C", "D"]
+    ],
+    "edgeColors": {
+      "AB": "#DC2626",
+      "DE": "#DC2626",
+      "AC": "#2563EB",
+      "CD": "#2563EB"
+    },
+    "angleArcs": [
+      {
+        "id": "angle-BAC",
+        "vertex": "A",
+        "from": "B",
+        "to": "C",
+        "path": "M 130 160 A 20 20 0 0 0 165 165",
+        "isRightAngle": false,
+        "type": "acute"
+      },
+      {
+        "id": "angle-EDC",
+        "vertex": "D",
+        "from": "E",
+        "to": "C",
+        "path": "M 270 160 A 20 20 0 0 1 235 165",
+        "isRightAngle": false,
+        "type": "acute"
+      }
+    ],
+    "equalPairs": {
+      "AB": "DE",
+      "AC": "CD"
+    }
+  },
+  "steps": [
+    {
+      "id": 0,
+      "title": "绘制图形",
+      "content": "△ABC 和 △DCE，其中 AB = DE，AC = CD，∠BAC = ∠EDC",
+      "conclusion": ""
+    },
+    {
+      "id": 1,
+      "title": "标记边 AB 和 DE",
+      "content": "AB = DE（已知条件）",
+      "conclusion": "✓"
+    },
+    {
+      "id": 2,
+      "title": "标记边 AC 和 CD",
+      "content": "AC = CD（已知条件）",
+      "conclusion": "✓"
+    },
+    {
+      "id": 3,
+      "title": "标记角 ∠BAC",
+      "content": "∠BAC（在△ABC中）",
+      "conclusion": ""
+    },
+    {
+      "id": 4,
+      "title": "标记角 ∠EDC",
+      "content": "∠EDC（在△DCE中）",
+      "conclusion": ""
+    },
+    {
+      "id": 5,
+      "title": "∠BAC = ∠EDC",
+      "content": "∠BAC = ∠EDC（已知条件）",
+      "conclusion": "✓"
+    },
+    {
+      "id": 6,
+      "title": "验证 SAS 条件",
+      "content": "在△ABC和△DCE中：\n① AB = DE\n② AC = CD\n③ ∠BAC = ∠EDC",
+      "conclusion": ""
+    },
+    {
+      "id": 7,
+      "title": "结论",
+      "content": "根据 SAS（边角边）全等判定定理",
+      "conclusion": "△ABC ≌ △DCE（SAS）证毕！🎉"
+    }
+  ],
+  "stepAnimations": [
+    {
+      "drawEdge": ["AB", "BC", "CA", "DE", "EC", "CD"],
+      "showEqualMark": ["AB-DE", "AC-CD"]
+    },
+    {
+      "compareEdges": {"edge1": "AB", "edge2": "DE", "label": "AB = DE"},
+      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "red"}]
+    },
+    {
+      "compareEdges": {"edge1": "AC", "edge2": "CD", "label": "AC = CD"},
+      "highlightEdges": [{"edge": "AC", "color": "blue"}, {"edge": "CD", "color": "blue"}]
+    },
+    {
+      "flashAngle": ["BAC"]
+    },
+    {
+      "flashAngle": ["EDC"]
+    },
+    {
+      "compareAngles": ["BAC", "EDC"],
+      "flashAngle": ["BAC", "EDC"]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "red"}, {"edge": "AC", "color": "blue"}, {"edge": "CD", "color": "blue"}],
+      "fillTriangle": ["ABC"],
+      "flashAngle": ["BAC", "EDC"]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "red"}, {"edge": "AC", "color": "blue"}, {"edge": "CD", "color": "blue"}],
+      "fillTriangle": ["ABC", "DCE"],
+      "flashAngle": ["BAC", "EDC"]
+    }
+  ],
+  "question": {
+    "text": "如图，AB = DE，AC = CD，∠BAC = ∠EDC。\n求证：△ABC ≌ △DCE。",
+    "diagram": {
+      "type": "two-triangles",
+      "points": {
+        "A": {"x": 150, "y": 180},
+        "B": {"x": 100, "y": 120},
+        "C": {"x": 200, "y": 120},
+        "D": {"x": 250, "y": 180},
+        "E": {"x": 300, "y": 120}
+      },
+      "edges": ["AB", "BC", "CA", "DE", "EC", "CD"],
+      "equal": ["AB=DE", "AC=CD"]
+    }
+  },
+  "solution": {
+    "text": "在△ABC和△DCE中：\n① AB = DE（已知）\n② AC = CD（已知）\n③ ∠BAC = ∠EDC（已知）\n∴ △ABC ≌ △DCE（SAS）"
+  },
+  "created_at": "2026-04-05T07:50:00+08:00"
+}
