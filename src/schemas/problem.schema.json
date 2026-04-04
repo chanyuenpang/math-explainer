@@ -1,0 +1,308 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "title": "Math Problem Schema",
+  "description": "Schema for math problem definition files",
+  "type": "object",
+  "additionalProperties": false,
+  "required": ["id", "title", "category", "difficulty", "geometry", "steps", "stepAnimations"],
+  "properties": {
+    "id": {
+      "type": "string",
+      "pattern": "^math-\\d{3}$"
+    },
+    "title": {
+      "type": "string"
+    },
+    "source": {
+      "type": "string"
+    },
+    "category": {
+      "type": "string",
+      "enum": ["几何", "代数", "函数", "统计", "概率"]
+    },
+    "difficulty": {
+      "type": "string",
+      "enum": ["easy", "medium", "hard"]
+    },
+    "tags": {
+      "type": "array",
+      "items": {
+        "type": "string"
+      }
+    },
+    "template": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "type": {
+          "type": "string"
+        },
+        "variant": {
+          "type": "string"
+        }
+      }
+    },
+    "image": {
+      "type": "string"
+    },
+    "geometry": {
+      "type": "object",
+      "additionalProperties": false,
+      "required": ["points", "connections"],
+      "properties": {
+        "points": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["x", "y", "label"],
+            "properties": {
+              "x": {
+                "type": "number"
+              },
+              "y": {
+                "type": "number"
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          }
+        },
+        "connections": {
+          "type": "array",
+          "items": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          }
+        },
+        "edgeColors": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string",
+            "pattern": "^#[0-9A-Fa-f]{6}$"
+          }
+        },
+        "rightAngles": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          }
+        },
+        "angleArcs": {
+          "type": "array",
+          "items": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["id", "vertex", "from", "to", "path"],
+            "properties": {
+              "id": {
+                "type": "string"
+              },
+              "vertex": {
+                "type": "string"
+              },
+              "from": {
+                "type": "string"
+              },
+              "to": {
+                "type": "string"
+              },
+              "path": {
+                "type": "string"
+              },
+              "isRightAngle": {
+                "type": "boolean"
+              },
+              "type": {
+                "type": "string",
+                "enum": ["right", "acute", "obtuse"]
+              }
+            }
+          }
+        },
+        "equalPairs": {
+          "type": "object",
+          "additionalProperties": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "steps": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "required": ["id", "title", "content"],
+        "properties": {
+          "id": {
+            "type": "integer",
+            "minimum": 0
+          },
+          "title": {
+            "type": "string"
+          },
+          "content": {
+            "type": "string"
+          },
+          "conclusion": {
+            "type": "string"
+          }
+        }
+      }
+    },
+    "stepAnimations": {
+      "type": "array",
+      "items": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "drawEdge": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flashAngle": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "flyoutCompare": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "edges": {
+                  "type": "array",
+                  "items": {
+                    "type": "string"
+                  }
+                },
+                "label": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "highlightEdges": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "fillTriangle": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "showEqualMarks": {
+            "type": "boolean"
+          },
+          "showLabels": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "highlights": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "additionalProperties": false,
+              "properties": {
+                "target": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "flashTriangle": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          },
+          "showRightAngles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            }
+          }
+        }
+      }
+    },
+    "question": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        },
+        "diagram": {
+          "type": "object",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string"
+            },
+            "points": {
+              "type": "object",
+              "additionalProperties": {
+                "type": "object",
+                "additionalProperties": false,
+                "properties": {
+                  "x": {
+                    "type": "number"
+                  },
+                  "y": {
+                    "type": "number"
+                  }
+                }
+              }
+            },
+            "edges": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "rightAngles": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            },
+            "equal": {
+              "type": "array",
+              "items": {
+                "type": "string"
+              }
+            }
+          }
+        }
+      }
+    },
+    "solution": {
+      "type": "object",
+      "additionalProperties": false,
+      "properties": {
+        "text": {
+          "type": "string"
+        }
+      }
+    },
+    "created_at": {
+      "type": "string",
+      "format": "date-time"
+    }
+  }
+}

@@ -2,6 +2,7 @@
   "id": "math-002",
   "title": "几何证明：直角三角形全等",
   "source": "示例题",
+  "category": "几何",
   "difficulty": "easy",
   "tags": ["几何", "直角三角形", "全等"],
   "template": {
