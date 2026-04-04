@@ -48,7 +48,10 @@ export type IntentType =
   | 'drawArcs'
   | 'showRightAngle'
   | 'showRightAngles'
-  | 'highlights';
+  | 'highlights'
+  | 'compareEdges'
+  | 'compareAngles'
+  | 'showEqualMark';
 
 export const COLORS = {
   default: '#D1D5DB',
@@ -300,6 +303,39 @@ export class GeometryEngine {
         break;
       case 'highlights':
         this.executeHighlights(intent.highlights || []);
+        break;
+      case 'compareEdges': {
+        const edge1 = intent.edge1;
+        const edge2 = intent.edge2;
+        const label = intent.label;
+        const color1 = this.assignColor('compare-edge1-' + edge1);
+        const color2 = this.assignColor('compare-edge2-' + edge2);
+        // 高亮两条边（不同颜色）
+        this.highlightEdge(edge1, color1);
+        this.highlightEdge(edge2, color2);
+        // 飞出对比动画
+        this.flyoutCompare([edge1, edge2], label);
+        break;
+      }
+      case 'compareAngles': {
+        const angle1 = intent.angle1;
+        const angle2 = intent.angle2;
+        // 自动处理弧线+边+闪烁，各自颜色
+        this.showAngle(angle1);
+        this.showAngle(angle2);
+        break;
+      }
+      case 'showEqualMark':
+        // 显示等号标记（简化配置）
+        if (intent.pairs && Array.isArray(intent.pairs)) {
+          // pairs 格式：["AB-DE", "BC-CD"]
+          intent.pairs.forEach((pair: string) => {
+            const [edge1, edge2] = pair.split('-');
+            if (edge1 && edge2) {
+              this.showEqualMarkForPair(edge1, edge2);
+            }
+          });
+        }
         break;
     }
   }
@@ -713,6 +749,44 @@ export class GeometryEngine {
 
     gsap.to(el, { transform: `translate(${dx}px, ${dy}px)`, opacity: 0.6, duration: 1.5, ease: 'power2.inOut' });
   }
+
+  /**
+   * 显示等号标记（用于简化 showEqualMarks 配置）
+   * @param edge1 第一条边 ID
+   * @param edge2 第二条边 ID
+   */
+  private showEqualMarkForPair(edge1: string, edge2: string): void {
+    if (!this.svgElement) return;
+    const gsap = (window as any).gsap;
+
+    const normalizedEdgeId1 = normalizeEdgeId(edge1);
+    const normalizedEdgeId2 = normalizeEdgeId(edge2);
+    const el1 = this.svgElement.querySelector(`#${normalizedEdgeId1}`) as SVGLineElement;
+    const el2 = this.svgElement.querySelector(`#${normalizedEdgeId2}`) as SVGLineElement;
+    if (!el1 || !el2) return;
+
+    // 获取边的中点位置
+    const x1 = (parseFloat(el1.getAttribute('x1') || '0') + parseFloat(el1.getAttribute('x2') || '0')) / 2;
+    const y1 = (parseFloat(el1.getAttribute('y1') || '0') + parseFloat(el1.getAttribute('y2') || '0')) / 2;
+    const x2 = (parseFloat(el2.getAttribute('x1') || '0') + parseFloat(el2.getAttribute('x2') || '0')) / 2;
+    const y2 = (parseFloat(el2.getAttribute('y1') || '0') + parseFloat(el2.getAttribute('y2') || '0')) / 2;
+
+    // 创建等号标记元素
+    const ns = 'http://www.w3.org/2000/svg';
+    const eqText = document.createElementNS(ns, 'text');
+    eqText.setAttribute('x', String((x1 + x2) / 2));
+    eqText.setAttribute('y', String((y1 + y2) / 2 + 5));
+    eqText.setAttribute('text-anchor', 'middle');
+    eqText.setAttribute('font-size', '14');
+    eqText.setAttribute('fill', COLORS.green);
+    eqText.setAttribute('font-weight', 'bold');
+    eqText.setAttribute('class', 'equal-mark flyout-copy');
+    eqText.textContent = '=';
+    this.svgElement.appendChild(eqText);
+
+    // 动画：从透明到显示
+    gsap.fromTo(eqText, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, ease: 'back.out(1.7)' });
+  }
 }
 
 export function convertStepAnimationToIntents(stepAnimation: Record<string, any>): AnimationIntent[] {
@@ -721,6 +795,26 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
   // NEW: Unified highlights format
   if (stepAnimation.highlights) {
     intents.push({ type: 'highlights', highlights: stepAnimation.highlights });
+  }
+
+  // NEW: compareEdges - 简化边对比配置
+  if (stepAnimation.compareEdges) {
+    const { edge1, edge2, label } = stepAnimation.compareEdges;
+    intents.push({ type: 'compareEdges', edge1, edge2, label });
+  }
+
+  // NEW: compareAngles - 简化角对比配置
+  if (stepAnimation.compareAngles) {
+    const angles = Array.isArray(stepAnimation.compareAngles) ? stepAnimation.compareAngles : [stepAnimation.compareAngles];
+    if (angles.length >= 2) {
+      intents.push({ type: 'compareAngles', angle1: angles[0], angle2: angles[1] });
+    }
+  }
+
+  // NEW: showEqualMark - 简化等号标记配置
+  if (stepAnimation.showEqualMark) {
+    const pairs = Array.isArray(stepAnimation.showEqualMark) ? stepAnimation.showEqualMark : [stepAnimation.showEqualMark];
+    intents.push({ type: 'showEqualMark', pairs });
   }
 
   if (stepAnimation.drawEdge) {

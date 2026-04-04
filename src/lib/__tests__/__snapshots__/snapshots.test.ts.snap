@@ -3,6 +3,13 @@
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 0: draw edges 1`] = `
 [
   {
+    "pairs": [
+      "BC-CD",
+      "AB-DE",
+    ],
+    "type": "showEqualMark",
+  },
+  {
     "edges": [
       "AB",
       "BC",
@@ -10,9 +17,6 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
       "AD",
     ],
     "type": "drawEdges",
-  },
-  {
-    "type": "showEqual",
   },
 ]
 `;
@@ -38,16 +42,18 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 3: flyout compare BC=CD 1`] = `
 [
   {
-    "edges": [
-      "BC",
-      "CD",
-    ],
+    "edge1": "BC",
+    "edge2": "CD",
     "label": "BC = DC",
-    "type": "flyoutCompare",
+    "type": "compareEdges",
   },
   {
-    "triangle": "BCD",
-    "type": "fillTriangle",
+    "color": undefined,
+    "colors": undefined,
+    "triangles": [
+      "BCD",
+    ],
+    "type": "fillTriangles",
   },
 ]
 `;
@@ -77,12 +83,10 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 5: flyout compare AB=DE 1`] = `
 [
   {
-    "edges": [
-      "AB",
-      "DE",
-    ],
+    "edge1": "AB",
+    "edge2": "DE",
     "label": "AB = DE",
-    "type": "flyoutCompare",
+    "type": "compareEdges",
   },
 ]
 `;
@@ -90,12 +94,9 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 6: flash angles A and BCD 1`] = `
 [
   {
-    "angle": "A",
-    "type": "showAngle",
-  },
-  {
-    "angle": "BCD",
-    "type": "showAngle",
+    "angle1": "A",
+    "angle2": "BCD",
+    "type": "compareAngles",
   },
 ]
 `;
@@ -103,12 +104,9 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 7: flash angles ABC and ADC 1`] = `
 [
   {
-    "angle": "ABC",
-    "type": "showAngle",
-  },
-  {
-    "angle": "ADC",
-    "type": "showAngle",
+    "angle1": "ABC",
+    "angle2": "ADC",
+    "type": "compareAngles",
   },
 ]
 `;
@@ -116,12 +114,9 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 8: flash angles ADC and EDC 1`] = `
 [
   {
-    "angle": "ADC",
-    "type": "showAngle",
-  },
-  {
-    "angle": "EDC",
-    "type": "showAngle",
+    "angle1": "ADC",
+    "angle2": "EDC",
+    "type": "compareAngles",
   },
 ]
 `;
@@ -129,12 +124,9 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 9: flash angles ABC and EDC 1`] = `
 [
   {
-    "angle": "ABC",
-    "type": "showAngle",
-  },
-  {
-    "angle": "EDC",
-    "type": "showAngle",
+    "angle1": "ABC",
+    "angle2": "EDC",
+    "type": "compareAngles",
   },
 ]
 `;
@@ -142,10 +134,15 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 10: highlight edges AB and DE 1`] = `
 [
   {
-    "color": undefined,
     "edges": [
-      "AB",
-      "DE",
+      {
+        "color": "red",
+        "edge": "AB",
+      },
+      {
+        "color": "green",
+        "edge": "DE",
+      },
     ],
     "type": "highlightEdges",
   },
@@ -155,10 +152,15 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 11: highlight edges and fill triangle ABC 1`] = `
 [
   {
-    "color": undefined,
     "edges": [
-      "AB",
-      "DE",
+      {
+        "color": "red",
+        "edge": "AB",
+      },
+      {
+        "color": "green",
+        "edge": "DE",
+      },
     ],
     "type": "highlightEdges",
   },
@@ -176,13 +178,21 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 12: highlight edges, show equal marks, fill triangle EDC 1`] = `
 [
   {
-    "type": "showEqual",
+    "pairs": [
+      "BC-CD",
+    ],
+    "type": "showEqualMark",
   },
   {
-    "color": undefined,
     "edges": [
-      "BC",
-      "CD",
+      {
+        "color": "red",
+        "edge": "BC",
+      },
+      {
+        "color": "green",
+        "edge": "CD",
+      },
     ],
     "type": "highlightEdges",
   },
@@ -214,12 +224,23 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 14: highlight edges and fill both triangles 1`] = `
 [
   {
-    "color": undefined,
     "edges": [
-      "AB",
-      "DE",
-      "BC",
-      "CD",
+      {
+        "color": "red",
+        "edge": "AB",
+      },
+      {
+        "color": "green",
+        "edge": "DE",
+      },
+      {
+        "color": "blue",
+        "edge": "BC",
+      },
+      {
+        "color": "orange",
+        "edge": "CD",
+      },
     ],
     "type": "highlightEdges",
   },

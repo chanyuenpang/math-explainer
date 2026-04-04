@@ -217,92 +217,57 @@
   ],
   "stepAnimations": [
     {
-      "drawEdge": [
-        "AB",
-        "BC",
-        "CD",
-        "AD"
-      ],
-      "showEqualMarks": true
+      "drawEdge": ["AB", "BC", "CD", "AD"],
+      "showEqualMark": ["BC-CD", "AB-DE"]
     },
     {
-      "flashAngle": [
-        "A"
-      ]
+      "flashAngle": ["A"]
     },
     {
-      "flashAngle": [
-        "BCD"
-      ]
+      "flashAngle": ["BCD"]
     },
     {
-      "flyoutCompare": [
-        {
-          "edges": [
-            "BC",
-            "CD"
-          ],
-          "label": "BC = DC"
-        }
-      ],
-      "flashTriangle": [
-        "BCD"
-      ]
+      "compareEdges": {"edge1": "BC", "edge2": "CD", "label": "BC = DC"},
+      "fillTriangle": ["BCD"]
     },
     {
-      "drawEdge": [
-        "DE"
-      ],
-      "highlights": [
-        {"target": "edge-AD"},
-        {"target": "edge-DE"}
-      ],
-      "showLabels": [
-        "A",
-        "D",
-        "E"
-      ]
+      "drawEdge": ["DE"],
+      "highlights": [{"target": "edge-AD"}, {"target": "edge-DE"}]
     },
     {
-      "flyoutCompare": [
-        {
-          "edges": [
-            "AB",
-            "DE"
-          ],
-          "label": "AB = DE"
-        }
-      ]
+      "compareEdges": {"edge1": "AB", "edge2": "DE", "label": "AB = DE"}
     },
     {
-      "flashAngle": [
-        "A",
-        "BCD"
-      ]
+      "compareAngles": ["A", "BCD"]
     },
     {
-      "flashAngle": [
-        "ABC",
-        "ADC"
-      ]
+      "compareAngles": ["ABC", "ADC"]
     },
     {
-      "flashAngle": [
-        "ADC",
-        "EDC"
-      ]
+      "compareAngles": ["ADC", "EDC"]
     },
     {
-      "flashAngle": [
-        "ABC",
-        "EDC"
-      ]
+      "compareAngles": ["ABC", "EDC"]
     },
-    {"highlightEdges": ["AB", "DE"]},
-    {"highlightEdges": ["AB", "DE"], "fillTriangle": ["ABC"]},
-    {"highlightEdges": ["BC", "CD"], "showEqualMarks": true, "fillTriangle": ["EDC"]},
-    {"fillTriangle": ["ABC", "EDC"]},
-    {"highlightEdges": ["AB", "DE", "BC", "CD"], "fillTriangle": ["ABC", "EDC"]}
+    {
+      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "green"}]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "green"}],
+      "fillTriangle": ["ABC"]
+    },
+    {
+      "highlightEdges": [{"edge": "BC", "color": "red"}, {"edge": "CD", "color": "green"}],
+      "showEqualMark": ["BC-CD"],
+      "fillTriangle": ["EDC"]
+    },
+    {
+      "fillTriangle": ["ABC", "EDC"]
+    },
+    {
+      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "green"}, {"edge": "BC", "color": "blue"}, {"edge": "CD", "color": "orange"}],
+      "fillTriangle": ["ABC", "EDC"]
+    }
   ],
   "question": {
     "text": "如图，在四边形ABCD中，∠A=∠BCD=90°，BC=DC．延长AD到E点，使DE=AB．\n（1）求证：∠ABC=∠EDC；\n（2）求证：△ABC≌△EDC．",

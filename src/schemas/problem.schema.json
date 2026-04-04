@@ -193,6 +193,55 @@
             }
           },
           "highlightEdges": {
+            "oneOf": [
+              {
+                "type": "array",
+                "items": {
+                  "type": "string"
+                }
+              },
+              {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "properties": {
+                    "edge": {
+                      "type": "string"
+                    },
+                    "color": {
+                      "type": "string"
+                    }
+                  }
+                }
+              }
+            ]
+          },
+          "compareEdges": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["edge1", "edge2"],
+            "properties": {
+              "edge1": {
+                "type": "string"
+              },
+              "edge2": {
+                "type": "string"
+              },
+              "label": {
+                "type": "string"
+              }
+            }
+          },
+          "compareAngles": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "minItems": 2,
+            "maxItems": 2
+          },
+          "showEqualMark": {
             "type": "array",
             "items": {
               "type": "string"
