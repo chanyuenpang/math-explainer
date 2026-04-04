@@ -747,7 +747,7 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
   if (stepAnimation.flashTriangle) {
     const triangles = Array.isArray(stepAnimation.flashTriangle) ? stepAnimation.flashTriangle : [stepAnimation.flashTriangle];
     triangles.forEach(triId => {
-      intents.push({ type: 'fillTriangle', triangle: triId, color: 'rgba(59,130,246,0.2)' });
+      intents.push({ type: 'fillTriangle', triangle: triId, color: 'rgba(209,213,219,0.15)' });
     });
   }
 
