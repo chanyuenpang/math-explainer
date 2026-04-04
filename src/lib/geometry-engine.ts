@@ -287,14 +287,11 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${normalizedEdgeId}`) as SVGLineElement;
     if (!el) return;
 
-    // Store original color from config to restore after animation (Bug 1 fix)
-    const originalColor = this.config.edgeColors?.[normalizedEdgeId] || COLORS.default;
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
-    // Use auto color if no color specified
-    const highlightColor = color || this.getAutoColor();
 
-    console.log('[highlightEdge] animating edge:', normalizedEdgeId, 'with color:', highlightColor, 'original:', originalColor);
-    gsap.to(el, { stroke: highlightColor, strokeWidth: 4, duration: 0.3 });
+    console.log('[highlightEdge] animating edge:', normalizedEdgeId, 'only strokeWidth changes');
+    // Flash animation: only change strokeWidth, NOT stroke color
+    gsap.to(el, { strokeWidth: 4, duration: 0.3 });
     gsap.to(el, {
       strokeWidth: 5,
       duration: 0.2,
@@ -302,9 +299,9 @@ export class GeometryEngine {
       repeat: 2,
       delay: 0.3,
       onComplete: () => {
-        // Restore original edge color after animation
-        gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
-        console.log('[highlightEdge] animation complete for edge:', normalizedEdgeId, 'restored color:', originalColor);
+        // Restore original strokeWidth (stroke color stays unchanged)
+        gsap.set(el, { strokeWidth: originalWidth });
+        console.log('[highlightEdge] animation complete for edge:', normalizedEdgeId, 'stroke color unchanged');
       }
     });
   }
@@ -336,46 +333,23 @@ export class GeometryEngine {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
-    const colorMap: Record<string, string> = {
-      'orange': COLORS.orange,
-      'red': COLORS.red,
-      'green': COLORS.green,
-      'blue': COLORS.blue,
-      'purple': COLORS.purple,
-    };
-
     const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
-    const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
 
     const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
 
-    // 如果没有显式颜色，读取弧线当前颜色，确保和 drawArc 设置的颜色一致
-    let flashColor: string;
-    if (color) {
-      flashColor = colorMap[color] || color;
-    } else if (el) {
-      flashColor = el.getAttribute('stroke') || this.getAutoColor();
-    } else {
-      flashColor = this.getAutoColor();
-    }
-
-    console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
+    console.log('[flashAngle] animating angle:', angleId, 'only strokeWidth changes');
     
     if (el) {
-      // 弧线闪烁：先设置 stroke 为 flashColor，再通过 strokeWidth 变化来闪烁
-      gsap.set(el, { stroke: flashColor, strokeWidth: 2, opacity: 1 });
-      gsap.to(el, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
-        onComplete: () => {
-          // 弧线保持 flashColor，不恢复原始颜色
-          gsap.set(el, { strokeWidth: 2, stroke: flashColor });
-        }
-      });
+      // Arc flash: only change strokeWidth, NOT stroke color
+      gsap.fromTo(el,
+        { strokeWidth: 2, opacity: 1 },
+        { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut' }
+      );
     }
 
     const fillEl = this.svgElement.querySelector(`#${arcId}-fill`);
     if (fillEl) {
-      gsap.set(fillEl, { fill: flashColor });
       gsap.fromTo(fillEl,
         { fillOpacity: 0.1 },
         { fillOpacity: 0.35, duration: 0.3, yoyo: true, repeat: 3, ease: 'power2.inOut' }
@@ -404,16 +378,19 @@ export class GeometryEngine {
           const edgeEl = this.svgElement!.querySelector(`#${edge.id}`) as SVGLineElement;
           if (!edgeEl) return;
 
-          // Store original color to restore after animation
-          console.log('[flashAngle] animating edge:', edge.id, 'with color:', flashColor);
-          // 先设置 stroke 为 flashColor
-          gsap.set(edgeEl, { stroke: flashColor, strokeWidth: 2 });
-          // 再通过 strokeWidth 变化来闪烁（类似弧线）
-          gsap.to(edgeEl, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
+          console.log('[flashAngle] animating edge:', edge.id, 'only strokeWidth changes');
+          // Edge flash: only change strokeWidth, NOT stroke color
+          gsap.to(edgeEl, { strokeWidth: 3, duration: 0.3 });
+          gsap.to(edgeEl, {
+            strokeWidth: 4.5,
+            duration: 0.2,
+            yoyo: true,
+            repeat: 2,
+            delay: 0.3,
             onComplete: () => {
-              // 边保持 flashColor，不恢复原始颜色
-              gsap.set(edgeEl, { strokeWidth: 2, stroke: flashColor });
-              console.log('[flashAngle] animation complete for edge:', edge.id, 'kept color:', flashColor);
+              // Restore original strokeWidth (stroke color stays unchanged)
+              gsap.set(edgeEl, { strokeWidth: 3 });
+              console.log('[flashAngle] animation complete for edge:', edge.id, 'stroke color unchanged');
             }
           });
         });
@@ -427,21 +404,21 @@ export class GeometryEngine {
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (!el) return;
 
-    // Store original color to restore after animation
-    const originalColor = el.getAttribute('stroke') || COLORS.angle;
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
-    // Use auto color if no color specified
-    const arcColor = color || this.getAutoColor();
 
-    console.log('[highlightArc] animating arc:', arcId, 'with color:', arcColor, 'original:', originalColor);
-    // Set stroke to highlight color first
-    gsap.set(el, { stroke: arcColor });
-    // Flash by changing strokeWidth only
-    gsap.to(el, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
+    console.log('[highlightArc] animating arc:', arcId, 'only strokeWidth changes');
+    // Arc flash: only change strokeWidth, NOT stroke color
+    gsap.to(el, { strokeWidth: 4, duration: 0.3 });
+    gsap.to(el, {
+      strokeWidth: 5,
+      duration: 0.2,
+      yoyo: true,
+      repeat: 2,
+      delay: 0.3,
       onComplete: () => {
-        // Restore original color and width after animation
-        gsap.set(el, { stroke: originalColor, strokeWidth: originalWidth });
-        console.log('[highlightArc] animation complete for arc:', arcId, 'restored color:', originalColor);
+        // Restore original strokeWidth (stroke color stays unchanged)
+        gsap.set(el, { strokeWidth: originalWidth });
+        console.log('[highlightArc] animation complete for arc:', arcId, 'stroke color unchanged');
       }
     });
   }
