@@ -357,7 +357,11 @@ export class GeometryEngine {
     if (el) {
       gsap.fromTo(el,
         { stroke: flashColor, strokeWidth: 2, opacity: 1 },
-        { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut' }
+        { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut',
+          onComplete: () => {
+            gsap.set(el, { stroke: flashColor, strokeWidth: 2 });
+          }
+        }
       );
     }
 
@@ -404,9 +408,9 @@ export class GeometryEngine {
             repeat: 2,
             delay: 0.3,
             onComplete: () => {
-              // Restore original edge color after animation
-              gsap.set(edgeEl, { stroke: originalColor, strokeWidth: 3 });
-              console.log('[flashAngle] animation complete for edge:', edge.id, 'restored color:', originalColor);
+              // Keep the flash color after animation
+              gsap.set(edgeEl, { stroke: flashColor, strokeWidth: 3 });
+              console.log('[flashAngle] animation complete for edge:', edge.id, 'kept color:', flashColor);
             }
           });
         });
