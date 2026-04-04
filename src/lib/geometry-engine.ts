@@ -263,7 +263,13 @@ export class GeometryEngine {
         this.drawArc(intent.arc, intent.color);
         break;
       case 'drawArcs':
-        (intent.arcs || []).forEach((arcId: string) => this.drawArc(arcId, intent.color));
+        (intent.arcs || []).forEach((arcItem: any) => {
+          if (typeof arcItem === 'object') {
+            this.drawArc(arcItem.arc, arcItem.color || intent.color);
+          } else {
+            this.drawArc(arcItem, intent.color);
+          }
+        });
         break;
       case 'showRightAngle':
         this.showRightAngle(intent.point);
@@ -700,14 +706,9 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
 
   if (stepAnimation.drawArcs) {
     const arcs = stepAnimation.drawArcs;
-    // Map arcs to use colors from flashAngle configs
-    const arcsWithColors = arcs.map((arcId: string) => {
-      // Extract angle name from arc ID (e.g., "bad-A" -> "A", "bad-BCD" -> "BCD")
-      const angleName = arcId.replace('bad-', '');
-      const color = angleColorMap[angleName];
-      return color ? { arc: arcId, color } : arcId;
-    });
-    intents.push({ type: 'drawArcs', arcs: arcsWithColors });
+    // Find matching color from flashAngle config
+    const defaultColor = stepAnimation.flashAngle?.[0]?.color || undefined;
+    intents.push({ type: 'drawArcs', arcs: arcs, color: defaultColor });
   }
 
   if (stepAnimation.highlightArcs) {
