@@ -217,7 +217,7 @@ export class GeometryEngine {
         (intent.angles || []).forEach((angleId: string) => this.flashAngle(angleId, intent.color));
         break;
       case 'fillTriangle':
-        this.fillTriangle(intent.triangle, intent.color);
+        this.fillTriangle(intent.triangle, intent.color || this.getAutoColor());
         break;
       case 'fillTriangles':
         (intent.triangles || []).forEach((triId: string) => this.fillTriangle(triId, intent.colors?.[triId] || intent.color));
@@ -747,7 +747,7 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
   if (stepAnimation.flashTriangle) {
     const triangles = Array.isArray(stepAnimation.flashTriangle) ? stepAnimation.flashTriangle : [stepAnimation.flashTriangle];
     triangles.forEach(triId => {
-      intents.push({ type: 'fillTriangle', triangle: triId, color: 'rgba(209,213,219,0.15)' });
+      intents.push({ type: 'fillTriangle', triangle: triId });
     });
   }
 
