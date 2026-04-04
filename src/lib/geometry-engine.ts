@@ -63,6 +63,8 @@ export const COLORS = {
   blue: '#2563EB',
   red: '#EF4444',
   green: '#10B981',
+  orange: '#F59E0B',
+  purple: '#8B5CF6',
 };
 
 export class GeometryEngine {
@@ -70,6 +72,20 @@ export class GeometryEngine {
   private config: GeometryConfig;
   private svgElement: SVGSVGElement | null = null;
   private points: Array<{ id: string; x: number; y: number }>;
+
+  // Auto color allocator
+  private autoColorIndex = 0;
+  private autoColors = [COLORS.red, COLORS.green, COLORS.blue, COLORS.orange, COLORS.purple];
+
+  private getAutoColor(): string {
+    const color = this.autoColors[this.autoColorIndex % this.autoColors.length];
+    this.autoColorIndex++;
+    return color;
+  }
+
+  private resetAutoColor(): void {
+    this.autoColorIndex = 0;
+  }
 
   constructor(config: GeometryConfig) {
     this.config = config;
@@ -147,22 +163,28 @@ export class GeometryEngine {
    *   - "edge-*" → highlightEdge (single edge flash)
    *   - "face-*" → highlightFace (triangle fill)
    */
-  executeHighlights(highlights: Array<{target: string, color: string}>): void {
+  executeHighlights(highlights: Array<{target: string, color?: string}>): void {
     if (!this.svgElement) return;
     
+    // Reset auto color allocator for this batch
+    this.resetAutoColor();
+    
     highlights.forEach(({target, color}) => {
+      // Auto-assign color if not specified
+      const autoColor = color || this.getAutoColor();
+      
       if (target.startsWith('angle-')) {
         const angleId = target.substring(6); // Remove 'angle-' prefix
-        this.flashAngle(angleId, color);
+        this.flashAngle(angleId, autoColor);
       } else if (target.startsWith('edge-')) {
         const edgeId = target.substring(5); // Remove 'edge-' prefix
-        this.highlightEdge(edgeId, color);
+        this.highlightEdge(edgeId, autoColor);
       } else if (target.startsWith('face-')) {
         const faceId = target.substring(5); // Remove 'face-' prefix
-        this.fillTriangle(faceId, color);
+        this.fillTriangle(faceId, autoColor);
       } else if (target.startsWith('arc-')) {
         const arcId = target.substring(4); // Remove 'arc-' prefix
-        this.highlightArc(arcId, color);
+        this.highlightArc(arcId, autoColor);
       } else {
         console.warn(`[executeHighlights] Unknown target prefix: ${target}`);
       }
@@ -268,7 +290,8 @@ export class GeometryEngine {
     // Store original color from config to restore after animation (Bug 1 fix)
     const originalColor = this.config.edgeColors?.[normalizedEdgeId] || COLORS.default;
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
-    const highlightColor = color || COLORS.blue;
+    // Use auto color if no color specified
+    const highlightColor = color || this.getAutoColor();
 
     console.log('[highlightEdge] animating edge:', normalizedEdgeId, 'with color:', highlightColor, 'original:', originalColor);
     gsap.to(el, { stroke: highlightColor, strokeWidth: 4, duration: 0.3 });
@@ -314,15 +337,17 @@ export class GeometryEngine {
     const gsap = (window as any).gsap;
 
     const colorMap: Record<string, string> = {
-      'orange': COLORS.angle,
+      'orange': COLORS.orange,
       'red': COLORS.red,
       'green': COLORS.green,
       'blue': COLORS.blue,
+      'purple': COLORS.purple,
     };
 
     const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
     const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
-    const flashColor = colorMap[color || 'orange'] || COLORS.angle;
+    // Use auto color if no color specified
+    const flashColor = color ? (colorMap[color] || color) : this.getAutoColor();
 
     console.log('[flashAngle] animating angle:', angleId, 'with color:', flashColor, 'colorParam:', color);
 
@@ -368,7 +393,7 @@ export class GeometryEngine {
           if (!edgeEl) return;
 
           // Store original color to restore after animation
-          const originalColor = edgeEl.getAttribute('stroke') || COLORS.dark;
+          const originalColor = edgeEl.getAttribute('stroke') || COLORS.default;
 
           console.log('[flashAngle] animating edge:', edge.id, 'with color:', flashColor, 'original:', originalColor);
           gsap.to(edgeEl, { stroke: flashColor, strokeWidth: 3.5, duration: 0.3 });
@@ -398,7 +423,8 @@ export class GeometryEngine {
     // Store original color to restore after animation
     const originalColor = el.getAttribute('stroke') || COLORS.angle;
     const originalWidth = parseFloat(el.getAttribute('stroke-width') || '2');
-    const arcColor = color || COLORS.angle;
+    // Use auto color if no color specified
+    const arcColor = color || this.getAutoColor();
 
     console.log('[highlightArc] animating arc:', arcId, 'with color:', arcColor, 'original:', originalColor);
     // Bug 2 fix: separate highlight animation from restoration
@@ -424,9 +450,12 @@ export class GeometryEngine {
     const colorMap: Record<string, string> = {
       'red': COLORS.red,
       'green': COLORS.green,
-      'orange': COLORS.angle,
+      'orange': COLORS.orange,
+      'blue': COLORS.blue,
+      'purple': COLORS.purple,
     };
-    const arcColor = colorMap[color || 'orange'] || COLORS.angle;
+    // Use auto color if no color specified
+    const arcColor = color ? (colorMap[color] || color) : this.getAutoColor();
 
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (el) {
@@ -464,7 +493,37 @@ export class GeometryEngine {
     this.flashAngle(pointId, 'orange');
   }
 
-  private flyoutCompare(edges: [string, string], label: string): void {
+  /**
+   * 高亮指定的边（用于对比场景，自动用红色+绿色区分）
+   * @param edges 边 ID 数组，自动分配颜色
+   */
+  highlightEdgesForCompare(edges: string[]): void {
+    console.log('[DEBUG] highlightEdgesForCompare called with edges:', edges);
+    if (!this.svgElement || edges.length < 2) return;
+    const gsap = (window as any).gsap;
+
+    // Reset and get auto colors for compare
+    this.resetAutoColor();
+    const color1 = this.getAutoColor();
+    const color2 = this.getAutoColor();
+
+    const [edgeId1, edgeId2] = edges;
+    const normalizedEdgeId1 = normalizeEdgeId(edgeId1);
+    const normalizedEdgeId2 = normalizeEdgeId(edgeId2);
+    const el1 = this.svgElement.querySelector(`#${normalizedEdgeId1}`);
+    const el2 = this.svgElement.querySelector(`#${normalizedEdgeId2}`);
+    if (!el1 || !el2) return;
+
+    gsap.to(el1, { stroke: color1, strokeWidth: 3, duration: 0.3 });
+    gsap.to(el2, { stroke: color2, strokeWidth: 3, duration: 0.3 });
+  }
+
+  /**
+   * 执行飞出对比动画（不复用原始边高亮，只做飞出动画）
+   * @param edges 两条边 ID 组成的元组
+   * @param label 标签文字
+   */
+  compareEdge(edges: [string, string], label: string): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
@@ -487,48 +546,62 @@ export class GeometryEngine {
     const y4 = parseFloat(el2.getAttribute('y2') || '0');
     const len2 = Math.sqrt((x4 - x3) ** 2 + (y4 - y3) ** 2);
 
-    gsap.to(el1, { stroke: COLORS.blue, strokeWidth: 3, duration: 0.3 });
-    gsap.to(el2, { stroke: COLORS.blue, strokeWidth: 3, duration: 0.3 });
+    const ns = 'http://www.w3.org/2000/svg';
+    const baseX = 100;
+    const targetY = 50;
 
+    // 创建第一条边的副本
+    const copy1 = document.createElementNS(ns, 'line');
+    copy1.setAttribute('x1', String(baseX));
+    copy1.setAttribute('y1', String(targetY));
+    copy1.setAttribute('x2', String(baseX + len1));
+    copy1.setAttribute('y2', String(targetY));
+    copy1.setAttribute('stroke', COLORS.red);
+    copy1.setAttribute('stroke-width', '3');
+    copy1.setAttribute('class', 'flyout-copy');
+    this.svgElement.appendChild(copy1);
+
+    // 创建第二条边的副本
+    const copy2 = document.createElementNS(ns, 'line');
+    copy2.setAttribute('x1', String(baseX + len1 + 30));
+    copy2.setAttribute('y1', String(targetY));
+    copy2.setAttribute('x2', String(baseX + len1 + 30 + len2));
+    copy2.setAttribute('y2', String(targetY));
+    copy2.setAttribute('stroke', COLORS.green);
+    copy2.setAttribute('stroke-width', '3');
+    copy2.setAttribute('class', 'flyout-copy');
+    this.svgElement.appendChild(copy2);
+
+    // 飞出动画
+    gsap.fromTo(copy1, { opacity: 0.3, y: y1 - targetY }, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' });
+    gsap.fromTo(copy2, { opacity: 0.3, y: y3 - targetY }, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.2 });
+
+    // 创建等号标签
+    const eqText = document.createElementNS(ns, 'text');
+    eqText.setAttribute('x', String(baseX + len1 + 15));
+    eqText.setAttribute('y', String(targetY + 5));
+    eqText.setAttribute('text-anchor', 'middle');
+    eqText.setAttribute('font-size', '16');
+    eqText.setAttribute('fill', COLORS.green);
+    eqText.setAttribute('font-weight', 'bold');
+    eqText.setAttribute('class', 'flyout-copy');
+    eqText.textContent = '=';
+    this.svgElement.appendChild(eqText);
+    gsap.fromTo(eqText, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, delay: 0.8 });
+  }
+
+  /**
+   * 飞出对比动画（组合调用：先高亮边，再执行飞出动画）
+   * 保持向后兼容
+   */
+  private flyoutCompare(edges: [string, string], label: string): void {
+    console.log('[DEBUG] flyoutCompare called with edges:', edges);
+    // 步骤 1：高亮原始边（红色+绿色）
+    this.highlightEdgesForCompare(edges);
+
+    // 步骤 2：延迟后执行飞出动画
     setTimeout(() => {
-      const ns = 'http://www.w3.org/2000/svg';
-      const baseX = 100;
-      const targetY = 50;
-
-      const copy1 = document.createElementNS(ns, 'line');
-      copy1.setAttribute('x1', String(baseX));
-      copy1.setAttribute('y1', String(targetY));
-      copy1.setAttribute('x2', String(baseX + len1));
-      copy1.setAttribute('y2', String(targetY));
-      copy1.setAttribute('stroke', COLORS.red);
-      copy1.setAttribute('stroke-width', '3');
-      copy1.setAttribute('class', 'flyout-copy');
-      this.svgElement!.appendChild(copy1);
-
-      const copy2 = document.createElementNS(ns, 'line');
-      copy2.setAttribute('x1', String(baseX + len1 + 30));
-      copy2.setAttribute('y1', String(targetY));
-      copy2.setAttribute('x2', String(baseX + len1 + 30 + len2));
-      copy2.setAttribute('y2', String(targetY));
-      copy2.setAttribute('stroke', COLORS.green);
-      copy2.setAttribute('stroke-width', '3');
-      copy2.setAttribute('class', 'flyout-copy');
-      this.svgElement!.appendChild(copy2);
-
-      gsap.fromTo(copy1, { opacity: 0.3, y: y1 - targetY }, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out' });
-      gsap.fromTo(copy2, { opacity: 0.3, y: y3 - targetY }, { y: 0, opacity: 1, duration: 0.8, ease: 'power2.out', delay: 0.2 });
-
-      const eqText = document.createElementNS(ns, 'text');
-      eqText.setAttribute('x', String(baseX + len1 + 15));
-      eqText.setAttribute('y', String(targetY + 5));
-      eqText.setAttribute('text-anchor', 'middle');
-      eqText.setAttribute('font-size', '16');
-      eqText.setAttribute('fill', COLORS.green);
-      eqText.setAttribute('font-weight', 'bold');
-      eqText.setAttribute('class', 'flyout-copy');
-      eqText.textContent = '=';
-      this.svgElement!.appendChild(eqText);
-      gsap.fromTo(eqText, { opacity: 0, scale: 0 }, { opacity: 1, scale: 1, duration: 0.5, delay: 0.8 });
+      this.compareEdge(edges, label);
     }, 600);
   }
 
