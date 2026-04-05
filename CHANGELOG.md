@@ -1,5 +1,20 @@
 # Changelog
 
+## [2.3.0] - 2026-04-05
+
+### Added
+- **proveCongruent 意图**：三角形全等高级可视化动画
+  - 支持配置 SAS、SSS、ASA、AAS、HL 全等判定方法
+  - 自动颜色分配：每个 pair 使用不同颜色（边和角分别高亮）
+  - 同一 pair 中的元素使用相同颜色表示对应关系
+  - 最后填充两个三角形显示全等结论
+- **showAngle 方法增强**：支持传入颜色参数
+- **problem.schema.json 扩展**：新增 proveCongruent 字段定义
+
+### Changed
+- **math-003.json**：使用 proveCongruent 意图重写步骤 6 和 7
+- **版本号**：从 2.2.4 升级到 2.3.0
+
 ## [Unreleased]
 
 ### Added

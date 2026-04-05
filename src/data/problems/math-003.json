@@ -129,14 +129,28 @@
       "flashAngle": ["BAC", "EDC"]
     },
     {
-      "highlightEdges": ["AB", "DE", "AC", "CD"],
-      "fillTriangle": ["ABC"],
-      "flashAngle": ["BAC", "EDC"]
+      "proveCongruent": {
+        "method": "SAS",
+        "triangle1": "ABC",
+        "triangle2": "DCE",
+        "pairs": [
+          { "type": "edge", "items": ["AB", "DE"] },
+          { "type": "angle", "items": ["BAC", "EDC"] },
+          { "type": "edge", "items": ["AC", "CD"] }
+        ]
+      }
     },
     {
-      "highlightEdges": ["AB", "DE", "AC", "CD"],
-      "fillTriangle": ["ABC", "DCE"],
-      "flashAngle": ["BAC", "EDC"]
+      "proveCongruent": {
+        "method": "SAS",
+        "triangle1": "ABC",
+        "triangle2": "DCE",
+        "pairs": [
+          { "type": "edge", "items": ["AB", "DE"] },
+          { "type": "angle", "items": ["BAC", "EDC"] },
+          { "type": "edge", "items": ["AC", "CD"] }
+        ]
+      }
     }
   ],
   "question": {
