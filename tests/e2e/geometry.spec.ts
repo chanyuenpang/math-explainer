@@ -13,7 +13,7 @@ import {
 
 test.describe('Geometry Canvas - math-001', () => {
   test.beforeEach(async ({ page }) => {
-    await page.goto('/problem/math-001');
+    await page.goto('/problem/math-001/');
     await page.waitForLoadState('networkidle');
     await page.waitForTimeout(500);
   });
