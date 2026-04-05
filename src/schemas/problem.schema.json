@@ -285,6 +285,45 @@
             "items": {
               "type": "string"
             }
+          },
+          "proveCongruent": {
+            "type": "object",
+            "additionalProperties": false,
+            "required": ["method", "triangle1", "triangle2", "pairs"],
+            "properties": {
+              "method": {
+                "type": "string",
+                "enum": ["SAS", "SSS", "ASA", "AAS", "HL"]
+              },
+              "triangle1": {
+                "type": "string"
+              },
+              "triangle2": {
+                "type": "string"
+              },
+              "pairs": {
+                "type": "array",
+                "items": {
+                  "type": "object",
+                  "additionalProperties": false,
+                  "required": ["type", "items"],
+                  "properties": {
+                    "type": {
+                      "type": "string",
+                      "enum": ["edge", "angle"]
+                    },
+                    "items": {
+                      "type": "array",
+                      "items": {
+                        "type": "string"
+                      },
+                      "minItems": 2,
+                      "maxItems": 2
+                    }
+                  }
+                }
+              }
+            }
           }
         }
       }

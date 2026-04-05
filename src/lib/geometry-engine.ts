@@ -51,7 +51,8 @@ export type IntentType =
   | 'highlights'
   | 'compareEdges'
   | 'compareAngles'
-  | 'showEqualMark';
+  | 'showEqualMark'
+  | 'proveCongruent';
 
 export const COLORS = {
   default: '#D1D5DB',
@@ -215,6 +216,35 @@ export class GeometryEngine {
     if (!gsap) return;
 
     switch (intent.type) {
+      case 'proveCongruent': {
+        const pairs = intent.pairs;
+        const triangle1 = intent.triangle1;
+        const triangle2 = intent.triangle2;
+        const method = intent.method;
+        
+        // 分配颜色：每个 pair 一种颜色
+        const pairColors = ['#DC2626', '#10B981', '#3B82F6', '#F97316', '#8B5CF6'];
+        
+        pairs.forEach((pair: any, index: number) => {
+          const color = pairColors[index % pairColors.length];
+          
+          if (pair.type === 'edge') {
+            // 高亮两条边，同色
+            this.highlightEdge(pair.items[0], color);
+            this.highlightEdge(pair.items[1], color);
+          } else if (pair.type === 'angle') {
+            // 高亮两个角的弧线和边，同色
+            this.showAngle(pair.items[0], color);
+            this.showAngle(pair.items[1], color);
+          }
+        });
+        
+        // 填充两个三角形
+        this.fillTriangle(triangle1, 'rgba(59,130,246,0.2)');
+        this.fillTriangle(triangle2, 'rgba(16,185,129,0.2)');
+        
+        break;
+      }
       case 'highlightEdge':
         this.highlightEdge(intent.edge, intent.color);
         break;
@@ -455,18 +485,18 @@ export class GeometryEngine {
    * NEW: Unified showAngle intent - angle as a whole (arc + two edges) with unified color
    * Auto-assigns color using ColorContext, replacing drawArcs + flashAngle + highlightArcs pattern
    */
-  private showAngle(angleId: string): void {
+  private showAngle(angleId: string, color?: string): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
     // Step 1: Assign color for this angle (same angle returns same color within a step)
-    const color = this.assignColor('angle-' + angleId);
+    const angleColor = color || this.assignColor('angle-' + angleId);
     const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
 
     // Step 2: Set arc color and opacity
     const arcEl = this.svgElement.querySelector(`#${arcId}`);
     if (arcEl) {
-      gsap.set(arcEl, { stroke: color, strokeWidth: 2, opacity: 1 });
+      gsap.set(arcEl, { stroke: angleColor, strokeWidth: 2, opacity: 1 });
       // Flash animation (strokeWidth only)
       gsap.to(arcEl, { strokeWidth: 4, duration: 0.2, yoyo: true, repeat: 3, ease: 'power2.inOut' });
     }
@@ -474,7 +504,7 @@ export class GeometryEngine {
     // Step 3: Set arc fill color
     const fillEl = this.svgElement.querySelector(`#${arcId}-fill`);
     if (fillEl) {
-      gsap.set(fillEl, { fill: color });
+      gsap.set(fillEl, { fill: angleColor });
       gsap.fromTo(fillEl,
         { fillOpacity: 0.1 },
         { fillOpacity: 0.35, duration: 0.3, yoyo: true, repeat: 3, ease: 'power2.inOut' }
@@ -505,7 +535,7 @@ export class GeometryEngine {
           if (!edgeEl) return;
 
           // Set color, then flash strokeWidth
-          gsap.set(edgeEl, { stroke: color, strokeWidth: 3.5 });
+          gsap.set(edgeEl, { stroke: angleColor, strokeWidth: 3.5 });
           gsap.to(edgeEl, {
             strokeWidth: 4.5,
             duration: 0.2,
@@ -791,6 +821,18 @@ export class GeometryEngine {
 
 export function convertStepAnimationToIntents(stepAnimation: Record<string, any>): AnimationIntent[] {
   const intents: AnimationIntent[] = [];
+
+  // NEW: proveCongruent - Triangle congruence visualization
+  if (stepAnimation.proveCongruent) {
+    const config = stepAnimation.proveCongruent;
+    intents.push({
+      type: 'proveCongruent',
+      method: config.method,
+      triangle1: config.triangle1,
+      triangle2: config.triangle2,
+      pairs: config.pairs
+    });
+  }
 
   // NEW: Unified highlights format
   if (stepAnimation.highlights) {

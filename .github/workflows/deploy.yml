@@ -25,9 +25,32 @@ jobs:
           cache: npm
       - run: npm ci
       - run: npm test
-  build:
+
+  test-e2e:
     runs-on: ubuntu-latest
     needs: test
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+          cache: npm
+      - run: npm ci
+      - run: npx playwright install chromium --with-deps
+      - run: npm run build
+      - run: npm run preview &
+      - run: sleep 5
+      - run: npm run test:e2e
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: playwright-report
+          path: reports/test-results/
+          retention-days: 30
+
+  build:
+    runs-on: ubuntu-latest
+    needs: test-e2e
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4

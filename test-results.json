@@ -1,0 +1,2487 @@
+[
+  {
+    "problemId": "math-001",
+    "errors": [
+      "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button:has-text(\"下一步\")')\n    - locator resolved to <button disabled class=\"px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1 shadow-sm\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n"
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step1.png"
+      },
+      {
+        "step": 2,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step2.png"
+      },
+      {
+        "step": 3,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step3.png"
+      },
+      {
+        "step": 4,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step4.png"
+      },
+      {
+        "step": 5,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step5.png"
+      },
+      {
+        "step": 6,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step6.png"
+      },
+      {
+        "step": 7,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step7.png"
+      },
+      {
+        "step": 8,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step8.png"
+      },
+      {
+        "step": 9,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step9.png"
+      },
+      {
+        "step": 10,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step10.png"
+      },
+      {
+        "step": 11,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step11.png"
+      },
+      {
+        "step": 12,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step12.png"
+      },
+      {
+        "step": 13,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step13.png"
+      },
+      {
+        "step": 14,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step14.png"
+      },
+      {
+        "step": 15,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-001-step15.png"
+      }
+    ],
+    "colorIssues": []
+  },
+  {
+    "problemId": "math-002",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button:has-text(\"下一步\")')\n    - locator resolved to <button disabled class=\"px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1 shadow-sm\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n"
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "arcColors": [
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-002-step1.png"
+      },
+      {
+        "step": 2,
+        "arcColors": [
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-002-step2.png"
+      },
+      {
+        "step": 3,
+        "arcColors": [
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-002-step3.png"
+      }
+    ],
+    "colorIssues": []
+  },
+  {
+    "problemId": "math-003",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button:has-text(\"下一步\")')\n    - locator resolved to <button disabled class=\"px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1 shadow-sm\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n"
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step1.png"
+      },
+      {
+        "step": 2,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step2.png"
+      },
+      {
+        "step": 3,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step3.png"
+      },
+      {
+        "step": 4,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step4.png"
+      },
+      {
+        "step": 5,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step5.png"
+      },
+      {
+        "step": 6,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step6.png"
+      },
+      {
+        "step": 7,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step7.png"
+      },
+      {
+        "step": 8,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-003-step8.png"
+      }
+    ],
+    "colorIssues": []
+  },
+  {
+    "problemId": "math-004",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button:has-text(\"下一步\")')\n    - locator resolved to <button disabled class=\"px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1 shadow-sm\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n"
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step1.png"
+      },
+      {
+        "step": 2,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step2.png"
+      },
+      {
+        "step": 3,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step3.png"
+      },
+      {
+        "step": 4,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step4.png"
+      },
+      {
+        "step": 5,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step5.png"
+      },
+      {
+        "step": 6,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step6.png"
+      },
+      {
+        "step": 7,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step7.png"
+      },
+      {
+        "step": 8,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-004-step8.png"
+      }
+    ],
+    "colorIssues": []
+  },
+  {
+    "problemId": "math-005",
+    "errors": [
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "Failed to load resource: the server responded with a status of 404 (Not Found)",
+      "locator.click: Timeout 30000ms exceeded.\nCall log:\n  - waiting for locator('button:has-text(\"下一步\")')\n    - locator resolved to <button disabled class=\"px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1 shadow-sm\">…</button>\n  - attempting click action\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n    - waiting 20ms\n    2 × waiting for element to be visible, enabled and stable\n      - element is not enabled\n    - retrying click action\n      - waiting 100ms\n    58 × waiting for element to be visible, enabled and stable\n       - element is not enabled\n     - retrying click action\n       - waiting 500ms\n"
+    ],
+    "steps": [
+      {
+        "step": 1,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step1.png"
+      },
+      {
+        "step": 2,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step2.png"
+      },
+      {
+        "step": 3,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step3.png"
+      },
+      {
+        "step": 4,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step4.png"
+      },
+      {
+        "step": 5,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step5.png"
+      },
+      {
+        "step": 6,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step6.png"
+      },
+      {
+        "step": 7,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step7.png"
+      },
+      {
+        "step": 8,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step8.png"
+      },
+      {
+        "step": 9,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step9.png"
+      },
+      {
+        "step": 10,
+        "arcColors": [
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "stroke",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "#F59E0B"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          },
+          {
+            "type": "fill",
+            "color": "transparent"
+          },
+          {
+            "type": "stroke",
+            "color": "transparent"
+          }
+        ],
+        "screenshot": "/home/yankeeting/.openclaw/workspace/projects/math-explainer/screenshots/math-005-step10.png"
+      }
+    ],
+    "colorIssues": []
+  }
+]
