@@ -118,24 +118,24 @@
       "compareEdges": {"edge1": "AB", "edge2": "CD", "label": "AB ∥ CD"}
     },
     {
-      "flashAngle": ["1"]
+      "flashAngle": ["angle-1"]
     },
     {
-      "flashAngle": ["2"]
+      "flashAngle": ["angle-2"]
     },
     {
-      "compareAngles": ["1", "2"],
-      "flashAngle": ["1", "2"]
+      "compareAngles": ["angle-1", "angle-2"],
+      "flashAngle": ["angle-1", "angle-2"]
     },
     {
-      "flashAngle": ["3"]
+      "flashAngle": ["angle-3"]
     },
     {
-      "compareAngles": ["1", "3"],
-      "flashAngle": ["1", "3"]
+      "compareAngles": ["angle-1", "angle-3"],
+      "flashAngle": ["angle-1", "angle-3"]
     },
     {
-      "flashAngle": ["1", "2", "3"]
+      "flashAngle": ["angle-1", "angle-2", "angle-3"]
     }
   ],
   "question": {

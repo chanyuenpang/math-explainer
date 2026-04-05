@@ -113,12 +113,10 @@
       "showEqualMark": ["AB-DE", "AC-CD"]
     },
     {
-      "compareEdges": {"edge1": "AB", "edge2": "DE", "label": "AB = DE"},
-      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "red"}]
+      "compareEdges": {"edge1": "AB", "edge2": "DE", "label": "AB = DE"}
     },
     {
-      "compareEdges": {"edge1": "AC", "edge2": "CD", "label": "AC = CD"},
-      "highlightEdges": [{"edge": "AC", "color": "blue"}, {"edge": "CD", "color": "blue"}]
+      "compareEdges": {"edge1": "AC", "edge2": "CD", "label": "AC = CD"}
     },
     {
       "flashAngle": ["BAC"]
@@ -131,12 +129,12 @@
       "flashAngle": ["BAC", "EDC"]
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "red"}, {"edge": "AC", "color": "blue"}, {"edge": "CD", "color": "blue"}],
+      "highlightEdges": ["AB", "DE", "AC", "CD"],
       "fillTriangle": ["ABC"],
       "flashAngle": ["BAC", "EDC"]
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "red"}, {"edge": "AC", "color": "blue"}, {"edge": "CD", "color": "blue"}],
+      "highlightEdges": ["AB", "DE", "AC", "CD"],
       "fillTriangle": ["ABC", "DCE"],
       "flashAngle": ["BAC", "EDC"]
     }

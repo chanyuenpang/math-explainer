@@ -68,7 +68,8 @@
     ],
     "equalPairs": {
       "AB": "AC"
-    }
+    },
+    "rightAngles": ["ADB", "ADC"]
   },
   "steps": [
     {
@@ -138,11 +139,10 @@
       "showEqualMark": ["AB-AC"]
     },
     {
-      "compareEdges": {"edge1": "AB", "edge2": "AC", "label": "AB = AC"},
-      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}]
+      "compareEdges": {"edge1": "AB", "edge2": "AC", "label": "AB = AC"}
     },
     {
-      "showRightAngles": ["ADB", "ADC"]
+      "showRightAngles": ["D"]
     },
     {
       "flashAngle": ["B"]
@@ -152,11 +152,11 @@
       "flashAngle": ["B", "C"]
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}, {"edge": "AD", "color": "red"}],
+      "highlightEdges": ["AB", "AC", "AD"],
       "fillTriangle": ["ABD"]
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}, {"edge": "AD", "color": "red"}],
+      "highlightEdges": ["AB", "AC", "AD"],
       "fillTriangle": ["ACD"]
     },
     {
@@ -164,11 +164,10 @@
       "flashAngle": ["BAD", "DAC"]
     },
     {
-      "compareEdges": {"edge1": "BD", "edge2": "DC", "label": "BD = DC"},
-      "highlightEdges": [{"edge": "BD", "color": "blue"}, {"edge": "DC", "color": "blue"}]
+      "compareEdges": {"edge1": "BD", "edge2": "DC", "label": "BD = DC"}
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "green"}, {"edge": "AC", "color": "green"}, {"edge": "AD", "color": "red"}],
+      "highlightEdges": ["AB", "AC", "AD"],
       "fillTriangle": ["ABD", "ACD"],
       "flashAngle": ["B", "C", "BAD", "DAC"]
     }
