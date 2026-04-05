@@ -32,7 +32,10 @@ const problems = listProblems();
       {problems.map(problem => (
         <a href={`/math-explainer/problem/${problem.id}`} class="block bg-white/80 backdrop-blur rounded-xl shadow-sm border border-gray-100 p-5 hover:shadow-md hover:border-blue-200 hover:bg-white transition-all group">
           <div class="flex items-start justify-between gap-3">
-            <h2 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{problem.title}</h2>
+            <div class="flex-1">
+              <span class="text-xs text-gray-400 font-mono mb-1 block">{problem.id}</span>
+              <h2 class="font-semibold text-gray-800 group-hover:text-blue-600 transition-colors">{problem.title}</h2>
+            </div>
             <span class={`px-2 py-0.5 text-xs rounded-full font-medium whitespace-nowrap ${
               problem.difficulty === 'easy' ? 'bg-green-50 text-green-600 border border-green-100' :
               problem.difficulty === 'medium' ? 'bg-yellow-50 text-yellow-600 border border-yellow-100' :

@@ -43,7 +43,10 @@ const problem = getProblem(id!);
 
   <main class="h-[100dvh] flex flex-col overflow-hidden">
     <div class="flex-1 overflow-hidden flex flex-col">
-      <h1 class="text-base md:text-lg font-bold px-3 py-2 text-gray-800 shrink-0">{problem?.title}</h1>
+      <div class="px-3 py-2 shrink-0">
+        <span class="text-xs text-gray-400 font-mono mb-1 block">{problem?.id}</span>
+        <h1 class="text-base md:text-lg font-bold text-gray-800">{problem?.title}</h1>
+      </div>
 
       {problem?.image && (
         <div class="bg-white rounded-lg shadow-sm p-2 mx-3 mb-2 shrink-0 hidden">
