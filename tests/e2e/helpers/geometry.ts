@@ -1,14 +1,16 @@
 import { type Page, type Locator, expect } from '@playwright/test';
 
 export const SELECTORS = {
-  pointLabel: (label: string) => `text=${label}`,
-  edge: (id: string) => `#${id}`,
-  triangle: (id: string) => `#triangle-${id}`,
-  arc: (id: string) => `#${id}`,
-  arcFill: (id: string) => `#${id}-fill`,
+  svg: 'svg',
+  viewBox: '0 0 500 420',  // 修正：实际 viewBox 不是 500x500
+  pointLabel: (label: string) => `text:has-text("${label}")`,
+  edge: (id: string) => `line#${id}`,  // 修正：边是 line 元素
+  triangle: (id: string) => `path#triangle-${id}`,
+  arc: (id: string) => `path#bad-${id}`,  // 修正：角弧是 path 元素
+  arcFill: (id: string) => `path#bad-${id}-fill`,  // 修正：填充也是 path
   nextButton: 'button:has-text("下一步")',
   prevButton: 'button:has-text("上一步")',
-  stepIndicator: '.step-indicator',
+  stepIndicator: 'span:has-text("第")',  // 修正：步骤指示器是 span
 };
 
 export async function waitForGsapAnimation(page: Page, duration: number = 500): Promise<void> {
@@ -70,7 +72,7 @@ export async function assertEdgeCoordinates(
 ): Promise<void> {
   const edge = page.locator(SELECTORS.edge(edgeId));
   await expect(edge).toHaveAttribute('x1', String(expected.x1));
-  await expect(edge).toHaveAttribute('y1', String(300 - expected.y1));
+  await expect(edge).toHaveAttribute('y1', String(300 - expected.y1));  // 修正：Y 坐标转换是 300-y
   await expect(edge).toHaveAttribute('x2', String(expected.x2));
   await expect(edge).toHaveAttribute('y2', String(300 - expected.y2));
 }

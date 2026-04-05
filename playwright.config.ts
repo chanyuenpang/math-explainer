@@ -11,7 +11,7 @@ export default defineConfig({
     ['html', { outputFolder: 'reports/test-results' }]
   ],
   use: {
-    baseURL: 'http://localhost:4321/math-explainer',
+    baseURL: 'http://localhost:4321/math-explainer/',  // Added trailing slash to match Astro config
     trace: 'on-first-retry',
   },
   projects: [

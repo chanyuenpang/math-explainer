@@ -6,8 +6,10 @@ const problems = ['math-001', 'math-002', 'math-003', 'math-004', 'math-005'];
 for (const problemId of problems) {
   test.describe(`${problemId} 动画测试`, () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`/problem/${problemId}/`);
-      await page.waitForSelector('svg');
+      await page.goto(`problem/${problemId}/`);  // Relative path to work with baseURL
+      // Wait for React to hydrate and render the SVG with edges
+      // Use a generic selector that matches any line in the geometry SVG
+      await page.waitForSelector('svg[viewBox] line', { state: 'attached', timeout: 10000 });
       await page.waitForTimeout(500);
     });
 
