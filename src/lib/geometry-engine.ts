@@ -217,32 +217,33 @@ export class GeometryEngine {
 
     switch (intent.type) {
       case 'proveCongruent': {
-        const pairs = intent.pairs;
-        const triangle1 = intent.triangle1;
-        const triangle2 = intent.triangle2;
-        const method = intent.method;
-        
-        // 分配颜色：每个 pair 一种颜色
+        const { pairs, triangle1, triangle2 } = intent;
         const pairColors = ['#DC2626', '#10B981', '#3B82F6', '#F97316', '#8B5CF6'];
         
         pairs.forEach((pair: any, index: number) => {
           const color = pairColors[index % pairColors.length];
           
           if (pair.type === 'edge') {
-            // 高亮两条边，同色
-            this.highlightEdge(pair.items[0], color);
-            this.highlightEdge(pair.items[1], color);
+            pair.items.forEach((edgeId: string) => {
+              this.unitSetEdge(edgeId, color, 4);
+              this.unitFlashElement(`#${normalizeEdgeId(edgeId)}`, 'strokeWidth', 4, 5);
+            });
           } else if (pair.type === 'angle') {
-            // 高亮两个角的弧线和边，同色
-            this.showAngle(pair.items[0], color);
-            this.showAngle(pair.items[1], color);
+            pair.items.forEach((angleId: string) => {
+              const { arcId, edge1, edge2 } = this.getAngleArcAndEdgeIds(angleId);
+              if (arcId) {
+                this.unitSetArc(arcId, color);
+                this.unitFlashElement(`#${arcId}`, 'strokeWidth', 2, 4);
+              }
+              // 角对应的两条边也设同色
+              if (edge1) this.unitSetEdge(edge1, color, 3.5);
+              if (edge2) this.unitSetEdge(edge2, color, 3.5);
+            });
           }
         });
         
-        // 填充两个三角形
-        this.fillTriangle(triangle1, 'rgba(59,130,246,0.2)');
-        this.fillTriangle(triangle2, 'rgba(16,185,129,0.2)');
-        
+        this.unitFillShape(`triangle-${triangle1}`, 'rgba(220,38,38,0.15)');
+        this.unitFillShape(`triangle-${triangle2}`, 'rgba(16,185,129,0.15)');
         break;
       }
       case 'highlightEdge':
@@ -368,6 +369,101 @@ export class GeometryEngine {
         }
         break;
     }
+  }
+
+  // ===== 底层 Unit 动画方法 =====
+
+  /** 设置边颜色和宽度 */
+  private unitSetEdge(edgeId: string, color: string, width: number = 3): void {
+    const el = this.svgElement!.querySelector(`#${normalizeEdgeId(edgeId)}`);
+    if (!el) return;
+    (window as any).gsap.set(el, { stroke: color, strokeWidth: width });
+  }
+
+  /** 元素属性闪烁动画 */
+  private unitFlashElement(selector: string, prop: string, from: number, to: number, duration: number = 0.2, repeat: number = 2): void {
+    const el = this.svgElement!.querySelector(selector);
+    if (!el) return;
+    (window as any).gsap.to(el, { [prop]: to, duration, yoyo: true, repeat, ease: 'power2.inOut' });
+  }
+
+  /** 设置弧线颜色和可见性 */
+  private unitSetArc(arcId: string, color: string): void {
+    const el = this.svgElement!.querySelector(`#${arcId}`);
+    if (el) (window as any).gsap.set(el, { stroke: color, strokeWidth: 2, opacity: 1 });
+    const fillEl = this.svgElement!.querySelector(`#${arcId}-fill`);
+    if (fillEl) (window as any).gsap.set(fillEl, { fill: color, fillOpacity: 0.3 });
+  }
+
+  /** 填充图形 */
+  private unitFillShape(shapeId: string, color: string, opacity: number = 0.3): void {
+    // 尝试多种可能的 ID 命名方式
+    const candidates = [shapeId];
+    if (shapeId.startsWith('triangle-')) {
+      const triName = shapeId.replace('triangle-', '');
+      // 尝试反转（如 DCE -> ECD）、换位（如 DCE -> DED）等
+      candidates.push(`triangle-${triName.split('').reverse().join('')}`);
+      // 尝试所有可能的排列
+      const chars = triName.split('');
+      const perms = this.getPermutations(chars);
+      perms.forEach(p => candidates.push(`triangle-${p.join('')}`));
+    }
+    
+    for (const id of candidates) {
+      const el = this.svgElement!.querySelector(`#${id}`);
+      if (el) {
+        (window as any).gsap.to(el, { fill: color, fillOpacity: opacity, opacity: 1, duration: 0.5 });
+        return;
+      }
+    }
+  }
+  
+  /** 生成数组的所有排列 */
+  private getPermutations(arr: string[]): string[][] {
+    if (arr.length <= 1) return [arr];
+    const result: string[][] = [];
+    for (let i = 0; i < arr.length; i++) {
+      const current = arr[i];
+      const remaining = [...arr.slice(0, i), ...arr.slice(i + 1)];
+      const perms = this.getPermutations(remaining);
+      for (const p of perms) {
+        result.push([current, ...p]);
+      }
+    }
+    return result;
+  }
+
+  /** 获取角对应的弧线 ID 和两条边 ID */
+  private getAngleArcAndEdgeIds(angleId: string): { arcId: string | null, edge1: string | null, edge2: string | null } {
+    // 查找对应的 angleArc 配置（通过 vertex 或 id）
+    const angleArc = this.config.angleArcs?.find(a => {
+      // 尝试多种匹配方式
+      if (a.vertex === angleId) return true;
+      if (a.id === angleId) return true;
+      if (a.id === `angle-${angleId}`) return true;
+      if (a.id === `bad-${angleId}`) return true;
+      // 尝试匹配 angle 名称（如 BAC -> angle-BAC）
+      if (a.id && a.id.includes(angleId)) return true;
+      return false;
+    });
+    
+    if (!angleArc) return { arcId: null, edge1: null, edge2: null };
+    
+    const edges = this.topology.getEdges();
+    const e1 = edges.find(e => (e.from === angleArc.vertex && e.to === angleArc.from) || (e.to === angleArc.vertex && e.from === angleArc.from));
+    const e2 = edges.find(e => (e.from === angleArc.vertex && e.to === angleArc.to) || (e.to === angleArc.vertex && e.from === angleArc.to));
+    
+    return {
+      arcId: angleArc.id,
+      edge1: e1?.id || null,
+      edge2: e2?.id || null
+    };
+  }
+
+  /** 获取角对应的两条边 ID（向后兼容） */
+  private getAngleEdgeIds(angleId: string): [string | null, string | null] {
+    const { edge1, edge2 } = this.getAngleArcAndEdgeIds(angleId);
+    return [edge1, edge2];
   }
 
   private highlightEdge(edgeId: string, color?: string): void {
