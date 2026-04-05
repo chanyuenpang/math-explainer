@@ -6,11 +6,17 @@ const problems = ['math-001', 'math-002', 'math-003', 'math-004', 'math-005'];
 for (const problemId of problems) {
   test.describe(`${problemId} 动画测试`, () => {
     test.beforeEach(async ({ page }) => {
-      await page.goto(`problem/${problemId}/`);  // Relative path to work with baseURL
+      // Use domcontentloaded instead of load for faster navigation
+      await page.goto(`problem/${problemId}/`, { waitUntil: 'domcontentloaded', timeout: 30000 });
       // Wait for React to hydrate and render the SVG with edges
-      // Use a generic selector that matches any line in the geometry SVG
-      await page.waitForSelector('svg[viewBox] line', { state: 'attached', timeout: 10000 });
-      await page.waitForTimeout(500);
+      // First wait for the React root to have content
+      await page.waitForSelector('#combined-root > div', { state: 'attached', timeout: 15000 });
+      // Then wait for the SVG to be present
+      await page.waitForSelector('svg[viewBox]', { state: 'attached', timeout: 15000 });
+      // Finally wait for at least one line to be rendered
+      await page.waitForSelector('svg[viewBox] line', { state: 'attached', timeout: 15000 });
+      // Extra buffer for GSAP animations to initialize
+      await page.waitForTimeout(1000);
     });
 
     test('页面无 JS 错误', async ({ page }) => {
