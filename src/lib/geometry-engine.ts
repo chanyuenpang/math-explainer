@@ -607,8 +607,9 @@ export class GeometryEngine {
       a.vertex === pointId && a.isRightAngle
     );
     const arcId = rightAngleArc?.id || `bad-${pointId}`;
-    this.drawArc(arcId, 'orange');
-    this.flashAngle(pointId, 'orange');
+    const rightAngleColor = this.assignColor('right-angle-' + pointId);
+    this.drawArc(arcId, rightAngleColor);
+    this.flashAngle(pointId, rightAngleColor);
   }
 
   /**

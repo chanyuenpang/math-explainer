@@ -5,6 +5,7 @@
   "category": "几何",
   "difficulty": "easy",
   "tags": ["几何", "直角三角形", "全等"],
+  "image": "/problems/math-002.png",
   "template": {
     "type": "right-triangle",
     "variant": "hl"
