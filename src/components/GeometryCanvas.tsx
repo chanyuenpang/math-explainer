@@ -1,4 +1,6 @@
 import { useEffect, useRef, useMemo } from 'react';
+import { GeometryEngine, convertStepAnimationToIntents, COLORS } from '../lib/geometry-engine';
+import { TopologyGraph } from '../lib/topology';
 
 interface Point { x: number; y: number; label: string }
 interface AngleArc {

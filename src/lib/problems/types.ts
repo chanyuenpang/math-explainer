@@ -20,9 +20,10 @@ export interface Problem {
       vertex: string;
       from: string;
       to: string;
-      color: string;
-      path: string;
-      isRightAngle: boolean;
+      color?: string;
+      path?: string;
+      isRightAngle?: boolean;
+      type?: string;
     }>;
     equalPairs?: Record<string, string>;
     triangles?: string[];
