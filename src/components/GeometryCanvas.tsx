@@ -22,16 +22,12 @@ interface StepAnimation {
   rightAngles?: string[];
   angles?: string[];
   highlightEdges?: string[];
-  drawArcs?: string[];
   drawEdge?: string[];
   showRightAngles?: string[];
   showEqualMarks?: boolean;
   showLabels?: string[];
   flashAngle?: string[];
   flashColor?: string;
-  drawArc?: string;
-  arcColor?: string;
-  highlightArcs?: string[];
   fillTriangle?: string;
   fillColor?: string;
   moveEdge?: string;

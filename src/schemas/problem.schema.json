@@ -337,20 +337,6 @@
             "type": "string",
             "description": "Uniform highlight color for string-array highlightEdges"
           },
-          "drawArcs": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Arc IDs to draw (fallback when flashAngle is absent)"
-          },
-          "highlightArcs": {
-            "type": "array",
-            "items": {
-              "type": "string"
-            },
-            "description": "Arc IDs to highlight (fallback when flashAngle is absent)"
-          },
           "fillColors": {
             "type": "object",
             "additionalProperties": {

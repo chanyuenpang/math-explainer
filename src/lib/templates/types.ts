@@ -47,10 +47,6 @@ export interface AnimationStepTemplate {
   color?: string;
   flashAngle?: string[];
   flashColor?: string;
-  /** @deprecated Use flashAngle instead (auto-converts to showAngle) */
-  drawArcs?: string[];
-  /** @deprecated Use flashAngle instead (auto-converts to showAngle) */
-  highlightArcs?: string[];
   fillTriangle?: string[];
   fillColors?: Record<string, string>;
   flyoutCompare?: Array<{ edges: [string, string]; label: string }>;

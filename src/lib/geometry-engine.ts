@@ -45,14 +45,6 @@ export type IntentType =
   | 'flyoutCompare'
   | 'moveEdge'
   | 'moveTriangle'
-  /** @deprecated Use showAngle instead */
-  | 'highlightArc'
-  /** @deprecated Use showAngle instead */
-  | 'highlightArcs'
-  /** @deprecated Use showAngle instead */
-  | 'drawArc'
-  /** @deprecated Use showAngle instead */
-  | 'drawArcs'
   | 'showRightAngle'
   | 'showRightAngles'
   | 'highlights'
@@ -296,28 +288,6 @@ export class GeometryEngine {
         break;
       case 'moveTriangle':
         this.moveTriangle(intent.triangle, intent.targetTriangle);
-        break;
-      case 'highlightArc':
-        this.highlightArc(intent.arc, intent.color);
-        break;
-      case 'highlightArcs':
-        if (intent.arcs && intent.arcs.length > 0 && typeof intent.arcs[0] === 'object') {
-          intent.arcs.forEach((item: any) => this.highlightArc(item.arc, item.color));
-        } else {
-          (intent.arcs || []).forEach((arcId: string) => this.highlightArc(arcId, intent.color));
-        }
-        break;
-      case 'drawArc':
-        this.drawArc(intent.arc, intent.color);
-        break;
-      case 'drawArcs':
-        (intent.arcs || []).forEach((arcItem: any) => {
-          if (typeof arcItem === 'object') {
-            this.drawArc(arcItem.arc, arcItem.color || intent.color);
-          } else {
-            this.drawArc(arcItem, intent.color);
-          }
-        });
         break;
       case 'showRightAngle':
         this.showRightAngle(intent.point);
@@ -982,7 +952,7 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
     }
   }
 
-  // NEW: Merge drawArcs + flashAngle + highlightArcs into unified showAngle intent
+  // Merge flashAngle into unified showAngle intent
   if (stepAnimation.flashAngle) {
     const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
     // Convert to showAngle (ignore color field - engine auto-assigns)
@@ -990,7 +960,7 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
       const angleId = typeof angleConfig === 'string' ? angleConfig : angleConfig.angle;
       intents.push({ type: 'showAngle', angle: angleId });
     });
-    // Skip separate drawArcs/highlightArcs for these angles (handled by showAngle)
+    // drawArcs/highlightArcs deprecated - replaced by showAngle
   }
 
   if (stepAnimation.fillTriangle) {
