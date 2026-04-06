@@ -81,7 +81,7 @@ export class GeometryEngine {
   // ColorContext: unified color management for geometric elements
   private colorContext: Map<string, string> = new Map();  // element ID → color
   private autoColorIndex: number = 0;
-  private readonly autoColors: string[] = [COLORS.red, COLORS.green, COLORS.blue, COLORS.orange, COLORS.purple];
+  private readonly autoColors: string[] = [COLORS.green, COLORS.blue, COLORS.orange, COLORS.purple, COLORS.red];
 
   /**
    * Assign a color for a geometric element (same element returns same color within a step)
