@@ -217,58 +217,191 @@
   ],
   "stepAnimations": [
     {
-      "drawEdge": ["AB", "BC", "CD", "AD"],
-      "showEqualMark": ["BC-CD", "AB-DE"]
+      "drawEdge": [
+        "AB",
+        "BC",
+        "CD",
+        "AD"
+      ],
+      "showEqualMark": [
+        "BC-CD",
+        "AB-DE"
+      ]
     },
     {
-      "flashAngle": ["A"]
+      "flashAngle": [
+        "A"
+      ]
     },
     {
-      "flashAngle": ["BCD"]
+      "flashAngle": [
+        "BCD"
+      ]
     },
     {
-      "compareEdges": {"edge1": "BC", "edge2": "CD", "label": "BC = DC"},
-      "fillTriangle": ["BCD"]
+      "compareEdges": {
+        "edge1": "BC",
+        "edge2": "CD",
+        "label": "BC = DC"
+      },
+      "fillTriangle": [
+        "BCD"
+      ]
     },
     {
-      "drawEdge": ["DE"],
-      "highlights": [{"target": "edge-AD"}, {"target": "edge-DE"}]
+      "drawEdge": [
+        "DE"
+      ],
+      "highlights": [
+        {
+          "target": "edge-AD"
+        },
+        {
+          "target": "edge-DE"
+        }
+      ]
     },
     {
-      "compareEdges": {"edge1": "AB", "edge2": "DE", "label": "AB = DE"}
+      "compareEdges": {
+        "edge1": "AB",
+        "edge2": "DE",
+        "label": "AB = DE"
+      }
     },
     {
-      "compareAngles": ["A", "BCD"]
+      "compareAngles": [
+        "A",
+        "BCD"
+      ]
     },
     {
-      "compareAngles": ["ABC", "ADC"]
+      "compareAngles": [
+        "ABC",
+        "ADC"
+      ]
     },
     {
-      "compareAngles": ["ADC", "EDC"]
+      "compareAngles": [
+        "ADC",
+        "EDC"
+      ]
     },
     {
-      "compareAngles": ["ABC", "EDC"]
+      "compareAngles": [
+        "ABC",
+        "EDC"
+      ]
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "green"}]
+      "highlightEdges": [
+        {
+          "edge": "AB",
+          "color": "red"
+        },
+        {
+          "edge": "DE",
+          "color": "green"
+        }
+      ]
     },
     {
-      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "green"}],
-      "fillTriangle": ["ABC"]
+      "highlightEdges": [
+        {
+          "edge": "AB",
+          "color": "red"
+        },
+        {
+          "edge": "DE",
+          "color": "green"
+        }
+      ],
+      "fillTriangle": [
+        "ABC"
+      ]
     },
     {
-      "highlightEdges": [{"edge": "BC", "color": "red"}, {"edge": "CD", "color": "green"}],
-      "showEqualMark": ["BC-CD"],
-      "fillTriangle": ["EDC"]
+      "highlightEdges": [
+        {
+          "edge": "BC",
+          "color": "red"
+        },
+        {
+          "edge": "CD",
+          "color": "green"
+        }
+      ],
+      "showEqualMark": [
+        "BC-CD"
+      ],
+      "fillTriangle": [
+        "EDC"
+      ]
     },
     {
-      "flashAngle": ["ABC", "EDC"],
-      "fillTriangle": ["ABC", "EDC"]
+      "flashAngle": [
+        "ABC",
+        "EDC"
+      ],
+      "fillTriangle": [
+        "ABC",
+        "EDC"
+      ]
     },
     {
-      "flashAngle": ["ABC", "EDC"],
-      "highlightEdges": [{"edge": "AB", "color": "red"}, {"edge": "DE", "color": "green"}, {"edge": "BC", "color": "blue"}, {"edge": "CD", "color": "orange"}],
-      "fillTriangle": ["ABC", "EDC"]
+      "proveCongruent": {
+        "method": "SAS",
+        "triangle1": "ABC",
+        "triangle2": "EDC",
+        "pairs": [
+          {
+            "type": "edge",
+            "items": [
+              "AB",
+              "DE"
+            ]
+          },
+          {
+            "type": "angle",
+            "items": [
+              "ABC",
+              "EDC"
+            ]
+          },
+          {
+            "type": "edge",
+            "items": [
+              "BC",
+              "DC"
+            ]
+          }
+        ]
+      },
+      "flashAngle": [
+        "ABC",
+        "EDC"
+      ],
+      "highlightEdges": [
+        {
+          "edge": "AB",
+          "color": "red"
+        },
+        {
+          "edge": "DE",
+          "color": "green"
+        },
+        {
+          "edge": "BC",
+          "color": "blue"
+        },
+        {
+          "edge": "CD",
+          "color": "orange"
+        }
+      ],
+      "fillTriangle": [
+        "ABC",
+        "EDC"
+      ]
     }
   ],
   "question": {
