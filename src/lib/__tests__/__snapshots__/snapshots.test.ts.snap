@@ -136,15 +136,32 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
   {
     "edges": [
       {
-        "color": "red",
+        "color": "#EF4444",
         "edge": "AB",
       },
       {
-        "color": "green",
+        "color": "#EF4444",
+        "edge": "BC",
+      },
+      {
+        "color": "#10B981",
         "edge": "DE",
+      },
+      {
+        "color": "#10B981",
+        "edge": "CD",
       },
     ],
     "type": "highlightEdges",
+  },
+  {
+    "color": undefined,
+    "colors": undefined,
+    "triangles": [
+      "ABC",
+      "EDC",
+    ],
+    "type": "fillTriangles",
   },
 ]
 `;

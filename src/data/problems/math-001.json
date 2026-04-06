@@ -296,12 +296,24 @@
       "highlightEdges": [
         {
           "edge": "AB",
-          "color": "red"
+          "color": "#EF4444"
+        },
+        {
+          "edge": "BC",
+          "color": "#EF4444"
         },
         {
           "edge": "DE",
-          "color": "green"
+          "color": "#10B981"
+        },
+        {
+          "edge": "CD",
+          "color": "#10B981"
         }
+      ],
+      "fillTriangle": [
+        "ABC",
+        "EDC"
       ]
     },
     {
