@@ -275,7 +275,10 @@ export class GeometryEngine {
         this.fillTriangle(intent.triangle, intent.color || this.assignColor('triangle-' + intent.triangle));
         break;
       case 'fillTriangles':
-        (intent.triangles || []).forEach((triId: string) => this.fillTriangle(triId, intent.colors?.[triId] || intent.color));
+        (intent.triangles || []).forEach((triId: string) => {
+          const color = intent.colors?.[triId] || intent.color || this.assignColor('triangle-' + triId);
+          this.fillTriangle(triId, color);
+        });
         break;
       case 'label':
         break;
