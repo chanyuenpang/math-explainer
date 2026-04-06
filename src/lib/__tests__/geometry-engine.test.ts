@@ -29,11 +29,13 @@ function mockGsapFromTo(element: any, fromProps: any, toProps: any) {
   gsapCalls.get(id)!.push({ type: 'fromTo', fromProps, toProps });
 }
 
-vi.stubGlobal('gsap', {
-  set: mockGsapSet,
-  to: mockGsapTo,
-  fromTo: mockGsapFromTo,
-});
+vi.mock('gsap', () => ({
+  gsap: {
+    set: mockGsapSet,
+    to: mockGsapTo,
+    fromTo: mockGsapFromTo,
+  },
+}));
 
 // Helper to create mock SVG element
 function createMockSVG(): SVGSVGElement {
@@ -52,7 +54,7 @@ function createMockSVG(): SVGSVGElement {
   });
 
   // Add mock path elements (angle arcs)
-  const arcs = ['bad-A', 'bad-B', 'bad-C', 'bad-D', 'bad-E'];
+  const arcs = ['arc-A', 'arc-B', 'arc-C', 'arc-D', 'arc-E'];
   arcs.forEach(id => {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('id', id);
@@ -80,11 +82,11 @@ const testConfig: GeometryConfig = {
     { from: 'D', to: 'C' },
   ],
   angleArcs: [
-    { id: 'bad-A', vertex: 'A', from: 'B', to: 'C' },
-    { id: 'bad-B', vertex: 'B', from: 'A', to: 'C' },
-    { id: 'bad-C', vertex: 'C', from: 'A', to: 'B' },
-    { id: 'bad-D', vertex: 'D', from: 'E', to: 'C' },
-    { id: 'bad-E', vertex: 'E', from: 'D', to: 'C' },
+    { id: 'arc-A', vertex: 'A', from: 'B', to: 'C' },
+    { id: 'arc-B', vertex: 'B', from: 'A', to: 'C' },
+    { id: 'arc-C', vertex: 'C', from: 'A', to: 'B' },
+    { id: 'arc-D', vertex: 'D', from: 'E', to: 'C' },
+    { id: 'arc-E', vertex: 'E', from: 'D', to: 'C' },
   ],
 };
 
@@ -206,7 +208,7 @@ describe('GeometryEngine', () => {
 
     it('should handle arc highlights', () => {
       engine.reset();
-      engine.execute([{ type: 'highlights', highlights: [{ target: 'arc-bad-A' }] }]);
+      engine.execute([{ type: 'highlights', highlights: [{ target: 'arc-arc-A' }] }]);
       
       expect(gsapCalls.size).toBeGreaterThan(0);
     });

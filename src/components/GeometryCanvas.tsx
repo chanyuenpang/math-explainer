@@ -1,10 +1,4 @@
 import { useEffect, useRef, useMemo } from 'react';
-import { TopologyGraph } from '../lib/topology';
-import { GeometryEngine, convertStepAnimationToIntents } from '../lib/geometry-engine';
-import { COLORS } from '../lib/colors';
-import type { Point as TopoPoint, Connection as TopoConnection } from '../lib/topology';
-
-declare const gsap: any;
 
 interface Point { x: number; y: number; label: string }
 interface AngleArc {

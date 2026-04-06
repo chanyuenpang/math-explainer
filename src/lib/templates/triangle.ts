@@ -41,7 +41,7 @@ const rightTriangleBase: GeometryTemplateConfig = {
   ],
   rightAngles: ['A'],
   angleArcs: [
-    { id: 'bad-A', vertex: 'A', from: 'B', to: 'C', isRightAngle: true, color: '#F59E0B' },
+    { id: 'arc-A', vertex: 'A', from: 'B', to: 'C', isRightAngle: true, color: '#F59E0B' },
   ],
 };
 

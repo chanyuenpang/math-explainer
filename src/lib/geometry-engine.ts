@@ -1,3 +1,4 @@
+import { gsap } from 'gsap';
 import { TopologyGraph, type Point, type Connection, type Edge, type Angle, normalizeEdgeId } from './topology';
 import { COLORS } from './colors';
 
@@ -44,9 +45,13 @@ export type IntentType =
   | 'flyoutCompare'
   | 'moveEdge'
   | 'moveTriangle'
+  /** @deprecated Use showAngle instead */
   | 'highlightArc'
+  /** @deprecated Use showAngle instead */
   | 'highlightArcs'
+  /** @deprecated Use showAngle instead */
   | 'drawArc'
+  /** @deprecated Use showAngle instead */
   | 'drawArcs'
   | 'showRightAngle'
   | 'showRightAngles'
@@ -144,15 +149,15 @@ export class GeometryEngine {
     this.resetColorContext();
 
     svg.querySelectorAll('line').forEach(el => {
-      (window as any).gsap.set(el, { stroke: COLORS.default, strokeWidth: 2, opacity: 1, x: 0, y: 0, strokeDasharray: 'none' });
+      gsap.set(el, { stroke: COLORS.default, strokeWidth: 2, opacity: 1, x: 0, y: 0, strokeDasharray: 'none' });
     });
 
-    svg.querySelectorAll('path[id^="bad-"]').forEach(el => {
-      (window as any).gsap.set(el, { stroke: COLORS.angle, strokeWidth: 2, opacity: 0 });
+    svg.querySelectorAll('path[id^="arc-"]').forEach(el => {
+      gsap.set(el, { stroke: COLORS.angle, strokeWidth: 2, opacity: 0 });
     });
 
     svg.querySelectorAll('polygon, path[id^="triangle-"]').forEach(el => {
-      (window as any).gsap.set(el, { fill: 'transparent', fillOpacity: 0, opacity: 0 });
+      gsap.set(el, { fill: 'transparent', fillOpacity: 0, opacity: 0 });
     });
 
     svg.querySelectorAll('.flyout-copy').forEach(el => el.remove());
@@ -198,7 +203,6 @@ export class GeometryEngine {
 
   private executeIntent(intent: AnimationIntent): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
     if (!gsap) return;
 
     switch (intent.type) {
@@ -369,7 +373,7 @@ export class GeometryEngine {
       console.warn(`[GeometryEngine] unitSetEdge: edge element not found for id "${edgeId}" (normalized: "${normalizeEdgeId(edgeId)}")`);
       return;
     }
-    (window as any).gsap.set(el, { stroke: color, strokeWidth: width });
+    gsap.set(el, { stroke: color, strokeWidth: width });
   }
 
   /** 元素属性闪烁动画 */
@@ -379,7 +383,7 @@ export class GeometryEngine {
       console.warn(`[GeometryEngine] unitFlashElement: element not found for selector "${selector}"`);
       return;
     }
-    (window as any).gsap.to(el, { [prop]: to, duration, yoyo: true, repeat, ease: 'power2.inOut' });
+    gsap.to(el, { [prop]: to, duration, yoyo: true, repeat, ease: 'power2.inOut' });
   }
 
   /** 设置弧线颜色和可见性 */
@@ -388,10 +392,10 @@ export class GeometryEngine {
     if (!el) {
       console.warn(`[GeometryEngine] unitSetArc: arc element not found for id "${arcId}"`);
     } else {
-      (window as any).gsap.set(el, { stroke: color, strokeWidth: 2, opacity: 1 });
+      gsap.set(el, { stroke: color, strokeWidth: 2, opacity: 1 });
     }
     const fillEl = this.svgElement!.querySelector(`#${arcId}-fill`);
-    if (fillEl) (window as any).gsap.set(fillEl, { fill: color, fillOpacity: 0.3 });
+    if (fillEl) gsap.set(fillEl, { fill: color, fillOpacity: 0.3 });
   }
 
   /** 填充图形 */
@@ -411,7 +415,7 @@ export class GeometryEngine {
     for (const id of candidates) {
       const el = this.svgElement!.querySelector(`#${id}`);
       if (el) {
-        (window as any).gsap.to(el, { fill: color, fillOpacity: opacity, opacity: 1, duration: 0.5 });
+        gsap.to(el, { fill: color, fillOpacity: opacity, opacity: 1, duration: 0.5 });
         return;
       }
     }
@@ -441,7 +445,7 @@ export class GeometryEngine {
       if (a.vertex === angleId) return true;
       if (a.id === angleId) return true;
       if (a.id === `angle-${angleId}`) return true;
-      if (a.id === `bad-${angleId}`) return true;
+      if (a.id === `arc-${angleId}`) return true;
       // 尝试匹配 angle 名称（如 BAC -> angle-BAC）
       if (a.id && a.id.includes(angleId)) return true;
       return false;
@@ -468,7 +472,6 @@ export class GeometryEngine {
 
   private highlightEdge(edgeId: string, color?: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
     const normalizedEdgeId = normalizeEdgeId(edgeId);
     const el = this.svgElement.querySelector(`#${normalizedEdgeId}`) as SVGLineElement;
     if (!el) return;
@@ -491,7 +494,6 @@ export class GeometryEngine {
 
   private drawEdge(edgeId: string, delay: number = 0): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
     const normalizedEdgeId = normalizeEdgeId(edgeId);
     const el = this.svgElement.querySelector(`#${normalizedEdgeId}`);
     if (!el) return;
@@ -504,7 +506,6 @@ export class GeometryEngine {
 
   private hideEdge(edgeId: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
     const normalizedEdgeId = normalizeEdgeId(edgeId);
     const el = this.svgElement.querySelector(`#${normalizedEdgeId}`);
     if (!el) return;
@@ -514,12 +515,11 @@ export class GeometryEngine {
 
   private flashAngle(angleIdOrConfig: string | {id: string, color?: string}, defaultColor?: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     const angleId = typeof angleIdOrConfig === 'string' ? angleIdOrConfig : angleIdOrConfig.id;
     const color = typeof angleIdOrConfig === 'string' ? defaultColor : (angleIdOrConfig.color || defaultColor);
 
-    const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
+    const arcId = angleId.startsWith('arc-') ? angleId : `arc-${angleId}`;
     const el = this.svgElement.querySelector(`#${arcId}`) || this.svgElement.querySelector(`#angle-${angleId}`);
 
     // Use provided color or auto-assign via ColorContext
@@ -583,11 +583,10 @@ export class GeometryEngine {
    */
   private showAngle(angleId: string, color?: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     // Step 1: Assign color for this angle (same angle returns same color within a step)
     const angleColor = color || this.assignColor('angle-' + angleId);
-    const arcId = angleId.startsWith('bad-') ? angleId : `bad-${angleId}`;
+    const arcId = angleId.startsWith('arc-') ? angleId : `arc-${angleId}`;
 
     // Step 2: Set arc color and opacity
     const arcEl = this.svgElement.querySelector(`#${arcId}`);
@@ -646,7 +645,6 @@ export class GeometryEngine {
 
   private highlightArc(arcId: string, color?: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
     const el = this.svgElement.querySelector(`#${arcId}`);
     if (!el) return;
 
@@ -668,7 +666,6 @@ export class GeometryEngine {
 
   private drawArc(arcId: string, color?: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     // Use auto color if no color specified
     const arcColor = color || this.assignColor('arc-' + arcId);
@@ -690,7 +687,6 @@ export class GeometryEngine {
 
   private fillTriangle(triangleId: string, color: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
     const el = this.svgElement.querySelector(`#triangle-${triangleId}`);
     if (!el) {
       console.warn(`[GeometryEngine] fillTriangle: triangle element not found for id "triangle-${triangleId}"`);
@@ -705,7 +701,7 @@ export class GeometryEngine {
     const rightAngleArc = this.config.angleArcs?.find(a => 
       a.vertex === pointId && a.isRightAngle
     );
-    const arcId = rightAngleArc?.id || `bad-${pointId}`;
+    const arcId = rightAngleArc?.id || `arc-${pointId}`;
     const rightAngleColor = this.assignColor('right-angle-' + pointId);
     this.drawArc(arcId, rightAngleColor);
     this.flashAngle(pointId, rightAngleColor);
@@ -718,7 +714,6 @@ export class GeometryEngine {
    */
   highlightEdgesForCompare(edges: string[]): [string, string] | null {
     if (!this.svgElement || edges.length < 2) return null;
-    const gsap = (window as any).gsap;
 
     // Use assignColor for consistent color assignment
     const [edgeId1, edgeId2] = edges;
@@ -745,7 +740,6 @@ export class GeometryEngine {
    */
   compareEdge(edges: [string, string], label: string, colors?: [string, string]): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     const [edgeId1, edgeId2] = edges;
     const normalizedEdgeId1 = normalizeEdgeId(edgeId1);
@@ -832,7 +826,6 @@ export class GeometryEngine {
 
   private moveEdge(fromEdgeId: string, toEdgeId: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     const fromEdge = this.topology.getEdge(fromEdgeId);
     const toEdge = this.topology.getEdge(toEdgeId);
@@ -858,7 +851,6 @@ export class GeometryEngine {
 
   private moveTriangle(fromTriangleId: string, toTriangleId: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     const el = this.svgElement.querySelector(`#triangle-${fromTriangleId}`);
     if (!el) return;
@@ -895,7 +887,6 @@ export class GeometryEngine {
    */
   private showEqualMarkForPair(edge1: string, edge2: string): void {
     if (!this.svgElement) return;
-    const gsap = (window as any).gsap;
 
     const normalizedEdgeId1 = normalizeEdgeId(edge1);
     const normalizedEdgeId2 = normalizeEdgeId(edge2);
@@ -1000,39 +991,6 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
       intents.push({ type: 'showAngle', angle: angleId });
     });
     // Skip separate drawArcs/highlightArcs for these angles (handled by showAngle)
-  } else if (stepAnimation.drawArcs || stepAnimation.highlightArcs) {
-    // Fallback: if no flashAngle, use drawArcs/highlightArcs separately
-    if (stepAnimation.drawArcs) {
-      const arcs = stepAnimation.drawArcs;
-      arcs.forEach((arcId: string) => {
-        const angleName = arcId.replace('bad-', '');
-        let arcColor: string | undefined;
-        if (stepAnimation.flashAngle) {
-          const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
-          const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
-          if (match && typeof match === 'object' && match.color) {
-            arcColor = match.color;
-          }
-        }
-        intents.push({ type: 'drawArc', arc: arcId, color: arcColor });
-      });
-    }
-
-    if (stepAnimation.highlightArcs) {
-      const arcs = stepAnimation.highlightArcs;
-      arcs.forEach((arcId: string) => {
-        const angleName = arcId.replace('bad-', '');
-        let arcColor: string | undefined;
-        if (stepAnimation.flashAngle) {
-          const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
-          const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
-          if (match && typeof match === 'object' && match.color) {
-            arcColor = match.color;
-          }
-        }
-        intents.push({ type: 'highlightArc', arc: arcId, color: arcColor });
-      });
-    }
   }
 
   if (stepAnimation.fillTriangle) {

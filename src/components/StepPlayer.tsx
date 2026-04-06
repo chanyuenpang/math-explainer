@@ -48,9 +48,14 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
     }
   };
 
-  const playAll = () => {
-    setIsPlaying(true);
-    setCurrentStep(0);
+  const togglePlay = () => {
+    if (isPlaying) {
+      // 暂停：停止自动播放，不重置步骤
+      setIsPlaying(false);
+    } else {
+      // 播放：从当前步骤继续；如果已在第0步则从头开始
+      setIsPlaying(true);
+    }
   };
 
   // 自动播放逻辑
@@ -75,7 +80,7 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             上一步
           </button>
-          <button onClick={playAll}
+          <button onClick={togglePlay}
             className="px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-all text-sm font-medium flex items-center gap-1 shadow-sm">
             {isPlaying ? (
               <><svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg> 暂停</>

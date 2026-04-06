@@ -29,11 +29,13 @@ function mockGsapFromTo(element: any, fromProps: any, toProps: any) {
   gsapCalls.get(id)!.push({ type: 'fromTo', fromProps, toProps });
 }
 
-vi.stubGlobal('gsap', {
-  set: mockGsapSet,
-  to: mockGsapTo,
-  fromTo: mockGsapFromTo,
-});
+vi.mock('gsap', () => ({
+  gsap: {
+    set: mockGsapSet,
+    to: mockGsapTo,
+    fromTo: mockGsapFromTo,
+  },
+}));
 
 // Helper to create mock SVG element with edges and arcs
 function createMockSVGWithEdgesAndArcs(): SVGSVGElement {
@@ -61,7 +63,7 @@ function createMockSVGWithEdgesAndArcs(): SVGSVGElement {
   });
 
   // Add mock path elements (angle arcs)
-  const arcs = ['bad-A', 'bad-BCD', 'bad-ABC', 'bad-ADC', 'bad-EDC'];
+  const arcs = ['arc-A', 'arc-BCD', 'arc-ABC', 'arc-ADC', 'arc-EDC'];
   arcs.forEach(id => {
     const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
     path.setAttribute('id', id);
@@ -95,11 +97,11 @@ const testConfig: GeometryConfig = {
     { from: 'E', to: 'C' },
   ],
   angleArcs: [
-    { id: 'bad-A', vertex: 'A', from: 'B', to: 'D' },
-    { id: 'bad-BCD', vertex: 'C', from: 'B', to: 'D' },
-    { id: 'bad-ABC', vertex: 'B', from: 'A', to: 'C' },
-    { id: 'bad-ADC', vertex: 'D', from: 'A', to: 'C' },
-    { id: 'bad-EDC', vertex: 'D', from: 'E', to: 'C' },
+    { id: 'arc-A', vertex: 'A', from: 'B', to: 'D' },
+    { id: 'arc-BCD', vertex: 'C', from: 'B', to: 'D' },
+    { id: 'arc-ABC', vertex: 'B', from: 'A', to: 'C' },
+    { id: 'arc-ADC', vertex: 'D', from: 'A', to: 'C' },
+    { id: 'arc-EDC', vertex: 'D', from: 'E', to: 'C' },
   ],
 };
 
@@ -120,7 +122,7 @@ describe('Color Consistency Tests', () => {
       engine.execute([{ type: 'flashAngle', angle: 'A' }]);
 
       // Get all color set calls for the arc and edges
-      const arcCalls = gsapCalls.get('bad-A');
+      const arcCalls = gsapCalls.get('arc-A');
       const edgeABCalls = gsapCalls.get('AB');
       const edgeADCalls = gsapCalls.get('AD');
 
@@ -149,7 +151,7 @@ describe('Color Consistency Tests', () => {
       engine.reset();
       engine.execute([{ type: 'showAngle', angle: 'ABC' }]);
 
-      const arcCalls = gsapCalls.get('bad-ABC');
+      const arcCalls = gsapCalls.get('arc-ABC');
       const edgeABCalls = gsapCalls.get('AB');
       const edgeBCCalls = gsapCalls.get('BC');
 
@@ -180,12 +182,12 @@ describe('Color Consistency Tests', () => {
       ]);
 
       // Get calls for first angle (A)
-      const arcACalls = gsapCalls.get('bad-A');
+      const arcACalls = gsapCalls.get('arc-A');
       const edgeABCalls = gsapCalls.get('AB');
       const edgeADCalls = gsapCalls.get('AD');
 
       // Get calls for second angle (BCD)
-      const arcBCDCalls = gsapCalls.get('bad-BCD');
+      const arcBCDCalls = gsapCalls.get('arc-BCD');
       const edgeBCCalls = gsapCalls.get('BC');
       const edgeCDCalls = gsapCalls.get('CD');
 
@@ -244,8 +246,8 @@ describe('Color Consistency Tests', () => {
         },
       ]);
 
-      const arcACalls = gsapCalls.get('bad-A');
-      const arcABCCalls = gsapCalls.get('bad-ABC');
+      const arcACalls = gsapCalls.get('arc-A');
+      const arcABCCalls = gsapCalls.get('arc-ABC');
 
       expect(arcACalls).toBeDefined();
       expect(arcABCCalls).toBeDefined();
@@ -272,14 +274,14 @@ describe('Color Consistency Tests', () => {
       gsapCalls.clear();
       engine.reset();
       engine.execute([{ type: 'flashAngle', angle: 'A' }]);
-      const arcACalls1 = gsapCalls.get('bad-A');
+      const arcACalls1 = gsapCalls.get('arc-A');
       const step1Color = arcACalls1?.find(c => c.type === 'set')?.props.stroke;
 
       // Step 2: flash same angle A again after reset
       gsapCalls.clear();
       engine.reset();
       engine.execute([{ type: 'flashAngle', angle: 'A' }]);
-      const arcACalls2 = gsapCalls.get('bad-A');
+      const arcACalls2 = gsapCalls.get('arc-A');
       const step2Color = arcACalls2?.find(c => c.type === 'set')?.props.stroke;
 
       // After reset, same angle should get same color (first in cycle)

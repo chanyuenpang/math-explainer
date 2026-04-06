@@ -73,7 +73,7 @@
     },
     "angleArcs": [
       {
-        "id": "bad-A",
+        "id": "arc-A",
         "vertex": "A",
         "from": "B",
         "to": "D",
@@ -82,7 +82,7 @@
         "type": "right"
       },
       {
-        "id": "bad-BCD",
+        "id": "arc-BCD",
         "vertex": "C",
         "from": "B",
         "to": "D",
@@ -91,7 +91,7 @@
         "type": "right"
       },
       {
-        "id": "bad-ABC",
+        "id": "arc-ABC",
         "vertex": "B",
         "from": "A",
         "to": "C",
@@ -100,7 +100,7 @@
         "type": "acute"
       },
       {
-        "id": "bad-ADC",
+        "id": "arc-ADC",
         "vertex": "D",
         "from": "A",
         "to": "C",
@@ -109,7 +109,7 @@
         "type": "acute"
       },
       {
-        "id": "bad-EDC",
+        "id": "arc-EDC",
         "vertex": "D",
         "from": "E",
         "to": "C",
