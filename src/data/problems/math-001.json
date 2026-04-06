@@ -376,28 +376,6 @@
           }
         ]
       },
-      "flashAngle": [
-        "ABC",
-        "EDC"
-      ],
-      "highlightEdges": [
-        {
-          "edge": "AB",
-          "color": "red"
-        },
-        {
-          "edge": "DE",
-          "color": "green"
-        },
-        {
-          "edge": "BC",
-          "color": "blue"
-        },
-        {
-          "edge": "CD",
-          "color": "orange"
-        }
-      ],
       "fillTriangle": [
         "ABC",
         "EDC"

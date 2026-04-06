@@ -261,35 +261,6 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
     "type": "proveCongruent",
   },
   {
-    "edges": [
-      {
-        "color": "red",
-        "edge": "AB",
-      },
-      {
-        "color": "green",
-        "edge": "DE",
-      },
-      {
-        "color": "blue",
-        "edge": "BC",
-      },
-      {
-        "color": "orange",
-        "edge": "CD",
-      },
-    ],
-    "type": "highlightEdges",
-  },
-  {
-    "angle": "ABC",
-    "type": "showAngle",
-  },
-  {
-    "angle": "EDC",
-    "type": "showAngle",
-  },
-  {
     "color": undefined,
     "colors": undefined,
     "triangles": [
