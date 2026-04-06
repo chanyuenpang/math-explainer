@@ -210,6 +210,14 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 13: fill triangles ABC and EDC 1`] = `
 [
   {
+    "angle": "ABC",
+    "type": "showAngle",
+  },
+  {
+    "angle": "EDC",
+    "type": "showAngle",
+  },
+  {
     "color": undefined,
     "colors": undefined,
     "triangles": [
@@ -223,6 +231,35 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
 
 exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should match snapshot for step 14: highlight edges and fill both triangles 1`] = `
 [
+  {
+    "method": "SAS",
+    "pairs": [
+      {
+        "items": [
+          "AB",
+          "DE",
+        ],
+        "type": "edge",
+      },
+      {
+        "items": [
+          "ABC",
+          "EDC",
+        ],
+        "type": "angle",
+      },
+      {
+        "items": [
+          "BC",
+          "DC",
+        ],
+        "type": "edge",
+      },
+    ],
+    "triangle1": "ABC",
+    "triangle2": "EDC",
+    "type": "proveCongruent",
+  },
   {
     "edges": [
       {
@@ -243,6 +280,14 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
       },
     ],
     "type": "highlightEdges",
+  },
+  {
+    "angle": "ABC",
+    "type": "showAngle",
+  },
+  {
+    "angle": "EDC",
+    "type": "showAngle",
   },
   {
     "color": undefined,
