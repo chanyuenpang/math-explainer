@@ -1,7 +1,7 @@
 {
   "name": "math-explainer",
   "type": "module",
-  "version": "2.7.0",
+  "version": "3.0.0",
   "engines": {
     "node": ">=22.12.0"
   },
@@ -13,7 +13,8 @@
     "test": "vitest run",
     "test:watch": "vitest",
     "test:e2e": "playwright test",
-    "validate": "ts-node --esm scripts/validate-schemas.ts"
+    "validate": "ts-node --esm scripts/validate-schemas.ts",
+    "create-problem": "npx tsx scripts/create-problem.ts"
   },
   "dependencies": {
     "@astrojs/react": "^5.0.2",

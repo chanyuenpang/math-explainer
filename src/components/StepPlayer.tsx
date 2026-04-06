@@ -1,5 +1,7 @@
 import { useState, useEffect, useRef } from 'react';
 import { gsap } from 'gsap';
+import { renderMathText } from '../lib/katex-renderer';
+import 'katex/dist/katex.min.css';
 
 interface Step {
   id: number;
@@ -94,6 +96,24 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
           </button>
         </div>
+      </div>
+
+      {/* 步骤内容 */}
+      <div ref={contentRef} className="mt-3">
+        <h3 className="text-sm font-semibold text-gray-800 mb-1">{step.title}</h3>
+        <div
+          className="text-sm text-gray-600 leading-relaxed"
+          dangerouslySetInnerHTML={{ __html: renderMathText(step.content) }}
+        />
+        {step.conclusion && (
+          <div className="mt-2 p-2 bg-blue-50 rounded border border-blue-100">
+            <span className="text-xs font-medium text-blue-700">结论：</span>
+            <span
+              className="text-sm text-blue-800"
+              dangerouslySetInnerHTML={{ __html: renderMathText(step.conclusion!) }}
+            />
+          </div>
+        )}
       </div>
 
       {/* 进度条 */}
