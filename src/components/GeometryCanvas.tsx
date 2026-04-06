@@ -1,6 +1,7 @@
 import { useEffect, useRef, useMemo } from 'react';
 import { TopologyGraph } from '../lib/topology';
-import { GeometryEngine, convertStepAnimationToIntents, COLORS } from '../lib/geometry-engine';
+import { GeometryEngine, convertStepAnimationToIntents } from '../lib/geometry-engine';
+import { COLORS } from '../lib/colors';
 import type { Point as TopoPoint, Connection as TopoConnection } from '../lib/topology';
 
 declare const gsap: any;
@@ -69,18 +70,7 @@ interface GeometryCanvasProps {
   currentStepData?: Step
 }
 
-const CANVAS_COLORS = {
-  default: '#D1D5DB',
-  defaultPoint: '#6B7280',
-  highlight: '#3B82F6',
-  highlightWidth: 4,
-  triangle1: 'rgba(239,68,68,0.15)',
-  triangle2: 'rgba(16,185,129,0.15)',
-  angle: '#F59E0B',
-  angleHighlight: '#3B82F6',
-  text: '#374151',
-  background: '#F9FAFB'
-};
+// Colors are imported from the shared COLORS constant (src/lib/colors.ts)
 
 export function GeometryCanvas({ points, connections, edgeColors, rightAngles = [], angleArcs = [], equalPairs = {}, triangles = [], currentStep, stepAnimations, currentStepData }: GeometryCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
@@ -138,7 +128,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       const { x: x1, y: y1 } = getPos(point1);
       const { x: x2, y: y2 } = getPos(point2);
       
-      const arcColor = color || CANVAS_COLORS.angle;
+      const arcColor = color || COLORS.angle;
       const markSize = 15;
       
       const len1 = Math.sqrt((x1 - cx) ** 2 + (y1 - cy) ** 2);
@@ -186,7 +176,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
     const { x: x1, y: y1 } = getPos(point1);
     const { x: x2, y: y2 } = getPos(point2);
     
-    const arcColor = color || CANVAS_COLORS.angle;
+    const arcColor = color || COLORS.angle;
     
     if (path) {
       const angle1 = Math.atan2(y1 - cy, x1 - cx);
@@ -288,7 +278,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
           const to = points.find(p => p.label === e.to)!;
           const { x: x1, y: y1 } = getPos(from);
           const { x: x2, y: y2 } = getPos(to);
-          const edgeColor = e.color || CANVAS_COLORS.default;
+          const edgeColor = e.color || COLORS.default;
           return (
             <line 
               key={e.id} 
@@ -304,7 +294,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
           const { x, y } = getPos(p);
           return (
             <g key={p.label}>
-              <circle cx={x} cy={y} r={4} fill={CANVAS_COLORS.default} />
+              <circle cx={x} cy={y} r={4} fill={COLORS.default} />
               <text x={x - 15} y={y - 10} fontSize="16" fontWeight="bold">{p.label}</text>
             </g>
           );
@@ -346,7 +336,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
                 dominantBaseline="middle"
                 fontSize="14" 
                 fontWeight="bold"
-                fill={CANVAS_COLORS.angle}
+                fill={COLORS.angle}
               >
                 ≡
               </text>
@@ -357,7 +347,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
                 dominantBaseline="middle"
                 fontSize="14" 
                 fontWeight="bold"
-                fill={CANVAS_COLORS.angle}
+                fill={COLORS.angle}
               >
                 ≡
               </text>
@@ -377,7 +367,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
                 </span>
               </div>
               
-              <div style={{fontSize: '13px', lineHeight: '1.5', whiteSpace: 'pre-wrap', color: CANVAS_COLORS.text, marginBottom: '6px'}}>
+              <div style={{fontSize: '13px', lineHeight: '1.5', whiteSpace: 'pre-wrap', color: COLORS.text, marginBottom: '6px'}}>
                 {currentStepData.content}
               </div>
               

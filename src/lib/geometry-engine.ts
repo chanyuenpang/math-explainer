@@ -1,4 +1,5 @@
 import { TopologyGraph, type Point, type Connection, type Edge, type Angle, normalizeEdgeId } from './topology';
+import { COLORS } from './colors';
 
 export interface GeometryConfig {
   points: Point[];
@@ -55,23 +56,7 @@ export type IntentType =
   | 'showEqualMark'
   | 'proveCongruent';
 
-export const COLORS = {
-  default: '#D1D5DB',
-  defaultPoint: '#6B7280',
-  highlight: '#3B82F6',
-  highlightWidth: 4,
-  triangle1: 'rgba(239,68,68,0.15)',
-  triangle2: 'rgba(16,185,129,0.15)',
-  angle: '#F59E0B',
-  angleHighlight: '#3B82F6',
-  text: '#374151',
-  background: '#F9FAFB',
-  blue: '#2563EB',
-  red: '#EF4444',
-  green: '#10B981',
-  orange: '#F59E0B',
-  purple: '#8B5CF6',
-};
+export { COLORS };
 
 export class GeometryEngine {
   private topology: TopologyGraph;

@@ -332,6 +332,51 @@
                 }
               }
             }
+          },
+          "color": {
+            "type": "string",
+            "description": "Uniform highlight color for string-array highlightEdges"
+          },
+          "drawArcs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Arc IDs to draw (fallback when flashAngle is absent)"
+          },
+          "highlightArcs": {
+            "type": "array",
+            "items": {
+              "type": "string"
+            },
+            "description": "Arc IDs to highlight (fallback when flashAngle is absent)"
+          },
+          "fillColors": {
+            "type": "object",
+            "additionalProperties": {
+              "type": "string"
+            },
+            "description": "Per-triangle fill colors keyed by triangle ID"
+          },
+          "fillColor": {
+            "type": "string",
+            "description": "Uniform fill color for all triangles in fillTriangle"
+          },
+          "moveEdge": {
+            "type": "string",
+            "description": "Source edge label to move"
+          },
+          "targetEdge": {
+            "type": "string",
+            "description": "Target edge label to move to"
+          },
+          "moveTriangle": {
+            "type": "string",
+            "description": "Source triangle ID to move"
+          },
+          "targetTriangle": {
+            "type": "string",
+            "description": "Target triangle ID to move to"
           }
         }
       }
