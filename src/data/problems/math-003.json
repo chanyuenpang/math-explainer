@@ -55,7 +55,8 @@
     "equalPairs": {
       "AB": "DE",
       "AC": "CD"
-    }
+    },
+    "triangles": ["ABC", "DCE"]
   },
   "steps": [
     {

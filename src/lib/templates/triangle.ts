@@ -118,7 +118,7 @@ export function createTriangleTemplate(
   if (!template) {
     throw new Error(`Unknown triangle type: ${type}`);
   }
-  return applyOptions(template.defaultConfig, options);
+  return applyOptions(template.defaultConfig, options ?? {});
 }
 
 export function getTrianglePresets(): Record<string, ProblemTemplate> {

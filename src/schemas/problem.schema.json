@@ -130,6 +130,14 @@
           "additionalProperties": {
             "type": "string"
           }
+        },
+        "triangles": {
+          "type": "array",
+          "items": {
+            "type": "string",
+            "pattern": "^[A-Z]{3}$"
+          },
+          "description": "三角形顶点组合，如 ABC, EDC"
         }
       }
     },

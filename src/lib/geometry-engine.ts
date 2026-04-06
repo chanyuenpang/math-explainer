@@ -7,6 +7,7 @@ export interface GeometryConfig {
   rightAngles?: string[];
   angleArcs?: AngleArcConfig[];
   equalPairs?: Record<string, string>;
+  triangles?: string[];
 }
 
 export interface AngleArcConfig {
@@ -379,21 +380,31 @@ export class GeometryEngine {
   /** 设置边颜色和宽度 */
   private unitSetEdge(edgeId: string, color: string, width: number = 3): void {
     const el = this.svgElement!.querySelector(`#${normalizeEdgeId(edgeId)}`);
-    if (!el) return;
+    if (!el) {
+      console.warn(`[GeometryEngine] unitSetEdge: edge element not found for id "${edgeId}" (normalized: "${normalizeEdgeId(edgeId)}")`);
+      return;
+    }
     (window as any).gsap.set(el, { stroke: color, strokeWidth: width });
   }
 
   /** 元素属性闪烁动画 */
   private unitFlashElement(selector: string, prop: string, from: number, to: number, duration: number = 0.2, repeat: number = 2): void {
     const el = this.svgElement!.querySelector(selector);
-    if (!el) return;
+    if (!el) {
+      console.warn(`[GeometryEngine] unitFlashElement: element not found for selector "${selector}"`);
+      return;
+    }
     (window as any).gsap.to(el, { [prop]: to, duration, yoyo: true, repeat, ease: 'power2.inOut' });
   }
 
   /** 设置弧线颜色和可见性 */
   private unitSetArc(arcId: string, color: string): void {
     const el = this.svgElement!.querySelector(`#${arcId}`);
-    if (el) (window as any).gsap.set(el, { stroke: color, strokeWidth: 2, opacity: 1 });
+    if (!el) {
+      console.warn(`[GeometryEngine] unitSetArc: arc element not found for id "${arcId}"`);
+    } else {
+      (window as any).gsap.set(el, { stroke: color, strokeWidth: 2, opacity: 1 });
+    }
     const fillEl = this.svgElement!.querySelector(`#${arcId}-fill`);
     if (fillEl) (window as any).gsap.set(fillEl, { fill: color, fillOpacity: 0.3 });
   }
@@ -419,6 +430,7 @@ export class GeometryEngine {
         return;
       }
     }
+    console.warn(`[GeometryEngine] unitFillShape: shape element not found for id "${shapeId}" (tried ${candidates.length} candidates)`);
   }
   
   /** 生成数组的所有排列 */
@@ -695,7 +707,10 @@ export class GeometryEngine {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
     const el = this.svgElement.querySelector(`#triangle-${triangleId}`);
-    if (!el) return;
+    if (!el) {
+      console.warn(`[GeometryEngine] fillTriangle: triangle element not found for id "triangle-${triangleId}"`);
+      return;
+    }
 
     // Bug 3 fix: also set opacity: 1 since reset() sets it to 0
     gsap.to(el, { fill: color, fillOpacity: 0.3, opacity: 1, duration: 0.5 });
@@ -860,19 +875,17 @@ export class GeometryEngine {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
-    const fromId = fromTriangleId === 'ABC' ? 'ABC' : fromTriangleId;
-    const toId = toTriangleId === 'EDC' ? 'EDC' : toTriangleId;
-
-    const el = this.svgElement.querySelector(`#triangle-${fromId}`);
+    const el = this.svgElement.querySelector(`#triangle-${fromTriangleId}`);
     if (!el) return;
 
-    const trianglePoints: Record<string, string[]> = {
-      'ABC': ['A', 'B', 'C'],
-      'EDC': ['E', 'D', 'C'],
-    };
+    // Derive vertices from triangle ID by splitting into individual point labels
+    const fromVertices = fromTriangleId.split('');
+    const toVertices = toTriangleId.split('');
 
-    const sourcePoints = trianglePoints[fromId]?.map(id => this.getPointCoords(id));
-    const targetPoints = trianglePoints[toId]?.map(id => this.getPointCoords(id));
+    if (fromVertices.length !== 3 || toVertices.length !== 3) return;
+
+    const sourcePoints = fromVertices.map(id => this.getPointCoords(id));
+    const targetPoints = toVertices.map(id => this.getPointCoords(id));
     if (!sourcePoints || !targetPoints) return;
 
     const sourceCenter = {
@@ -1035,38 +1048,6 @@ export function convertStepAnimationToIntents(stepAnimation: Record<string, any>
         intents.push({ type: 'highlightArc', arc: arcId, color: arcColor });
       });
     }
-  }
-
-  if (stepAnimation.drawArcs) {
-    const arcs = stepAnimation.drawArcs;
-    arcs.forEach((arcId: string) => {
-      const angleName = arcId.replace('bad-', '');
-      let arcColor: string | undefined;
-      if (stepAnimation.flashAngle) {
-        const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
-        const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
-        if (match && typeof match === 'object' && match.color) {
-          arcColor = match.color;
-        }
-      }
-      intents.push({ type: 'drawArc', arc: arcId, color: arcColor });
-    });
-  }
-
-  if (stepAnimation.highlightArcs) {
-    const arcs = stepAnimation.highlightArcs;
-    arcs.forEach((arcId: string) => {
-      const angleName = arcId.replace('bad-', '');
-      let arcColor: string | undefined;
-      if (stepAnimation.flashAngle) {
-        const angles = Array.isArray(stepAnimation.flashAngle) ? stepAnimation.flashAngle : [stepAnimation.flashAngle];
-        const match = angles.find((a: any) => (typeof a === 'object' ? a.angle : a) === angleName);
-        if (match && typeof match === 'object' && match.color) {
-          arcColor = match.color;
-        }
-      }
-      intents.push({ type: 'highlightArc', arc: arcId, color: arcColor });
-    });
   }
 
   if (stepAnimation.fillTriangle) {

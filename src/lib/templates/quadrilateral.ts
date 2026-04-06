@@ -179,7 +179,7 @@ export function createQuadrilateralTemplate(
   if (!template) {
     throw new Error(`Unknown quadrilateral type: ${type}`);
   }
-  return applyOptions(template.defaultConfig, options);
+  return applyOptions(template.defaultConfig, options ?? {});
 }
 
 export function getQuadrilateralPresets(): Record<string, ProblemTemplate> {

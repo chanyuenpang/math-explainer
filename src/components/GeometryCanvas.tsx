@@ -63,6 +63,7 @@ interface GeometryCanvasProps {
   rightAngles?: string[]
   angleArcs?: AngleArc[]
   equalPairs?: Record<string, string>
+  triangles?: string[]
   currentStep: number
   stepAnimations: StepAnimation[]
   currentStepData?: Step
@@ -81,7 +82,7 @@ const CANVAS_COLORS = {
   background: '#F9FAFB'
 };
 
-export function GeometryCanvas({ points, connections, edgeColors, rightAngles = [], angleArcs = [], equalPairs = {}, currentStep, stepAnimations, currentStepData }: GeometryCanvasProps) {
+export function GeometryCanvas({ points, connections, edgeColors, rightAngles = [], angleArcs = [], equalPairs = {}, triangles = [], currentStep, stepAnimations, currentStepData }: GeometryCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const engineRef = useRef<GeometryEngine | null>(null);
   const step = stepAnimations[currentStep] || {};
@@ -311,9 +312,13 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
 
         {angleArcs.map(arc => renderAngleArc(arc))}
 
-        {renderTriangle('A', 'B', 'C', 'triangle-ABC')}
-        {renderTriangle('B', 'C', 'D', 'triangle-BCD')}
-        {renderTriangle('E', 'D', 'C', 'triangle-EDC')}
+        {triangles.map((triId: string) => {
+          const vertices = triId.split('');
+          if (vertices.length === 3) {
+            return renderTriangle(vertices[0], vertices[1], vertices[2], `triangle-${triId}`);
+          }
+          return null;
+        })}
 
         {Object.entries(equalPairs).map(([edgeA, edgeB]) => {
           const edge1 = edges.find(e => e.id === edgeA);
@@ -362,7 +367,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
         
         {currentStepData && (
           <foreignObject x="15" y="300" width="470" height="115">
-            <div xmlns="http://www.w3.org/1999/xhtml" style={{fontFamily: 'system-ui, -apple-system, sans-serif', padding: '8px'}}>
+            <div style={{fontFamily: 'system-ui, -apple-system, sans-serif', padding: '8px'}}>
               <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px'}}>
                 <span style={{backgroundColor: '#3B82F6', color: 'white', padding: '3px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold'}}>
                   第 {currentStep + 1} 步

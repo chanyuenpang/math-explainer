@@ -69,7 +69,8 @@
     "equalPairs": {
       "AB": "AC"
     },
-    "rightAngles": ["ADB", "ADC"]
+    "rightAngles": ["ADB", "ADC"],
+    "triangles": ["ABC", "ABD", "ACD"]
   },
   "steps": [
     {

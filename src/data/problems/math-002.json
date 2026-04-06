@@ -21,7 +21,8 @@
       ["B", "C"],
       ["C", "A"]
     ],
-    "rightAngles": ["A"]
+    "rightAngles": ["A"],
+    "triangles": ["ABC"]
   },
   "steps": [
     {

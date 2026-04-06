@@ -121,7 +121,8 @@
     "equalPairs": {
       "BC": "CD",
       "AB": "DE"
-    }
+    },
+    "triangles": ["ABC", "BCD", "EDC"]
   },
   "steps": [
     {

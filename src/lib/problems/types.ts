@@ -25,6 +25,7 @@ export interface Problem {
       isRightAngle: boolean;
     }>;
     equalPairs?: Record<string, string>;
+    triangles?: string[];
   };
   steps: Array<{
     id: number;
