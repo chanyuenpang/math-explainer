@@ -712,11 +712,12 @@ export class GeometryEngine {
   }
 
   /**
-   * 高亮指定的边（用于对比场景，自动用红色+绿色区分）
+   * 高亮指定的边（用于对比场景，使用 autoColors 分配）
    * @param edges 边 ID 数组，自动分配颜色
+   * @returns 返回分配的颜色数组 [color1, color2]
    */
-  highlightEdgesForCompare(edges: string[]): void {
-    if (!this.svgElement || edges.length < 2) return;
+  highlightEdgesForCompare(edges: string[]): [string, string] | null {
+    if (!this.svgElement || edges.length < 2) return null;
     const gsap = (window as any).gsap;
 
     // Use assignColor for consistent color assignment
@@ -728,18 +729,21 @@ export class GeometryEngine {
     const normalizedEdgeId2 = normalizeEdgeId(edgeId2);
     const el1 = this.svgElement.querySelector(`#${normalizedEdgeId1}`);
     const el2 = this.svgElement.querySelector(`#${normalizedEdgeId2}`);
-    if (!el1 || !el2) return;
+    if (!el1 || !el2) return null;
 
     gsap.to(el1, { stroke: color1, strokeWidth: 3, duration: 0.3 });
     gsap.to(el2, { stroke: color2, strokeWidth: 3, duration: 0.3 });
+
+    return [color1, color2];
   }
 
   /**
    * 执行飞出对比动画（不复用原始边高亮，只做飞出动画）
    * @param edges 两条边 ID 组成的元组
    * @param label 标签文字
+   * @param colors 可选颜色数组 [color1, color2]，不传则使用 autoColors
    */
-  compareEdge(edges: [string, string], label: string): void {
+  compareEdge(edges: [string, string], label: string, colors?: [string, string]): void {
     if (!this.svgElement) return;
     const gsap = (window as any).gsap;
 
@@ -766,13 +770,19 @@ export class GeometryEngine {
     const baseX = 100;
     const targetY = 50;
 
+    // 使用传入的颜色或自动分配的颜色
+    const [color1, color2] = colors || [
+      this.assignColor('compare-edge1-' + edgeId1),
+      this.assignColor('compare-edge2-' + edgeId2)
+    ];
+
     // 创建第一条边的副本
     const copy1 = document.createElementNS(ns, 'line');
     copy1.setAttribute('x1', String(baseX));
     copy1.setAttribute('y1', String(targetY));
     copy1.setAttribute('x2', String(baseX + len1));
     copy1.setAttribute('y2', String(targetY));
-    copy1.setAttribute('stroke', COLORS.red);
+    copy1.setAttribute('stroke', color1);
     copy1.setAttribute('stroke-width', '3');
     copy1.setAttribute('class', 'flyout-copy');
     this.svgElement.appendChild(copy1);
@@ -783,7 +793,7 @@ export class GeometryEngine {
     copy2.setAttribute('y1', String(targetY));
     copy2.setAttribute('x2', String(baseX + len1 + 30 + len2));
     copy2.setAttribute('y2', String(targetY));
-    copy2.setAttribute('stroke', COLORS.green);
+    copy2.setAttribute('stroke', color2);
     copy2.setAttribute('stroke-width', '3');
     copy2.setAttribute('class', 'flyout-copy');
     this.svgElement.appendChild(copy2);
@@ -798,7 +808,7 @@ export class GeometryEngine {
     eqText.setAttribute('y', String(targetY + 5));
     eqText.setAttribute('text-anchor', 'middle');
     eqText.setAttribute('font-size', '16');
-    eqText.setAttribute('fill', COLORS.green);
+    eqText.setAttribute('fill', color2);
     eqText.setAttribute('font-weight', 'bold');
     eqText.setAttribute('class', 'flyout-copy');
     eqText.textContent = '=';
@@ -811,12 +821,12 @@ export class GeometryEngine {
    * 保持向后兼容
    */
   private flyoutCompare(edges: [string, string], label: string): void {
-    // 步骤 1：高亮原始边（红色+绿色）
-    this.highlightEdgesForCompare(edges);
+    // 步骤 1：高亮原始边并获取分配的颜色
+    const colors = this.highlightEdgesForCompare(edges);
 
-    // 步骤 2：延迟后执行飞出动画
+    // 步骤 2：延迟后执行飞出动画，传递相同的颜色
     setTimeout(() => {
-      this.compareEdge(edges, label);
+      this.compareEdge(edges, label, colors || undefined);
     }, 600);
   }
 
