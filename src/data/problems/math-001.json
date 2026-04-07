@@ -122,7 +122,11 @@
       "BC": "CD",
       "AB": "DE"
     },
-    "triangles": ["ABC", "BCD", "EDC"]
+    "triangles": [
+      "ABC",
+      "BCD",
+      "EDC"
+    ]
   },
   "steps": [
     {
@@ -315,7 +319,11 @@
       "fillTriangle": [
         "ABC",
         "EDC"
-      ]
+      ],
+      "fillColors": {
+        "ABC": "#EF4444",
+        "EDC": "#10B981"
+      }
     },
     {
       "highlightEdges": [

@@ -76,6 +76,31 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
   
   const edges = useMemo(() => topology.getEdges(), [topology]);
 
+  // Auto-generate angleArcs for rightAngles not already in angleArcs
+  const resolvedAngleArcs = useMemo(() => {
+    const arcs = [...angleArcs];
+    for (const ra of rightAngles) {
+      // Check if this right angle already has an arc
+      const existing = arcs.find(a => a.vertex === ra && a.isRightAngle);
+      if (existing) continue;
+
+      // Find two connections from this vertex to determine 'from' and 'to' points
+      const connected = connections
+        .filter(([from, to]) => from === ra || to === ra)
+        .map(([from, to]) => from === ra ? to : from);
+      if (connected.length >= 2) {
+        arcs.push({
+          id: `arc-${ra}`,
+          vertex: ra,
+          from: connected[0],
+          to: connected[1],
+          isRightAngle: true,
+        });
+      }
+    }
+    return arcs;
+  }, [angleArcs, rightAngles, connections]);
+
   useEffect(() => {
     if (!svgRef.current) return;
 
@@ -347,30 +372,7 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
           );
         })}
         
-        {currentStepData && (
-          <foreignObject x="15" y="300" width="470" height="115">
-            <div style={{fontFamily: 'system-ui, -apple-system, sans-serif', padding: '8px'}}>
-              <div style={{display: 'flex', alignItems: 'center', gap: '8px', marginBottom: '6px'}}>
-                <span style={{backgroundColor: '#3B82F6', color: 'white', padding: '3px 8px', borderRadius: '4px', fontSize: '11px', fontWeight: 'bold'}}>
-                  第 {currentStep + 1} 步
-                </span>
-                <span style={{fontSize: '14px', fontWeight: 'bold', color: '#1F2937'}}>
-                  {currentStepData.title}
-                </span>
-              </div>
-              
-              <div style={{fontSize: '13px', lineHeight: '1.5', whiteSpace: 'pre-wrap', color: COLORS.text, marginBottom: '6px'}}>
-                {currentStepData.content}
-              </div>
-              
-              {currentStepData.conclusion && (
-                <div style={{fontSize: '13px', fontWeight: 'bold', color: '#10B981', borderTop: '1px solid #E5E7EB', paddingTop: '6px'}}>
-                  ✓ {currentStepData.conclusion}
-                </div>
-              )}
-            </div>
-          </foreignObject>
-        )}
+
       </svg>
     </div>
   );
