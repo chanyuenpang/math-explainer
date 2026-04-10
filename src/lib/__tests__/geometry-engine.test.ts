@@ -67,11 +67,11 @@ function createMockSVG(): SVGSVGElement {
 // Test configuration
 const testConfig: GeometryConfig = {
   points: [
-    { id: 'A', x: 50, y: 250 },
-    { id: 'B', x: 50, y: 50 },
-    { id: 'C', x: 250, y: 50 },
-    { id: 'D', x: 250, y: 150 },
-    { id: 'E', x: 150, y: 150 },
+    { id: 'A', x: 50, y: 250, label: 'A' },
+    { id: 'B', x: 50, y: 50, label: 'B' },
+    { id: 'C', x: 250, y: 50, label: 'C' },
+    { id: 'D', x: 250, y: 150, label: 'D' },
+    { id: 'E', x: 150, y: 150, label: 'E' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -228,7 +228,7 @@ describe('convertStepAnimationToIntents', () => {
     
     expect(intents).toHaveLength(1);
     expect(intents[0].type).toBe('highlights');
-    expect(intents[0].highlights).toHaveLength(2);
+    expect((intents[0] as { highlights: unknown[] }).highlights).toHaveLength(2);
   });
 
   it('should convert drawEdge to intents', () => {
@@ -240,7 +240,7 @@ describe('convertStepAnimationToIntents', () => {
     
     expect(intents).toHaveLength(1);
     expect(intents[0].type).toBe('drawEdges');
-    expect(intents[0].edges).toEqual(['AB', 'BC']);
+    expect((intents[0] as { edges: string[] }).edges).toEqual(['AB', 'BC']);
   });
 
   it('should convert flashAngle to showAngle intents', () => {
@@ -252,8 +252,8 @@ describe('convertStepAnimationToIntents', () => {
     
     expect(intents).toHaveLength(2);
     expect(intents[0].type).toBe('showAngle');
-    expect(intents[0].angle).toBe('A');
-    expect(intents[1].angle).toBe('B');
+    expect((intents[0] as { angle: string }).angle).toBe('A');
+    expect((intents[1] as { angle: string }).angle).toBe('B');
   });
 
   it('should convert fillTriangle to intents', () => {
@@ -266,6 +266,6 @@ describe('convertStepAnimationToIntents', () => {
     
     expect(intents).toHaveLength(1);
     expect(intents[0].type).toBe('fillTriangles');
-    expect(intents[0].triangles).toEqual(['ABC']);
+    expect((intents[0] as { triangles: string[] }).triangles).toEqual(['ABC']);
   });
 });

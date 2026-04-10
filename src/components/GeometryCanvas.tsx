@@ -1,76 +1,53 @@
 import { useEffect, useRef, useMemo } from 'react';
 import { GeometryEngine, convertStepAnimationToIntents, COLORS } from '../lib/geometry-engine';
 import { TopologyGraph } from '../lib/topology';
+import type { GeoPoint, AngleArcConfig, StepAnimation, Step } from '../lib/types';
+import type { Connection } from '../lib/problems/types';
 
-interface Point { x: number; y: number; label: string }
-interface AngleArc {
-  vertex: string;
-  id: string;
-  from: string;
-  to: string;
-  color?: string;
-  path?: string;
-  isRightAngle?: boolean;
-}
-
-interface StepAnimation {
-  highlight?: string[];
-  draw?: string[];
-  hide?: string[];
-  pulse?: string[];
-  fill?: Record<string, string>;
-  transform?: Record<string, string>;
-  color?: string;
-  rightAngles?: string[];
-  angles?: string[];
-  highlightEdges?: string[];
-  drawEdge?: string[];
-  showRightAngles?: string[];
-  showEqualMarks?: boolean;
-  showLabels?: string[];
-  flashAngle?: string[];
-  flashColor?: string;
-  fillTriangle?: string;
-  fillColor?: string;
-  moveEdge?: string;
-  targetEdge?: string;
-  moveTriangle?: string;
-  targetTriangle?: string;
-  flashArcs?: string[];
-  fillColors?: Record<string, string>;
-  flyoutCompare?: Array<{edges: [string, string], label: string}>;
-  flashTriangle?: string[];
-}
-
-interface Step {
-  id: number;
-  title: string;
-  content: string;
-  conclusion?: string;
-}
+type Point = GeoPoint;
+type AngleArc = AngleArcConfig;
 
 interface GeometryCanvasProps {
-  points: Point[]
-  connections: [string, string][]
-  edgeColors?: Record<string, string>
-  rightAngles?: string[]
-  angleArcs?: AngleArc[]
-  equalPairs?: Record<string, string>
-  triangles?: string[]
-  currentStep: number
-  stepAnimations: StepAnimation[]
-  currentStepData?: Step
+  points: Point[];
+  /**
+   * 连接数组，支持两种格式：
+   * 1. [string, string][] 格式（兼容旧版）: [['A', 'B'], ['B', 'C']]
+   * 2. Connection[] 对象格式（新统一格式）: [{from: 'A', to: 'B'}, ...]
+   */
+  connections: [string, string][] | Connection[];
+  edgeColors?: Record<string, string>;
+  rightAngles?: string[];
+  angleArcs?: AngleArc[];
+  equalPairs?: Record<string, string>;
+  triangles?: string[];
+  currentStep: number;
+  stepAnimations: StepAnimation[];
+  currentStepData?: Step;
+  /**
+   * 题目的无障碍描述，用于 aria-label
+   */
+  ariaDescription?: string;
 }
 
 // Colors are imported from the shared COLORS constant (src/lib/colors.ts)
 
-export function GeometryCanvas({ points, connections, edgeColors, rightAngles = [], angleArcs = [], equalPairs = {}, triangles = [], currentStep, stepAnimations, currentStepData }: GeometryCanvasProps) {
+export function GeometryCanvas({ points, connections, edgeColors, rightAngles = [], angleArcs = [], equalPairs = {}, triangles = [], currentStep, stepAnimations, currentStepData, ariaDescription }: GeometryCanvasProps) {
   const svgRef = useRef<SVGSVGElement>(null);
   const engineRef = useRef<GeometryEngine | null>(null);
   const step = stepAnimations[currentStep] || {};
 
-  const topoPoints = useMemo(() => points.map(p => ({ id: p.label, x: p.x, y: p.y })), [points]);
-  const topoConnections = useMemo(() => connections.map(([from, to]) => ({ from, to })), [connections]);
+  // 直接使用 points（已经是 GeoPoint 格式）
+  const topoPoints = useMemo(() => points.map(p => ({ id: p.id || p.label, x: p.x, y: p.y, label: p.label })), [points]);
+  // 统一转换为 Connection[] 格式以兼容 topology
+  const topoConnections = useMemo(() => {
+    if (connections.length === 0) return [];
+    // 检查是否为对象格式（Connection[]）
+    if (typeof connections[0] === 'object' && 'from' in connections[0]) {
+      return connections as Connection[];
+    }
+    // 旧格式 [string, string][] 转换为 Connection[]
+    return (connections as [string, string][]).map(([from, to]) => ({ from, to }));
+  }, [connections]);
 
   const topology = useMemo(() => new TopologyGraph(topoPoints, topoConnections, edgeColors), [topoPoints, topoConnections, edgeColors]);
   
@@ -85,9 +62,20 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       if (existing) continue;
 
       // Find two connections from this vertex to determine 'from' and 'to' points
+      // Handle both formats: Connection[] objects and legacy [string, string][] arrays
       const connected = connections
-        .filter(([from, to]) => from === ra || to === ra)
-        .map(([from, to]) => from === ra ? to : from);
+        .filter((conn): boolean => {
+          if (Array.isArray(conn)) {
+            return conn[0] === ra || conn[1] === ra;
+          }
+          return conn.from === ra || conn.to === ra;
+        })
+        .map((conn) => {
+          if (Array.isArray(conn)) {
+            return conn[0] === ra ? conn[1] : conn[0];
+          }
+          return conn.from === ra ? conn.to : conn.from;
+        });
       if (connected.length >= 2) {
         arcs.push({
           id: `arc-${ra}`,
@@ -287,9 +275,24 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
     );
   };
 
+  // 生成默认的 aria-label 描述
+  const defaultAriaDescription = useMemo(() => {
+    const pointLabels = points.map(p => p.label).join(', ');
+    const edgeCount = edges.length;
+    return `几何图形：包含 ${points.length} 个点（${pointLabels}），${edgeCount} 条边`;
+  }, [points, edges]);
+
   return (
     <div className="w-full h-full min-h-0 flex-1">
-      <svg ref={svgRef} viewBox="0 0 500 420" preserveAspectRatio="xMidYMid meet" className="w-full h-full min-h-[200px] max-h-[50vh] bg-white rounded-lg shadow-sm border border-gray-100">
+      <svg 
+        ref={svgRef} 
+        viewBox="0 0 500 420" 
+        preserveAspectRatio="xMidYMid meet" 
+        className="w-full h-full min-h-[200px] max-h-[50vh] bg-white rounded-lg shadow-sm border border-gray-100"
+        role="img"
+        aria-label={ariaDescription || defaultAriaDescription}
+      >
+        <title>{ariaDescription || defaultAriaDescription}</title>
         {edges.map(e => {
           const from = points.find(p => p.label === e.from)!;
           const to = points.find(p => p.label === e.to)!;

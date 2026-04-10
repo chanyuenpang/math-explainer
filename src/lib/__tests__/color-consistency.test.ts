@@ -81,11 +81,11 @@ function createMockSVGWithEdgesAndArcs(): SVGSVGElement {
 // Test configuration
 const testConfig: GeometryConfig = {
   points: [
-    { id: 'A', x: 100, y: 100 },
-    { id: 'B', x: 100, y: 200 },
-    { id: 'C', x: 200, y: 200 },
-    { id: 'D', x: 200, y: 100 },
-    { id: 'E', x: 300, y: 100 },
+    { id: 'A', x: 100, y: 100, label: 'A' },
+    { id: 'B', x: 100, y: 200, label: 'B' },
+    { id: 'C', x: 200, y: 200, label: 'C' },
+    { id: 'D', x: 200, y: 100, label: 'D' },
+    { id: 'E', x: 300, y: 100, label: 'E' },
   ],
   connections: [
     { from: 'A', to: 'B' },

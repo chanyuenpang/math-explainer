@@ -1,32 +1,21 @@
 // Topology Engine - Auto-derive edges and angles from point connections
 
-export interface Point {
-  id: string;
-  x: number;
-  y: number;
-}
+import type { GeoPoint, GeoConnection, GeoEdge, GeoAngleLegacy } from './types';
 
-export interface Connection {
-  from: string;
-  to: string;
-}
+// 使用统一点类型 (向后兼容)
+export type Point = GeoPoint;
 
-export interface Edge {
-  id: string;
-  from: string;
-  to: string;
-  color?: string;
-}
+// 使用统一连接类型 (向后兼容)
+export type Connection = GeoConnection;
 
-export interface Angle {
-  id: string;
-  vertex: string;
-  from: string;
-  to: string;
-}
+// 使用统一边类型 (向后兼容)
+export type Edge = GeoEdge;
 
-// Re-export for backward compatibility
-export type { Point as TopoPoint, Connection as TopoConnection };
+// 使用统一角类型 (向后兼容)
+export type Angle = GeoAngleLegacy;
+
+// Re-export for backward compatibility (without the conflicting re-export)
+export type { GeoPoint as TopoPoint, GeoConnection as TopoConnection, GeoEdge };
 
 /**
  * Normalize edge ID to canonical form (alphabetical order)

@@ -1,3 +1,5 @@
+import type { GeoPoint, GeoConnection, AngleArcConfig } from '../types';
+
 export type GeometryShapeType = 
   | 'triangle'
   | 'right-triangle'
@@ -10,25 +12,14 @@ export type GeometryShapeType =
   | 'trapezoid'
   | 'circle';
 
-export interface PointConfig {
-  x: number;
-  y: number;
-  label: string;
-}
+// 使用统一点类型
+export type PointConfig = GeoPoint;
 
-export interface ConnectionConfig {
-  from: string;
-  to: string;
-}
+// 使用统一连接类型
+export type ConnectionConfig = GeoConnection;
 
-export interface AngleArcTemplate {
-  id: string;
-  vertex: string;
-  from: string;
-  to: string;
-  color?: string;
-  isRightAngle?: boolean;
-}
+// 使用统一弧角类型
+export type AngleArcTemplate = AngleArcConfig;
 
 export interface GeometryTemplateConfig {
   points: PointConfig[];

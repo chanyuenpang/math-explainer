@@ -30,9 +30,9 @@ function applyOptions(config: GeometryTemplateConfig, options: TemplateOptions):
 
 const rightTriangleBase: GeometryTemplateConfig = {
   points: [
-    { x: 100, y: 200, label: 'A' },
-    { x: 100, y: 100, label: 'B' },
-    { x: 200, y: 200, label: 'C' },
+    { id: 'A', x: 100, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 100, label: 'B' },
+    { id: 'C', x: 200, y: 200, label: 'C' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -47,9 +47,9 @@ const rightTriangleBase: GeometryTemplateConfig = {
 
 const isoscelesTriangleBase: GeometryTemplateConfig = {
   points: [
-    { x: 150, y: 200, label: 'A' },
-    { x: 100, y: 100, label: 'B' },
-    { x: 200, y: 100, label: 'C' },
+    { id: 'A', x: 150, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 100, label: 'B' },
+    { id: 'C', x: 200, y: 100, label: 'C' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -61,9 +61,9 @@ const isoscelesTriangleBase: GeometryTemplateConfig = {
 
 const equilateralTriangleBase: GeometryTemplateConfig = {
   points: [
-    { x: 150, y: 200, label: 'A' },
-    { x: 100, y: 113.4, label: 'B' },
-    { x: 200, y: 113.4, label: 'C' },
+    { id: 'A', x: 150, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 113.4, label: 'B' },
+    { id: 'C', x: 200, y: 113.4, label: 'C' },
   ],
   connections: [
     { from: 'A', to: 'B' },

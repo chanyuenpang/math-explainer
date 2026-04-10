@@ -30,10 +30,10 @@ function applyOptions(config: GeometryTemplateConfig, options: TemplateOptions):
 
 const rectangleBase: GeometryTemplateConfig = {
   points: [
-    { x: 100, y: 200, label: 'A' },
-    { x: 100, y: 100, label: 'B' },
-    { x: 250, y: 100, label: 'C' },
-    { x: 250, y: 200, label: 'D' },
+    { id: 'A', x: 100, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 100, label: 'B' },
+    { id: 'C', x: 250, y: 100, label: 'C' },
+    { id: 'D', x: 250, y: 200, label: 'D' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -52,10 +52,10 @@ const rectangleBase: GeometryTemplateConfig = {
 
 const squareBase: GeometryTemplateConfig = {
   points: [
-    { x: 100, y: 200, label: 'A' },
-    { x: 100, y: 100, label: 'B' },
-    { x: 200, y: 100, label: 'C' },
-    { x: 200, y: 200, label: 'D' },
+    { id: 'A', x: 100, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 100, label: 'B' },
+    { id: 'C', x: 200, y: 100, label: 'C' },
+    { id: 'D', x: 200, y: 200, label: 'D' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -69,10 +69,10 @@ const squareBase: GeometryTemplateConfig = {
 
 const parallelogramBase: GeometryTemplateConfig = {
   points: [
-    { x: 100, y: 200, label: 'A' },
-    { x: 100, y: 100, label: 'B' },
-    { x: 250, y: 100, label: 'C' },
-    { x: 250, y: 200, label: 'D' },
+    { id: 'A', x: 100, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 100, label: 'B' },
+    { id: 'C', x: 250, y: 100, label: 'C' },
+    { id: 'D', x: 250, y: 200, label: 'D' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -85,10 +85,10 @@ const parallelogramBase: GeometryTemplateConfig = {
 
 const trapezoidBase: GeometryTemplateConfig = {
   points: [
-    { x: 100, y: 200, label: 'A' },
-    { x: 150, y: 100, label: 'B' },
-    { x: 250, y: 100, label: 'C' },
-    { x: 300, y: 200, label: 'D' },
+    { id: 'A', x: 100, y: 200, label: 'A' },
+    { id: 'B', x: 150, y: 100, label: 'B' },
+    { id: 'C', x: 250, y: 100, label: 'C' },
+    { id: 'D', x: 300, y: 200, label: 'D' },
   ],
   connections: [
     { from: 'A', to: 'B' },
@@ -100,10 +100,10 @@ const trapezoidBase: GeometryTemplateConfig = {
 
 const quadrilateralBase: GeometryTemplateConfig = {
   points: [
-    { x: 100, y: 200, label: 'A' },
-    { x: 100, y: 100, label: 'B' },
-    { x: 200, y: 100, label: 'C' },
-    { x: 200, y: 200, label: 'D' },
+    { id: 'A', x: 100, y: 200, label: 'A' },
+    { id: 'B', x: 100, y: 100, label: 'B' },
+    { id: 'C', x: 200, y: 100, label: 'C' },
+    { id: 'D', x: 200, y: 200, label: 'D' },
   ],
   connections: [
     { from: 'A', to: 'B' },

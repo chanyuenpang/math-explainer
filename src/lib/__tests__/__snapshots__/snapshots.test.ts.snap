@@ -156,7 +156,10 @@ exports[`Snapshot Tests: convertStepAnimationToIntents for math-001 > should mat
   },
   {
     "color": undefined,
-    "colors": undefined,
+    "colors": {
+      "ABC": "#EF4444",
+      "EDC": "#10B981",
+    },
     "triangles": [
       "ABC",
       "EDC",

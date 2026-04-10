@@ -1,18 +1,7 @@
 ---
 import '../../styles/global.css';
 import { loadProblems, getProblem, listProblems } from '../../lib/problems/registry';
-import fs from 'node:fs';
-import path from 'node:path';
-
-// 读取 package.json 获取版本号
-const packageJsonPath = path.resolve('./package.json');
-let version = '0.0.0';
-try {
-  const packageJson = JSON.parse(fs.readFileSync(packageJsonPath, 'utf-8'));
-  version = packageJson.version || '0.0.0';
-} catch (e) {
-  // 版本号读取失败，使用默认值
-}
+import { version as appVersion } from '../../../package.json';
 
 export async function getStaticPaths() {
   await loadProblems();
@@ -36,7 +25,7 @@ const problem = getProblem(id!);
     <a href="/math-explainer/problems" class="text-blue-500 hover:text-blue-700 text-sm font-medium">← 返回</a>
     <div class="flex items-center gap-2">
       <span class="text-xs text-gray-400">MathExplainer</span>
-      <span class="text-xs text-gray-300">v${version}</span>
+      <span class="text-xs text-gray-300">v{appVersion}</span>
     </div>
   </header>
 
@@ -72,6 +61,7 @@ const problem = getProblem(id!);
         import { createRoot } from 'react-dom/client';
         import { StepPlayer } from '../../components/StepPlayer';
         import { GeometryCanvas } from '../../components/GeometryCanvas';
+        import { ErrorBoundary } from '../../components/ErrorBoundary';
 
         const root = document.getElementById('combined-root');
         const steps = JSON.parse(root.dataset.steps);
@@ -83,24 +73,28 @@ const problem = getProblem(id!);
           const step = steps[currentStep] || {};
           
           return createElement('div', { className: 'flex flex-col h-full' }, [
-            createElement(GeometryCanvas, {
-              key: 'canvas',
-              points: geometry.points,
-              connections: geometry.connections,
-              edgeColors: geometry.edgeColors,
-              rightAngles: geometry.rightAngles,
-              angleArcs: geometry.angleArcs || [],
-              equalPairs: geometry.equalPairs,
-              triangles: geometry.triangles || [],
-              currentStep: currentStep,
-              stepAnimations: animations,
-              currentStepData: step
-            }),
-            createElement(StepPlayer, {
-              key: 'player',
-              steps: steps,
-              onStepChange: setCurrentStep
-            })
+            createElement(ErrorBoundary, { key: 'canvas-eb' },
+              createElement(GeometryCanvas, {
+                key: 'canvas',
+                points: geometry.points,
+                connections: geometry.connections,
+                edgeColors: geometry.edgeColors,
+                rightAngles: geometry.rightAngles,
+                angleArcs: geometry.angleArcs || [],
+                equalPairs: geometry.equalPairs,
+                triangles: geometry.triangles || [],
+                currentStep: currentStep,
+                stepAnimations: animations,
+                currentStepData: step
+              })
+            ),
+            createElement(ErrorBoundary, { key: 'player-eb' },
+              createElement(StepPlayer, {
+                key: 'player',
+                steps: steps,
+                onStepChange: setCurrentStep
+              })
+            )
           ]);
         }
 

@@ -1,11 +1,25 @@
 import katex from 'katex';
 
 export function renderMathText(text: string): string {
-  // 对于不含 $ 的纯文本，直接返回
-  if (!text.includes('$')) return text;
+  if (!text) return '';
+  
+  console.log('[XSS防护] 原始输入:', text.substring(0, 100));
+
+  // 1. 先转义 HTML 实体，防止 XSS 攻击
+  const escaped = text
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+
+  console.log('[XSS防护] 转义后:', escaped.substring(0, 100));
+
+  // 对于不含 $ 的纯文本，直接返回转义后的内容
+  if (!escaped.includes('$')) return escaped;
 
   // 先处理块级公式 $$...$$
-  let result = text.replace(/\$\$([^$]+)\$\$/g, (match, formula) => {
+  let result = escaped.replace(/\$\$([^$]+)\$\$/g, (match, formula) => {
     try {
       return katex.renderToString(formula, {
         throwOnError: false,

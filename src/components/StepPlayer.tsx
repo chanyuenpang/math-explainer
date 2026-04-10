@@ -1,4 +1,5 @@
 import { useState, useEffect, useRef } from 'react';
+import { version } from '../../package.json';
 import { gsap } from 'gsap';
 import { renderMathText } from '../lib/katex-renderer';
 import 'katex/dist/katex.min.css';
@@ -68,6 +69,30 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
     }
   }, [currentStep, isPlaying]);
 
+  // 键盘支持：左右箭头切换步骤，空格键播放/暂停
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      // 忽略当焦点在输入框等元素上时
+      if (e.target instanceof HTMLInputElement || e.target instanceof HTMLTextAreaElement) {
+        return;
+      }
+
+      if (e.code === 'ArrowLeft' || e.code === 'ArrowUp') {
+        e.preventDefault();
+        playPrev();
+      } else if (e.code === 'ArrowRight' || e.code === 'ArrowDown') {
+        e.preventDefault();
+        playNext();
+      } else if (e.code === 'Space') {
+        e.preventDefault();
+        togglePlay();
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [currentStep, isPlaying, steps.length]);
+
   const step = steps[currentStep];
 
   return (
@@ -77,12 +102,12 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
           步骤 {currentStep + 1} / {steps.length}
         </span>
         <div className="flex gap-1.5">
-          <button onClick={playPrev} disabled={currentStep === 0}
+          <button onClick={playPrev} disabled={currentStep === 0} aria-label="上一步"
             className="px-3 py-1.5 md:px-4 md:py-2 bg-gray-100 hover:bg-gray-200 text-gray-700 rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1">
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M15 19l-7-7 7-7" /></svg>
             上一步
           </button>
-          <button onClick={togglePlay}
+          <button onClick={togglePlay} aria-label={isPlaying ? '暂停' : '播放'}
             className="px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md transition-all text-sm font-medium flex items-center gap-1 shadow-sm">
             {isPlaying ? (
               <><svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M6 4h4v16H6V4zm8 0h4v16h-4V4z" /></svg> 暂停</>
@@ -90,7 +115,7 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
               <><svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg> 播放</>
             )}
           </button>
-          <button onClick={playNext} disabled={currentStep === steps.length - 1}
+          <button onClick={playNext} disabled={currentStep === steps.length - 1} aria-label="下一步"
             className="px-3 py-1.5 md:px-4 md:py-2 bg-blue-500 hover:bg-blue-600 text-white rounded-md disabled:opacity-40 disabled:cursor-not-allowed transition-all text-sm font-medium flex items-center gap-1 shadow-sm">
             下一步
             <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M9 5l7 7-7 7" /></svg>
@@ -117,14 +142,21 @@ export function StepPlayer({ steps, onComplete, onStepChange }: StepPlayerProps)
       </div>
 
       {/* 进度条 */}
-      <div className="flex gap-1 mt-3">
+      <div 
+        className="flex gap-1 mt-3" 
+        role="progressbar" 
+        aria-valuenow={currentStep + 1} 
+        aria-valuemin={1} 
+        aria-valuemax={steps.length}
+        aria-label={`步骤进度：${currentStep + 1} / ${steps.length}`}
+      >
         {steps.map((_, i) => (
           <div key={i} className={`h-1.5 flex-1 rounded-full transition-all duration-300 ${i <= currentStep ? 'bg-blue-500' : 'bg-gray-200'}`} />
         ))}
       </div>
       
       <div className="text-[10px] text-gray-400 text-right mt-1">
-        v2026.04.03-0146
+        v{version}
       </div>
     </div>
   );

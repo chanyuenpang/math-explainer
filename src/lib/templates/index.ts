@@ -3,8 +3,8 @@ export * from './triangle';
 export * from './quadrilateral';
 
 import type { ProblemTemplate, GeometryTemplateConfig, TemplateOptions, GeometryShapeType } from './types';
-import { createTriangleTemplate, type TriangleType } from './triangle';
-import { createQuadrilateralTemplate, type QuadrilateralType } from './quadrilateral';
+import { createTriangleTemplate, getTrianglePresets, type TriangleType } from './triangle';
+import { createQuadrilateralTemplate, getQuadrilateralPresets, type QuadrilateralType } from './quadrilateral';
 
 export type ShapeType = TriangleType | QuadrilateralType;
 
@@ -17,42 +17,42 @@ interface TemplateDefinition {
 const templateRegistry: Record<string, TemplateDefinition> = {
   'right-triangle': {
     create: (options) => createTriangleTemplate('right-triangle', options),
-    getPreset: () => require('./triangle').getTrianglePresets()['right-triangle'],
+    getPreset: () => getTrianglePresets()['right-triangle'],
     shapeType: 'right-triangle',
   },
   'isosceles-triangle': {
     create: (options) => createTriangleTemplate('isosceles-triangle', options),
-    getPreset: () => require('./triangle').getTrianglePresets()['isosceles-triangle'],
+    getPreset: () => getTrianglePresets()['isosceles-triangle'],
     shapeType: 'isosceles-triangle',
   },
   'equilateral-triangle': {
     create: (options) => createTriangleTemplate('equilateral-triangle', options),
-    getPreset: () => require('./triangle').getTrianglePresets()['equilateral-triangle'],
+    getPreset: () => getTrianglePresets()['equilateral-triangle'],
     shapeType: 'equilateral-triangle',
   },
   'rectangle': {
     create: (options) => createQuadrilateralTemplate('rectangle', options),
-    getPreset: () => require('./quadrilateral').getQuadrilateralPresets()['rectangle'],
+    getPreset: () => getQuadrilateralPresets()['rectangle'],
     shapeType: 'rectangle',
   },
   'square': {
     create: (options) => createQuadrilateralTemplate('square', options),
-    getPreset: () => require('./quadrilateral').getQuadrilateralPresets()['square'],
+    getPreset: () => getQuadrilateralPresets()['square'],
     shapeType: 'square',
   },
   'parallelogram': {
     create: (options) => createQuadrilateralTemplate('parallelogram', options),
-    getPreset: () => require('./quadrilateral').getQuadrilateralPresets()['parallelogram'],
+    getPreset: () => getQuadrilateralPresets()['parallelogram'],
     shapeType: 'parallelogram',
   },
   'trapezoid': {
     create: (options) => createQuadrilateralTemplate('trapezoid', options),
-    getPreset: () => require('./quadrilateral').getQuadrilateralPresets()['trapezoid'],
+    getPreset: () => getQuadrilateralPresets()['trapezoid'],
     shapeType: 'trapezoid',
   },
   'quadrilateral': {
     create: (options) => createQuadrilateralTemplate('quadrilateral', options),
-    getPreset: () => require('./quadrilateral').getQuadrilateralPresets()['quadrilateral'],
+    getPreset: () => getQuadrilateralPresets()['quadrilateral'],
     shapeType: 'quadrilateral',
   },
 };
