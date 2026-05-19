@@ -1,5 +1,6 @@
 import { gsap } from 'gsap';
-import { TopologyGraph, type Point, type Connection, type Edge, type Angle, normalizeEdgeId } from './topology';
+import { TopologyGraph, type Point, type Connection, type Edge, normalizeEdgeId } from './topology';
+import type { GeoPoint } from './types';
 import { COLORS } from './colors';
 import { AnimationExecutor } from './engine/AnimationExecutor';
 import type { AngleArcConfig } from './types';
@@ -231,7 +232,10 @@ export class GeometryEngine {
   private topology: TopologyGraph;
   private config: GeometryConfig;
   private svgElement: SVGSVGElement | null = null;
-  private points: Array<{ id: string; x: number; y: number }>;
+  private points: Map<string, GeoPoint>;
+  private edgeMap: Map<string, Edge>;
+  private angleArcByVertex: Map<string, AngleArcConfig>;
+  private angleArcById: Map<string, AngleArcConfig>;
 
   // Managers and executors
   private colorManager: ColorManager;
@@ -240,12 +244,27 @@ export class GeometryEngine {
 
   constructor(config: GeometryConfig) {
     this.config = config;
-    this.points = config.points;
+    this.points = new Map(
+      config.points.map((point) => [point.id ?? `${point.x},${point.y}`, point])
+    );
+    this.edgeMap = new Map();
+    this.angleArcByVertex = new Map();
+    this.angleArcById = new Map();
     this.topology = new TopologyGraph(
       config.points,
       config.connections,
       config.edgeColors
     );
+    // Build lookup indexes
+    for (const edge of this.topology.getEdges()) {
+      this.edgeMap.set(edge.id, edge);
+    }
+    if (config.angleArcs) {
+      for (const arc of config.angleArcs) {
+        if (arc.vertex) this.angleArcByVertex.set(arc.vertex, arc);
+        if (arc.id) this.angleArcById.set(arc.id, arc);
+      }
+    }
     // Initialize managers
     this.colorManager = new ColorManager();
     this.svgHelper = new SVGQueryHelper(null);
@@ -258,7 +277,7 @@ export class GeometryEngine {
     this.animationExecutor = new AnimationExecutor(
       this.svgHelper,
       this.colorManager,
-      this.points,
+      Array.from(this.points.values()),
       this.topology,
       this.config.angleArcs || []
     );
@@ -268,8 +287,8 @@ export class GeometryEngine {
     return this.topology;
   }
 
-  getPoints(): Array<{ id: string; x: number; y: number }> {
-    return this.points;
+  getPoints(): GeoPoint[] {
+    return Array.from(this.points.values());
   }
 
   getEdges(): Edge[] {
@@ -284,14 +303,18 @@ export class GeometryEngine {
     return this.config.equalPairs || {};
   }
 
+  private getPoint(pointId: string): GeoPoint | undefined {
+    return this.points.get(pointId);
+  }
+
   private getPos(pointId: string): { x: number; y: number } {
-    const point = this.points.find(p => p.id === pointId);
+    const point = this.getPoint(pointId);
     if (!point) return { x: 0, y: 0 };
     return { x: point.x, y: 300 - point.y };
   }
 
   private getPointCoords(pointId: string): { x: number; y: number } {
-    const point = this.points.find(p => p.id === pointId);
+    const point = this.getPoint(pointId);
     if (!point) return { x: 0, y: 0 };
     return { x: point.x, y: point.y };
   }
@@ -574,25 +597,38 @@ export class GeometryEngine {
     return result;
   }
 
+  /** 查找 angleArc（通过 vertex 或 id，支持多种匹配） */
+  private findAngleArc(angleId: string): AngleArcConfig | undefined {
+    const byVertex = this.angleArcByVertex.get(angleId);
+    if (byVertex) return byVertex;
+    const byId = this.angleArcById.get(angleId);
+    if (byId) return byId;
+    const byPrefixed = this.angleArcById.get(`angle-${angleId}`) || this.angleArcById.get(`arc-${angleId}`);
+    if (byPrefixed) return byPrefixed;
+    // Fallback: includes match (rare)
+    if (this.config.angleArcs) {
+      return this.config.angleArcs.find(a => a.id && a.id.includes(angleId));
+    }
+    return undefined;
+  }
+
+  /** 查找连接两个点的边 */
+  private findEdge(pointA: string, pointB: string): Edge | undefined {
+    for (const edge of this.edgeMap.values()) {
+      if ((edge.from === pointA && edge.to === pointB) || (edge.to === pointA && edge.from === pointB)) {
+        return edge;
+      }
+    }
+    return undefined;
+  }
+
   /** 获取角对应的弧线 ID 和两条边 ID */
   private getAngleArcAndEdgeIds(angleId: string): { arcId: string | null, edge1: string | null, edge2: string | null } {
-    // 查找对应的 angleArc 配置（通过 vertex 或 id）
-    const angleArc = this.config.angleArcs?.find(a => {
-      // 尝试多种匹配方式
-      if (a.vertex === angleId) return true;
-      if (a.id === angleId) return true;
-      if (a.id === `angle-${angleId}`) return true;
-      if (a.id === `arc-${angleId}`) return true;
-      // 尝试匹配 angle 名称（如 BAC -> angle-BAC）
-      if (a.id && a.id.includes(angleId)) return true;
-      return false;
-    });
-    
+    const angleArc = this.findAngleArc(angleId);
     if (!angleArc) return { arcId: null, edge1: null, edge2: null };
     
-    const edges = this.topology.getEdges();
-    const e1 = edges.find(e => (e.from === angleArc.vertex && e.to === angleArc.from) || (e.to === angleArc.vertex && e.from === angleArc.from));
-    const e2 = edges.find(e => (e.from === angleArc.vertex && e.to === angleArc.to) || (e.to === angleArc.vertex && e.from === angleArc.to));
+    const e1 = this.findEdge(angleArc.vertex, angleArc.from);
+    const e2 = this.findEdge(angleArc.vertex, angleArc.to);
     
     return {
       arcId: angleArc.id,
@@ -678,22 +714,15 @@ export class GeometryEngine {
     }
 
     // Edges: set color then flash strokeWidth only
-    const angleArc = this.config.angleArcs?.find(a => a.vertex === angleId || a.id === arcId);
+    const angleArc = this.findAngleArc(angleId) || this.findAngleArc(arcId);
     if (angleArc) {
-      const fromPoint = this.points.find(p => p.id === angleArc.from);
-      const toPoint = this.points.find(p => p.id === angleArc.to);
-      const vertexPoint = this.points.find(p => p.id === angleArc.vertex);
+      const fromPoint = this.getPoint(angleArc.from);
+      const toPoint = this.getPoint(angleArc.to);
+      const vertexPoint = this.getPoint(angleArc.vertex);
 
       if (fromPoint && toPoint && vertexPoint) {
-        const edges = this.topology.getEdges();
-        const edge1 = edges.find(e =>
-          (e.from === angleArc.vertex && e.to === fromPoint.id) ||
-          (e.to === angleArc.vertex && e.from === fromPoint.id)
-        );
-        const edge2 = edges.find(e =>
-          (e.from === angleArc.vertex && e.to === toPoint.id) ||
-          (e.from === toPoint.id && e.to === angleArc.vertex)
-        );
+        const edge1 = this.findEdge(angleArc.vertex, fromPoint.id);
+        const edge2 = this.findEdge(angleArc.vertex, toPoint.id);
 
         [edge1, edge2].forEach(edge => {
           if (!edge) return;
@@ -744,22 +773,15 @@ export class GeometryEngine {
     }
 
     // Step 4: Set two edges color and flash
-    const angleArc = this.config.angleArcs?.find(a => a.vertex === angleId || a.id === arcId);
+    const angleArc = this.findAngleArc(angleId) || this.findAngleArc(arcId);
     if (angleArc) {
-      const fromPoint = this.points.find(p => p.id === angleArc.from);
-      const toPoint = this.points.find(p => p.id === angleArc.to);
-      const vertexPoint = this.points.find(p => p.id === angleArc.vertex);
+      const fromPoint = this.getPoint(angleArc.from);
+      const toPoint = this.getPoint(angleArc.to);
+      const vertexPoint = this.getPoint(angleArc.vertex);
 
       if (fromPoint && toPoint && vertexPoint) {
-        const edges = this.topology.getEdges();
-        const edge1 = edges.find(e =>
-          (e.from === angleArc.vertex && e.to === fromPoint.id) ||
-          (e.to === angleArc.vertex && e.from === fromPoint.id)
-        );
-        const edge2 = edges.find(e =>
-          (e.from === angleArc.vertex && e.to === toPoint.id) ||
-          (e.from === toPoint.id && e.to === angleArc.vertex)
-        );
+        const edge1 = this.findEdge(angleArc.vertex, fromPoint.id);
+        const edge2 = this.findEdge(angleArc.vertex, toPoint.id);
 
         [edge1, edge2].forEach(edge => {
           if (!edge) return;
@@ -835,10 +857,10 @@ export class GeometryEngine {
   }
 
   private showRightAngle(pointId: string): void {
-    const rightAngleArc = this.config.angleArcs?.find(a => 
-      a.vertex === pointId && a.isRightAngle
-    );
-    const arcId = rightAngleArc?.id || `arc-${pointId}`;
+    const arcId = (this.angleArcByVertex.get(pointId)?.isRightAngle
+      ? this.angleArcByVertex.get(pointId)?.id
+      : this.config.angleArcs?.find(a => a.vertex === pointId && a.isRightAngle)?.id)
+      || `arc-${pointId}`;
     const rightAngleColor = this.colorManager.assignColor('right-angle-' + pointId);
     this.drawArc(arcId, rightAngleColor);
     this.flashAngle(pointId, rightAngleColor);
@@ -968,10 +990,10 @@ export class GeometryEngine {
     const toEdge = this.topology.getEdge(toEdgeId);
     if (!fromEdge || !toEdge) return;
 
-    const fromStart = this.points.find(p => p.id === fromEdge.from);
-    const fromEnd = this.points.find(p => p.id === fromEdge.to);
-    const toStart = this.points.find(p => p.id === toEdge.from);
-    const toEnd = this.points.find(p => p.id === toEdge.to);
+    const fromStart = this.getPoint(fromEdge.from);
+    const fromEnd = this.getPoint(fromEdge.to);
+    const toStart = this.getPoint(toEdge.from);
+    const toEnd = this.getPoint(toEdge.to);
     if (!fromStart || !fromEnd || !toStart || !toEnd) return;
 
     const normalizedFromEdgeId = normalizeEdgeId(fromEdgeId);

@@ -1,8 +1,7 @@
 import { useEffect, useRef, useMemo } from 'react';
 import { GeometryEngine, convertStepAnimationToIntents, COLORS } from '../lib/geometry-engine';
 import { TopologyGraph } from '../lib/topology';
-import type { GeoPoint, AngleArcConfig, StepAnimation, Step } from '../lib/types';
-import type { Connection } from '../lib/problems/types';
+import type { GeoPoint, GeoConnection, AngleArcConfig, StepAnimation, Step } from '../lib/types';
 
 type Point = GeoPoint;
 type AngleArc = AngleArcConfig;
@@ -10,11 +9,10 @@ type AngleArc = AngleArcConfig;
 interface GeometryCanvasProps {
   points: Point[];
   /**
-   * 连接数组，支持两种格式：
-   * 1. [string, string][] 格式（兼容旧版）: [['A', 'B'], ['B', 'C']]
-   * 2. Connection[] 对象格式（新统一格式）: [{from: 'A', to: 'B'}, ...]
+   * 连接数组，JSON 原始格式
+   * 例如: [['A', 'B'], ['B', 'C']]
    */
-  connections: [string, string][] | Connection[];
+  connections: [string, string][];
   edgeColors?: Record<string, string>;
   rightAngles?: string[];
   angleArcs?: AngleArc[];
@@ -38,20 +36,16 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
 
   // 直接使用 points（已经是 GeoPoint 格式）
   const topoPoints = useMemo(() => points.map(p => ({ id: p.id || p.label, x: p.x, y: p.y, label: p.label })), [points]);
-  // 统一转换为 Connection[] 格式以兼容 topology
-  const topoConnections = useMemo(() => {
-    if (connections.length === 0) return [];
-    // 检查是否为对象格式（Connection[]）
-    if (typeof connections[0] === 'object' && 'from' in connections[0]) {
-      return connections as Connection[];
-    }
-    // 旧格式 [string, string][] 转换为 Connection[]
-    return (connections as [string, string][]).map(([from, to]) => ({ from, to }));
-  }, [connections]);
+  const pointMap = useMemo(() => new Map(topoPoints.map(point => [point.id, point])), [topoPoints]);
+  // 转换为 GeoConnection[] 格式以兼容 topology
+  const topoConnections = useMemo(() =>
+    connections.map(([from, to]): GeoConnection => ({ from, to })),
+  [connections]);
 
   const topology = useMemo(() => new TopologyGraph(topoPoints, topoConnections, edgeColors), [topoPoints, topoConnections, edgeColors]);
   
   const edges = useMemo(() => topology.getEdges(), [topology]);
+  const edgeMap = useMemo(() => new Map(edges.map(e => [e.id, e])), [edges]);
 
   // Auto-generate angleArcs for rightAngles not already in angleArcs
   const resolvedAngleArcs = useMemo(() => {
@@ -62,20 +56,9 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       if (existing) continue;
 
       // Find two connections from this vertex to determine 'from' and 'to' points
-      // Handle both formats: Connection[] objects and legacy [string, string][] arrays
       const connected = connections
-        .filter((conn): boolean => {
-          if (Array.isArray(conn)) {
-            return conn[0] === ra || conn[1] === ra;
-          }
-          return conn.from === ra || conn.to === ra;
-        })
-        .map((conn) => {
-          if (Array.isArray(conn)) {
-            return conn[0] === ra ? conn[1] : conn[0];
-          }
-          return conn.from === ra ? conn.to : conn.from;
-        });
+        .filter((conn) => conn[0] === ra || conn[1] === ra)
+        .map((conn) => conn[0] === ra ? conn[1] : conn[0]);
       if (connected.length >= 2) {
         arcs.push({
           id: `arc-${ra}`,
@@ -123,9 +106,9 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
     const { vertex, from, to, id, color, path, isRightAngle } = arc;
     
     if (isRightAngle) {
-      const vertexPoint = points.find(p => p.label === vertex);
-      const point1 = points.find(p => p.label === from);
-      const point2 = points.find(p => p.label === to);
+      const vertexPoint = pointMap.get(vertex);
+      const point1 = pointMap.get(from);
+      const point2 = pointMap.get(to);
       
       if (!vertexPoint || !point1 || !point2) return null;
       
@@ -171,9 +154,9 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       );
     }
     
-    const vertexPoint = points.find(p => p.label === vertex);
-    const point1 = points.find(p => p.label === from);
-    const point2 = points.find(p => p.label === to);
+    const vertexPoint = pointMap.get(vertex);
+    const point1 = pointMap.get(from);
+    const point2 = pointMap.get(to);
     
     if (!vertexPoint || !point1 || !point2) return null;
     
@@ -254,9 +237,9 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
   };
 
   const renderTriangle = (vertex1: string, vertex2: string, vertex3: string, id: string) => {
-    const p1 = points.find(p => p.label === vertex1);
-    const p2 = points.find(p => p.label === vertex2);
-    const p3 = points.find(p => p.label === vertex3);
+    const p1 = pointMap.get(vertex1);
+    const p2 = pointMap.get(vertex2);
+    const p3 = pointMap.get(vertex3);
     if (!p1 || !p2 || !p3) return null;
 
     const { x: x1, y: y1 } = getPos(p1);
@@ -294,8 +277,8 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
       >
         <title>{ariaDescription || defaultAriaDescription}</title>
         {edges.map(e => {
-          const from = points.find(p => p.label === e.from)!;
-          const to = points.find(p => p.label === e.to)!;
+          const from = pointMap.get(e.from)!;
+          const to = pointMap.get(e.to)!;
           const { x: x1, y: y1 } = getPos(from);
           const { x: x2, y: y2 } = getPos(to);
           const edgeColor = e.color || COLORS.default;
@@ -331,14 +314,14 @@ export function GeometryCanvas({ points, connections, edgeColors, rightAngles = 
         })}
 
         {Object.entries(equalPairs).map(([edgeA, edgeB]) => {
-          const edge1 = edges.find(e => e.id === edgeA);
-          const edge2 = edges.find(e => e.id === edgeB);
+          const edge1 = edgeMap.get(edgeA);
+          const edge2 = edgeMap.get(edgeB);
           if (!edge1 || !edge2) return null;
           
-          const p1Start = points.find(p => p.label === edge1.from);
-          const p1End = points.find(p => p.label === edge1.to);
-          const p2Start = points.find(p => p.label === edge2.from);
-          const p2End = points.find(p => p.label === edge2.to);
+          const p1Start = pointMap.get(edge1.from);
+          const p1End = pointMap.get(edge1.to);
+          const p2Start = pointMap.get(edge2.from);
+          const p2End = pointMap.get(edge2.to);
           if (!p1Start || !p1End || !p2Start || !p2End) return null;
           
           const mid1X = (p1Start.x + p1End.x) / 2;
