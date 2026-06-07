@@ -1,0 +1,42 @@
+{
+  "schemaVersion": 1,
+  "id": "math-explainer",
+  "displayName": "math-explainer",
+  "aliases": [],
+  "description": "",
+  "createdAt": "2026-06-05T12:55:13.141Z",
+  "updatedAt": "2026-06-05T12:55:13.141Z",
+  "settings": {
+    "id": "math-explainer",
+    "rootPath": "/home/yankeeting/.openclaw/projects/math-explainer",
+    "gitnexus": {
+      "repoId": "math-explainer",
+      "indexed": false
+    },
+    "memoryStore": {
+      "path": "/home/yankeeting/.openclaw/.projects/math-explainer/memory.sqlite"
+    },
+    "lastActiveTask": "default",
+    "registeredAt": "2026-04-09T10:49:48.016Z",
+    "updatedAt": "2026-04-09T10:49:48.016Z",
+    "name": "math-explainer",
+    "truthSource": {
+      "enabled": true,
+      "visibility": "visible"
+    },
+    "memory": {
+      "externalDocPaths": [
+        "docs/"
+      ]
+    }
+  },
+  "gitnexus": {
+    "repoId": "math-explainer",
+    "indexed": false
+  },
+  "memory": {
+    "driver": "sqlite",
+    "path": ".claw/memory.sqlite"
+  },
+  "state": {}
+}
